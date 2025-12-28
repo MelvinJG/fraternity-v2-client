@@ -5,9 +5,10 @@ import { HttpClient } from '@angular/common/http'
   providedIn: 'root'
 })
 export class TurnsService {
+  //HOST_URL = 'http://localhost:2200';
+  HOST_URL = 'https://6a0bf579dbbf.ngrok-free.app';
+  API_URL = `${this.HOST_URL}/api/turns`;
 
-  API_URL = 'http://localhost:2200/api/turns';
-  
   constructor(private http: HttpClient) { }
 
   createTurn(turnData: object) {

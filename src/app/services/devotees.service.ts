@@ -5,9 +5,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DevoteesService {
+  //HOST_URL = 'http://localhost:2200';
+  HOST_URL = 'https://6a0bf579dbbf.ngrok-free.app';
+  API_URL = `${this.HOST_URL}/api/devotees`;
 
-  API_URL = 'http://localhost:2200/api/devotees';
-    
   constructor(private http: HttpClient) { }
 
   createDevotee(devoteeData: object) {

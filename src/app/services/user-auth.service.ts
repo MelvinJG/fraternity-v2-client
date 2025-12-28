@@ -18,8 +18,9 @@ interface JwtCustomPayload {
   providedIn: 'root'
 })
 export class UserAuthService {
-
-  API_URL = 'http://localhost:2200/api/users';
+  //HOST_URL = 'http://localhost:2200';
+  HOST_URL = 'https://6a0bf579dbbf.ngrok-free.app';
+  API_URL = `${this.HOST_URL}/api/users`;
 
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();

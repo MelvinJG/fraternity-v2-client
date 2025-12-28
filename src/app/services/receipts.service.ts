@@ -5,9 +5,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ReceiptsService {
+  //HOST_URL = 'http://localhost:2200';
+  HOST_URL = 'https://6a0bf579dbbf.ngrok-free.app';
+  API_URL = `${this.HOST_URL}/api/inscriptions`;
 
-  API_URL = 'http://localhost:2200/api/inscriptions';
-    
   constructor(private http: HttpClient) { }
 
   registration(receiptData: object) {

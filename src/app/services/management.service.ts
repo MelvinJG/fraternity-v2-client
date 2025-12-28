@@ -5,8 +5,9 @@ import { HttpClient } from '@angular/common/http'
   providedIn: 'root'
 })
 export class ManagementService {
-
-  API_URL = 'http://localhost:2200/api/management';
+  //HOST_URL = 'http://localhost:2200';
+  HOST_URL = 'https://6a0bf579dbbf.ngrok-free.app';
+  API_URL = `${this.HOST_URL}/api/management`;
 
   constructor(private http: HttpClient) { }
 
