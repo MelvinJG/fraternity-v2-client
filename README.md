@@ -29,3 +29,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Test MJG
 
 Description for test
+
+Comand for deploy in github pages ng deploy --repo=https://github.com/MelvinJG/fraternity-v2-client.git --name="MelvinJG" --base-href=/fraternity-v2-client/
+
+Video: https://www.youtube.com/watch?v=47PxHZf4qYg
