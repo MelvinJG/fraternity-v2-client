@@ -1,1 +1,115 @@
-/* You can add global styles to this file, and also import other style files */
+// Paleta de colores morados personalizados
+:root {
+  --purple-primary: #7b2cbf;
+  --purple-dark: #5a189a;
+  --purple-light: #9d4edd;
+  --purple-hover: rgba(123, 44, 191, 0.08);
+  --purple-active: rgba(123, 44, 191, 0.1);
+  --purple-border: rgba(123, 44, 191, 0.2);
+}
+
+// Override Bootstrap primary colors with purple
+.bg-primary {
+  background: linear-gradient(135deg, var(--purple-primary), var(--purple-dark)) !important;
+}
+
+.btn-primary {
+  color: white !important;
+  background-color: var(--purple-primary) !important;
+  border-color: var(--purple-primary) !important;
+  
+  &:hover {
+    background-color: var(--purple-dark) !important;
+    border-color: var(--purple-dark) !important;
+  }
+
+  &:active {
+    background-color: var(--purple-primary) !important;
+    border-color: var(--purple-primary) !important;
+  }
+}
+
+.text-primary {
+  color: var(--purple-primary) !important;
+}
+
+// Estilos globales personalizados
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fbfbfb;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; // Prevenir scroll horizontal
+}
+
+// Mejorar touch targets en móvil
+@media (max-width: 767.98px) {
+  button, .btn, .nav-link, .dropdown-item {
+    min-height: 44px; // Mejor accesibilidad táctil
+  }
+}
+
+// Scrollbar personalizado
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+// Utilidades adicionales
+.text-primary-custom {
+  color: #007bff !important;
+}
+
+.bg-primary-custom {
+  background-color: #007bff !important;
+}
+
+.shadow-custom {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+// Animaciones
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.3s ease-in-out;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+// Font Awesome
+@import '@fortawesome/fontawesome-free/css/all.css';
+
+// MDB SCSS
+@import "mdb-angular-ui-kit/assets/scss/mdb.scss";

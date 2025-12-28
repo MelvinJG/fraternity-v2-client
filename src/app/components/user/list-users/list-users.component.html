@@ -1,0 +1,80 @@
+<h4 class="py-2 text-center">Lista de Usuarios</h4>
+<table class="table align-middle mb-0">
+  <thead class="table-dark">
+    <tr class="text-center">
+      <th>Nombre</th>
+      <th>Permiso</th>
+      <th>Estado</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody class="text-center">
+    <tr *ngFor="let user of usersList">
+      <td>
+        <p class="fw-bold mb-1">{{ user.fullName }}</p>
+        <p class="text-muted mb-0">{{ user.email }}</p>
+      </td>
+      <td>
+        <p class="fw-normal mb-1">{{ user.permissionDescription }}</p>
+        <p class="text-muted mb-0">{{ user.created_at | date:'dd/MM/yyyy HH:mm:ss':'GMT-6' }}</p>
+      </td>
+      <td>
+        @if(user.idState === 1) {
+          <span class="badge badge-success rounded-pill d-inline">Activo</span>
+        } @else {
+          <span class="badge badge-danger rounded-pill d-inline">Inactivo</span>
+        }
+      </td>
+      <td>
+        <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="editUser(user.dpi, user.idState)">
+          @if(user.idState === 1) {
+            <!-- <i class="fa-solid fa-user-xmark" style="color: rgb(250, 35, 35);"></i> -->
+            <strong><i class="fa-solid fa-x" style="color: rgb(250, 35, 35);"></i></strong>
+          } @else {
+            <!-- <i class="fa-solid fa-user-check" style="color: rgb(7, 145, 7);"></i> -->
+            <strong><i class="fa-solid fa-check"></i></strong>
+          }
+        </button>
+      </td>
+    </tr>
+    <!-- <tr>
+      <td>
+        <p class="fw-bold mb-1">Alex Ray</p>
+        <p class="text-muted mb-0">alex.ray&#64;gmail.com</p>
+      </td>
+      <td>
+        <p class="fw-normal mb-1">Usuario</p>
+      </td>
+      <td>
+        <span class="badge badge-danger rounded-pill d-inline">Inactivo</span>
+      </td>
+      <td>
+        <button type="button" class="btn btn-link btn-sm btn-rounded">
+          Edit
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p class="fw-bold mb-1">Kate Hunington</p>
+        <p class="text-muted mb-0">kate.hunington&#64;gmail.com</p>
+      </td>
+      <td>
+        <p class="fw-normal mb-1">Administrador</p>
+      </td>
+      <td>
+        <span class="badge badge-success rounded-pill d-inline">Active</span>
+      </td>
+      <td>
+        <button
+          type="button"
+          class="btn btn-link btn-rounded btn-sm fw-bold"
+          mdbRipple
+          rippleColor="dark"
+        >
+          Edit
+        </button>
+      </td>
+    </tr> -->
+  </tbody>
+</table>

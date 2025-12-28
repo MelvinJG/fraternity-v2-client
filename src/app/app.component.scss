@@ -1,0 +1,59 @@
+// Layout principal responsivo
+.main-content {
+  min-height: 100vh;
+  background-color: white;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding-top: 56px; // Espacio para navbar fija
+}
+
+// Responsive layout mejorado
+@media (min-width: 992px) {
+  .main-content {
+    margin-left: 280px; // Ancho del sidenav en desktop
+    padding-top: 56px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .main-content {
+    margin-left: 0;
+    padding-top: 56px; // Mantener espacio para navbar
+  }
+}
+
+// Ajuste para móviles muy pequeños
+@media (max-width: 575.98px) {
+  .main-content {
+    .container-fluid {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+  }
+}
+
+// Estilos adicionales para el contenido
+.container-fluid {
+  .card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: none;
+    margin-bottom: 1.5rem;
+  }
+
+  .page-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #fbfbfb;;
+
+    h1 {
+      color: #495057;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .breadcrumb {
+      background: none;
+      padding: 0;
+      margin: 0;
+    }
+  }
+}

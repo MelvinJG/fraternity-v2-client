@@ -1,0 +1,96 @@
+<div class="container pb-4">
+    <form class="row" (ngSubmit)="onSubmit()">
+        <p class="note note-warning">
+            <strong>Nota:</strong> Si el precio, cantidad y/o número de brazos <strong>No Aplica</strong> dejarlo vacío.
+        </p>
+        <h4 class="py-2 text-center">Agregar Turno</h4>
+        <div class="col-md-4 my-2">
+            <div class="form-outline">
+                <mdb-form-control>
+                    <input mdbInput type="text" class="form-control" [(ngModel)]="turnData.description" name="description" required autocomplete="off"/>
+                    <label mdbLabel class="form-label" for="form6Example4">Turno</label>
+                </mdb-form-control>
+            </div>
+        </div>
+        <div class="col-md-2 my-2">
+            <div class="form-outline">
+                <mdb-form-control>
+                    <input mdbInput type="number" class="form-control" [(ngModel)]="turnData.price" name="price" required autocomplete="off" />
+                    <label mdbLabel class="form-label" for="form6Example1">Precio</label>
+                </mdb-form-control>
+            </div>
+        </div>
+        <div class="col-md-2 my-2">
+            <div class="form-outline">
+                <mdb-form-control>
+                    <input mdbInput type="number" class="form-control" [(ngModel)]="turnData.quantity" name="quantity" required autocomplete="off" />
+                    <label mdbLabel class="form-label" for="form6Example1">Cantidad</label>
+                </mdb-form-control>
+            </div>
+        </div>
+        <div class="col-md-2 my-2">
+            <div class="form-outline">
+                <mdb-form-control>
+                    <input mdbInput type="number" class="form-control" [(ngModel)]="turnData.armNumber" name="armNumber" required autocomplete="off" />
+                    <label mdbLabel class="form-label" for="form6Example1">No. de Brazos</label>
+                </mdb-form-control>
+            </div>
+        </div>
+        <div class="col-md-2 my-2">
+            @if(isEditing) {
+                <div class="d-grid gap-2">
+                    <button class="btn btn-success" type="submit" mdbRipple>Actualizar</button>
+                </div>
+            } @else {
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" type="submit" mdbRipple>Guardar</button>
+                </div>
+            }
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-xl-4 col-lg-6 mb-4" *ngFor="let turn of loadData">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <div class="ms-3">
+                            <p class="fw-bold mb-1">{{ turn.description }}</p>
+                            @if(turn.price !== null) {
+                                <p class="text-muted mb-0"><strong>Q</strong> {{ turn.price }} {{ turn.armNumber !== null ? "| Anda de " + turn.armNumber + " Brazos" : "" }} </p>
+                            } @else {
+                                <p class="text-muted mb-0">Precio N/A {{ turn.armNumber !== null ? "| Anda de " + turn.quantity + " Brazos" : "" }}</p>
+                            }
+                            @if(turn.quantity !== null) {
+                                <p class="text-muted mb-0">Cantidad: {{ turn.quantity }}</p>
+                                <p class="text-muted mb-0">Vendido: {{ turn.sold }}</p>
+                            } @else {
+                                <p class="text-muted mb-0">Cantidad N/A</p>
+                                <p class="text-muted mb-0">Vendido: {{ turn.sold }}</p>
+                            }
+                        </div>
+                    </div>
+                    @if(turn.quantity !== null && turn.quantity - (turn.sold ?? 0) === 0) {
+                        <span class="badge rounded-pill badge-danger">No Disponible</span>
+                    } @else {
+                        @if(turn.quantity !== null) {
+                            <span class="badge rounded-pill badge-success">{{ turn.quantity - (turn.sold ?? 0) }} Disponible</span>
+                        } @else {
+                            <span class="badge rounded-pill badge-success">Disponible</span>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="card-footer border-0 bg-body-tertiary p-2 d-flex justify-content-around">
+                <a class="btn btn-link m-0 text-reset" role="button" mdbRipple rippleColor="primary" (click)="onDeleteTurn(turn.id ?? 0)" style="color: rgb(250, 35, 35) !important;">
+                    <i class="fa-solid fa-x"></i> Eliminar
+                </a>
+                <a class="btn btn-link m-0 text-reset" role="button" mdbRipple rippleColor="primary" (click)="onEditTurn(turn.id ?? 0)" style="color: #1f5ac1 !important;">
+                    <i class="fa-regular fa-pen-to-square"></i> Editar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

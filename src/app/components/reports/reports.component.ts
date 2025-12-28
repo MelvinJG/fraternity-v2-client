@@ -1,0 +1,96 @@
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+import { SpinnerService } from '../../services/spinner.service';
+import { TurnsService } from '../../services/turns.service';
+import Swal from 'sweetalert2';
+import { ReceiptsService } from '../../services/receipts.service';
+import { ExcelService } from '../../services/excel.service';
+import { orderReportInscription } from '../../utils/orderReportInscription';
+import { ModalSummaryComponent } from '../modals/modal-summary/modal-summary.component';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+
+@Component({
+  selector: 'app-reports',
+  standalone: true,
+  imports: [MdbFormsModule, CommonModule],
+  templateUrl: './reports.component.html',
+  styleUrl: './reports.component.scss'
+})
+
+export class ReportsComponent implements OnInit {
+  loadData: any;
+  modalRefReport: MdbModalRef<ModalSummaryComponent> | null = null;
+
+  constructor(
+      private spinnerService: SpinnerService,
+      private turnsService: TurnsService,
+      private receiptsService: ReceiptsService,
+      private excelService: ExcelService,
+      private modalService: MdbModalService,
+    ) { }
+
+  ngOnInit(): void {
+    this.spinnerService.show();
+    this.turnsService.getTurns().subscribe({
+      next: (res: any) => {
+        console.log("res", res);
+        this.loadData = res.data.map((data: any) => ({
+            id: data.id,
+            description: data.description,
+            price: data.price,
+            quantity: data.quantity,
+            armNumber: data.armNumber,
+            sold: data.sold
+          }));
+      },
+      error: (err: any) => {
+        Swal.fire({
+          icon: err.status === 500 ? 'error' : 'info',
+          title: 'Oops...',
+          text: err.error.message
+        })
+      }
+    });
+    this.spinnerService.hide();
+  }
+
+  report() {
+    this.spinnerService.show();
+    this.receiptsService.report().subscribe({
+      next: (res: any) => {
+        console.log("response report", res);
+        console.log("🔥🔥");
+        const DATA = orderReportInscription(res.data.turnos);
+        console.log("DATA", JSON.stringify(DATA));
+        this.excelService.ExcelOfficial(DATA, 'reporte_inscripciones');
+        this.modalRefReport = this.modalService.open(ModalSummaryComponent, {
+          modalClass: 'modal-lg',
+          data: {
+            isReport: true,
+            summaryData: res.data.resumen
+          }
+        });
+        console.log("🔥🔥");
+        //this.loadData = res.data;
+      },
+      error: (err: any) => {
+        Swal.fire({
+          icon: err.status === 500 ? 'error' : 'info',
+          title: 'Oops...',
+          text: err.error.message
+        })
+      }
+    });
+    const data = [
+      { Name: 'John Doe', Age: 30, City: 'New York' },
+      { Name: 'Jane Smith', Age: 25, City: 'San Francisco' },
+      // Add more data as needed
+    ];
+    //this.excelService.generateExcel(data, 'reporte_inscripciones');
+
+    //FORMATEAR DATA
+    
+    this.spinnerService.hide();
+  }
+}

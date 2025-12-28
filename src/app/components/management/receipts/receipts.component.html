@@ -1,0 +1,102 @@
+<h4 class="py-2 text-center">Buscar Recibos</h4>
+<!-- SEARCH -->
+<form (ngSubmit)="onSearch()" class="pb-3">
+    <div class="row py-2 d-flex align-items-center justify-content-center">
+        <div class="col-lg-6">
+            <div class="border border-1 pb-4">
+                <div class="col-auto">
+                    <span id="textExample2" class="form-text"><small>&ensp;BUSCAR</small></span>
+                </div>
+                <div class="row d-flex align-items-center justify-content-center">
+                    <div class="col-6 col-md-7">
+                        <div class="form-outline">
+                            <mdb-form-control>
+                                <input 
+                                  mdbInput
+                                  type="number"
+                                  id="form6Example1"
+                                  name="dpi"
+                                  class="form-control"
+                                  [(ngModel)]="dpiSearch"
+                                  (input)="onInputChange()"
+                                  autocomplete="off"
+                                  required />
+                                <label mdbLabel class="form-label" for="form6Example1">DPI</label>
+                            </mdb-form-control>
+                        </div>
+                    </div>
+                    <div class="col-2 col-md-1">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+  <thead class="table-dark">
+    <tr class="text-center">
+      <th scope="col">#</th>
+      <th scope="col">Descripción</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Importe</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody class="text-center">
+    <tr *ngFor="let data of loadData.records">
+      <th scope="row"> M-{{  data.inscripcion_id.toString().padStart(4, '0') }}</th>
+      <td>
+        @if(data.hijo_nombre === null) {
+          <p class="fw-bold mb-1">{{  data.padre_nombre }}</p>
+        }
+        @else {
+          <p class="fw-bold mb-1">{{  data.hijo_nombre }}</p>
+        }
+        <p class="text-muted mb-0">{{  data.turno_descripcion }}</p>
+      </td>
+      <td>{{  data.fecha_inscripcion | date:'dd/MM/yyyy HH:mm:ss':'GMT-6' }}</td>
+      <td>
+        Q. {{  data.monto }}
+      </td>
+      <td>
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="delete(data.inscripcion_id)" style="color: rgb(250, 35, 35);">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+            <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="print(data)">
+              <i class="fa-solid fa-print"></i>
+            </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<nav aria-label="...">
+  <ul class="pagination pagination-circle pagination-sm justify-content-end">
+    <li class="page-item">
+      <!-- <a class="page-link pointer" tabindex="-1" aria-disabled="true">Previous</a> -->
+      @if(loadData.pagination.hasPreviousPage) {
+        <a class="page-link pointer" (click)="changePage(loadData.pagination.previousPage)">&laquo;</a>
+      }
+      @else {
+        <a class="page-link pointer disabled" aria-disabled="true">&laquo;</a>
+      }
+    </li>
+    <li class="page-item" aria-current="page" *ngFor="let page of loadData.pagination.pages">
+      <a class="page-link pointer custom-mel" id="page-{{page}}" (click)="changePage(page)">{{page}}</a>
+    </li>
+    <li class="page-item">
+      @if(loadData.pagination.hasNextPage) {
+        <a class="page-link pointer" (click)="changePage(loadData.pagination.nextPage)">&raquo;</a>
+      }
+      @else {
+        <a class="page-link pointer disabled" aria-disabled="true">&raquo;</a>
+      }
+    </li>
+  </ul>
+</nav>

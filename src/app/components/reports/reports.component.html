@@ -1,0 +1,36 @@
+<div class="container pb-4">
+    <form>
+        <h4 class="py-2 text-center">Informe de Turnos</h4>
+
+        <ol class="list-group list-group-light list-group-numbered">
+            <li class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let turn of loadData">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">{{ turn.description }}</div>
+                    @if(turn.quantity !== null && turn.quantity - (turn.sold ?? 0) === 0) {
+                        Disponibilidad: Todo Vendido ✅ 
+                        <!-- <i class="fa-solid fa-check"></i> -->
+                    } @else {
+                        @if(turn.quantity !== null) {
+                            Disponibilidad: {{ turn.quantity - (turn.sold ?? 0) }} / {{ turn.quantity }} ⚠️ 
+                            <!-- <i class="fa-solid fa-triangle-exclamation"></i> -->
+                        } @else {
+                            <!-- Disponibilidad: No Aplica ❌  -->
+                            <!-- <i class="fa-solid fa-x"></i> -->
+                        }
+                    }
+                </div>
+                <span class="badge badge-primary rounded-pill">
+                    {{ turn.armNumber !== null ? "Anda de: " + turn.armNumber + " Brazos" : "Anda de: NO APLICA" }}
+                </span>
+            </li>
+        </ol>
+
+        <div class="d-grid gap-2 col-6 mx-auto pt-3">
+            <button class="btn btn-success me-md-2" type="button" mdbRipple (click)="report()">
+                <!-- style="background-color: #207245; color: white;" -->
+                <i class="fa-solid fa-download"></i> Descargar Reporte
+            </button>
+        </div>
+
+    </form>
+</div>

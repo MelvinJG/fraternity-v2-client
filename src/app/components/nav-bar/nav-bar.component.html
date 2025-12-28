@@ -1,0 +1,273 @@
+<!-- Navbar Responsiva -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-purple fixed-top">
+  <div class="container-fluid">
+    @if (isLoggedIn) {
+    <!-- Botón hamburguesa para móvil -->
+      <button
+        class="navbar-toggler d-lg-none"
+        type="button"
+        (click)="toggleSidenav()"
+        [attr.aria-expanded]="isSidenavOpen"
+        aria-controls="sidenav"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    }
+
+    <!-- Brand -->
+    <a class="navbar-brand d-flex align-items-center" routerLink="#">
+      <img
+        src="/assets/images/LogoHermandad.png"
+        class="rounded-circle me-2"
+        height="50"
+        width="50"
+        alt="Avatar"
+        loading="lazy"
+      />
+      Sumpango, Sac.
+      <!-- <i class="fas fa-home me-2 brand-text"></i> -->
+      <!-- <span class="brand-text">Sumpango, Sac.</span> -->
+    </a>
+
+    @if (isLoggedIn) {
+      <!-- Elementos del lado derecho -->
+      <div class="d-flex align-items-center">
+        <!-- Perfil de usuario -->
+        <div class="dropdown" [class.show]="isProfileDropdownOpen">
+          <button
+            class=" btn-link nav-link d-flex align-items-center p-2"
+            type=""
+            id="profileDropdown"
+            (click)="toggleProfileDropdown()"
+            [attr.aria-expanded]="isProfileDropdownOpen"
+          >
+            <i class="fa-solid fa-user"></i>&nbsp;
+            <span class="text-white d-none d-md-inline">{{ userName.split(' ')[0] }}</span>
+            <i class="fas fa-chevron-down text-white ms-2" style="font-size: 0.8rem;"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow" [class.show]="isProfileDropdownOpen">
+            <li>
+              <div class="dropdown-item-text">
+                <div class="d-flex align-items-center pb-3">
+                  <div class="position-relative me-3">
+                    <!-- background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);  -->
+                    <div style="background: linear-gradient(135deg, #536976 0%, #292e49 100%);
+                                width: 60px; 
+                                height: 60px; 
+                                border-radius: 50%; 
+                                display: flex; 
+                                align-items: center; 
+                                justify-content: center;
+                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                      <i class="fas fa-user" style="font-size: 24px; color: white;"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="fw-bold" style="font-size: 1rem; margin-bottom: 2px;">{{ userName }}</div>
+                    <small class="text-muted" style="display: block;">{{ userEmail }}</small>
+                  </div>
+                </div>
+                <!-- linear-gradient(135deg, #667eea 0%, #764ba2 100%);  -->
+                <div style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+                      color: white; 
+                      padding: 1px 5px; 
+                      border-radius: 8px; 
+                      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
+                      class="d-flex justify-content-center">
+                  <span style="font-weight: 600; margin-right: 8px;">Rol:</span>
+                  <span style="font-weight: 400;">{{ userRole }}</span>
+                </div>
+              </div>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item disabled" href="#" (click)="onProfileClick(); closeAllDropdowns(); $event.preventDefault()">
+                <i class="fas fa-user me-2"></i>Mi Perfil
+                <span class="badge rounded-pill badge-notification bg-danger">Próximamente</span>
+              </a>
+            </li>
+            <!-- <li>
+              <a class="dropdown-item" href="#" (click)="closeAllDropdowns(); $event.preventDefault()">
+                <i class="fas fa-question-circle me-2"></i>Ayuda
+              </a>
+            </li> -->
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item text-danger" href="#" (click)="onLogoutClick(); closeAllDropdowns(); $event.preventDefault()">
+                <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    }
+  </div>
+</nav>
+
+
+@if (isLoggedIn) {
+
+<!-- Sidenav -->
+<nav
+  id="sidenav"
+  class="sidenav"
+  [class.sidenav-open]="isSidenavOpen"
+  role="navigation"
+>
+  <!-- IMPORTANTE HEADER - Solo móvil-->
+  <div class="sidenav-header d-lg-none">
+    <button 
+      type="button"
+      class="sidenav-brand sidenav-dropdown-toggle w-100"
+      (click)="closeSidenav()"
+      aria-label="Cerrar navegación"
+      [attr.aria-expanded]="isSidenavOpen"
+      style="background: none; border: none; color: white; text-align: left; padding: 0.5rem;"
+    >
+      <i class="fas fa-code me-2"></i>
+      <span>Navegación</span>
+      <i class="fas fa-chevron-up sidenav-arrow ms-auto"></i>
+    </button>
+  </div>
+
+  <!-- Menu Items -->
+  <div class="">
+    <!-- Dashboard -->
+    <a 
+      routerLink="/dashboard" 
+      class="sidenav-link" 
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{exact: true}"
+      (click)="closeSidenav()"
+      mdbRipple
+    >
+      <i class="fas fa-tachometer-alt sidenav-icon"></i>
+      <span>Dashboard
+        <span class="badge rounded-pill badge-notification bg-danger">Próximamente</span>
+      </span>
+    </a>
+
+    <!-- Home -->
+    <a 
+      routerLink="/home" 
+      class="sidenav-link" 
+      routerLinkActive="active"
+      (click)="closeSidenav()"
+      mdbRipple
+    >
+      <i class="fas fa-home sidenav-icon"></i>
+      <span>Inicio</span>
+    </a>
+
+    <!-- Usuarios -->
+    <div class="sidenav-dropdown">
+      <a 
+        class="sidenav-link sidenav-dropdown-toggle" 
+        href="#"
+        (click)="toggleUsuariosDropdown(); $event.preventDefault()"
+        [attr.aria-expanded]="isUsuariosDropdownOpen"
+        mdbRipple
+      >
+        <i class="fas fa-users sidenav-icon"></i>
+        <span>Usuarios</span>
+        <i class="fas fa-chevron-down sidenav-arrow" [class.rotated]="isUsuariosDropdownOpen"></i>
+      </a>
+      <div class="collapse" [class.show]="isUsuariosDropdownOpen">
+        <a 
+          routerLink="/user/list" 
+          class="sidenav-sublink" 
+          routerLinkActive="active"
+          (click)="closeSidenav()"
+          mdbRipple
+        >
+          <i class="fa-solid fa-list-ol sidenav-subicon"></i>
+          <span>Lista de Usuarios</span>
+        </a>
+        <a 
+          routerLink="/user/new" 
+          class="sidenav-sublink" 
+          routerLinkActive="active"
+          (click)="closeSidenav()"
+          mdbRipple
+        >
+          <i class="fas fa-user-plus sidenav-subicon"></i>
+          <span>Nuevo Usuario</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Productos -->
+    <div class="sidenav-dropdown">
+      <a 
+        class="sidenav-link sidenav-dropdown-toggle" 
+        href="#"
+        (click)="toggleProductosDropdown(); $event.preventDefault()"
+        [attr.aria-expanded]="isProductosDropdownOpen"
+        mdbRipple
+      >
+        <i class="fa-solid fa-screwdriver-wrench sidenav-icon"></i>
+        <span>Gestiones</span>
+        <i class="fas fa-chevron-down sidenav-arrow" [class.rotated]="isProductosDropdownOpen"></i>
+      </a>
+      <div class="collapse" [class.show]="isProductosDropdownOpen">
+        <a 
+          routerLink="/management/turns" 
+          class="sidenav-sublink" 
+          routerLinkActive="active"
+          (click)="closeSidenav()"
+          mdbRipple
+        >
+          <!-- <i class="fa-solid fa-id-badge sidenav-subicon"></i> -->
+          <i class="fa-regular fa-id-badge sidenav-subicon"></i>
+          <span>Agregar Turnos</span>
+        </a>
+        <a 
+          routerLink="/management/receipts" 
+          class="sidenav-sublink" 
+          routerLinkActive="active"
+          (click)="closeSidenav()"
+          mdbRipple
+        >
+          <i class="fas fa-search sidenav-subicon"></i>
+          <span>Buscar Recibo</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Reportes -->
+    <a 
+      routerLink="/reports" 
+      class="sidenav-link" 
+      routerLinkActive="active"
+      (click)="closeSidenav()"
+      mdbRipple
+    >
+      <i class="fas fa-chart-bar sidenav-icon"></i>
+      <span>Reportes</span>
+    </a>
+
+    <!-- Configuración -->
+    <!-- <a 
+      routerLink="/configuracion" 
+      class="sidenav-link" 
+      routerLinkActive="active"
+      (click)="closeSidenav()"
+      mdbRipple
+    >
+      <i class="fas fa-cog sidenav-icon"></i>
+      <span>Configuración</span>
+    </a> -->
+  </div>
+</nav>
+
+<!-- Overlay para cerrar el sidenav en móvil -->
+<div 
+  class="sidenav-overlay" 
+  [class.show]="isSidenavOpen"
+  (click)="closeSidenav()"
+></div>
+
+}
+
+

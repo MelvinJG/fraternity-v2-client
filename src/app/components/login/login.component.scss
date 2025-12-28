@@ -1,0 +1,204 @@
+// Background image responsive styles
+.bg-image-container {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  min-height: 400px;
+  background-image: url('/assets/images/Imagen_1_2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+
+  // Overlay oscuro para mejorar legibilidad del texto
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
+
+    // &::after {
+    //     content: '';
+    //     position: absolute;
+    //     bottom: 0;
+    //     left: 0;
+    //     right: 0;
+    //     height: 120px; // Altura del gradiente
+    //     background: linear-gradient(
+    //         to bottom,
+    //         transparent 0%,
+    //         rgba(233, 236, 239, 0.05) 20%,
+    //         rgba(233, 236, 239, 0.15) 40%,
+    //         rgba(233, 236, 239, 0.35) 60%,
+    //         rgba(233, 236, 239, 0.65) 80%,
+    //         rgba(233, 236, 239, 0.90) 92%,
+    //         #e9ecef 100%
+    //     );
+    //     z-index: 2; // Debe ser mayor que el ::before
+    // }
+}
+
+.bg-image-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.676);
+  padding: 2rem;
+}
+
+.text-overlay {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cross-icon {
+  font-size: 4rem;
+  color: #FFD700;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 2rem;
+  font-weight: 300;
+  margin-bottom: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  line-height: 1.2;
+}
+
+// Responsive design para móviles
+@media (max-width: 768px) {
+  .bg-image-container {
+    height: 50vh;
+    min-height: 350px;
+
+    // &::after {
+    //     height: 100px; // Altura del gradiente
+    //     background: linear-gradient(
+    //         to bottom,
+    //         transparent 0%,
+    //         rgba(233, 236, 239, 0.05) 20%,
+    //         rgba(233, 236, 239, 0.15) 40%,
+    //         rgba(233, 236, 239, 0.35) 60%,
+    //         rgba(233, 236, 239, 0.65) 80%,
+    //         rgba(233, 236, 239, 0.90) 92%,
+    //         #e9ecef 100%
+    //     );
+    // }
+  }
+
+  .cross-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .title {
+    font-size: 1.8rem;
+    line-height: 1.1;
+    margin-bottom: 0.3rem;
+  }
+
+  .subtitle {
+    font-size: 1.4rem;
+    line-height: 1.1;
+  }
+
+  .text-overlay {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .bg-image-container {
+    height: 45vh;
+    min-height: 300px;
+
+    // &::after {
+    //     height: 120px; // Altura del gradiente
+    //     background: linear-gradient(
+    //         to bottom,
+    //         transparent 0%,
+    //         rgba(233, 236, 239, 0.05) 20%,
+    //         rgba(233, 236, 239, 0.15) 40%,
+    //         rgba(233, 236, 239, 0.35) 60%,
+    //         rgba(233, 236, 239, 0.65) 80%,
+    //         rgba(233, 236, 239, 0.90) 92%,
+    //         #e9ecef 100%
+    //     );
+    // }
+  }
+
+  .cross-icon {
+    font-size: 2rem;
+  }
+
+  .title {
+    font-size: 1.4rem;
+    line-height: 1.1;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    line-height: 1.1;
+  }
+}
+
+// Estilos para el formulario de login
+.login-form-container {
+  margin-top: -50px;
+  position: relative;
+  z-index: 3;
+  
+  // Soluciona el overflow horizontal en móviles
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+    
+    @media (max-width: 768px) {
+      margin-left: -10px;
+      margin-right: -10px;
+    }
+  }
+  
+  .col-md-8 {
+    padding-left: 10px;
+    padding-right: 10px;
+    
+    @media (max-width: 768px) {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+}
+
+// Prevenir overflow horizontal en toda la página de login
+:host {
+  overflow-x: hidden;
+  width: 100%;
+  
+  .container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+    
+    @media (max-width: 768px) {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
+}

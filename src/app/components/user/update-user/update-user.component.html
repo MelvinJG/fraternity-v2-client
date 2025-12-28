@@ -1,0 +1,50 @@
+<div class="container">
+    <form class="container">
+        <div class="text-center mb-4">
+            <h4>Actualización de Perfil</h4>
+        </div>
+
+        <!-- DPI input -->
+        <mdb-form-control class="mb-4">
+        <input mdbInput type="number" id="registerDPI" class="form-control" />
+        <label mdbLabel class="form-label" for="registerDPI">No. DPI</label>
+        </mdb-form-control>
+
+        <!-- Name input -->
+        <mdb-form-control class="mb-4">
+        <input mdbInput type="text" id="registerName" class="form-control" />
+        <label mdbLabel class="form-label" for="registerName">Nombre Completo</label>
+        </mdb-form-control>
+
+        <!-- Email input -->
+        <mdb-form-control class="mb-4">
+        <input mdbInput type="email" id="registerEmail" class="form-control" />
+        <label mdbLabel class="form-label" for="registerEmail">Correo Electrónico</label>
+        </mdb-form-control>
+
+        <!-- Permisos -->
+        <mdb-form-control class="mb-4">
+            <select class="form-select" >
+                <option selected disabled>Hermandad perteneciente</option>
+                <option *ngFor="let option of options" [value]="option.value">
+                    {{ option.label }}
+                </option>
+            </select>
+        </mdb-form-control>
+
+        <!-- Permisos -->
+        <mdb-form-control class="mb-4">
+            <select class="form-select" >
+                <option selected disabled>Permisos</option>
+                <option *ngFor="let option of options" [value]="option.value">
+                    {{ option.label }}
+                </option>
+            </select>
+        </mdb-form-control>
+
+        <!-- Submit button -->
+        <button mdbRipple type="submit" class="btn btn-primary btn-block mb-3">
+            Actualizar
+        </button>
+    </form>
+</div>

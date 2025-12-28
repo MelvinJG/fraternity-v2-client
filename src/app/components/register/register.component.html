@@ -1,0 +1,195 @@
+<!-- FORM -->
+<form (ngSubmit)="onSubmit()">
+    <!-- PRINCIPAL -->
+    <div class="row">
+        <div class="col-md-6 my-2">
+            <div class="form-outline">
+                <mdb-form-control>
+                    <input mdbInput type="text" id="form6Example1" class="form-control" autocomplete="off"
+                        [(ngModel)]="registerData.fullName" name="fullName" required />
+                    <label mdbLabel class="form-label" for="form6Example1">Nombre Completo</label>
+                </mdb-form-control>
+            </div>
+        </div>
+        <div class="col-md-6 my-2">
+            <div class="form-outline">
+                <mdb-form-control>
+                    <input mdbInput type="text" id="form6Example6" class="form-control" autocomplete="off" [(ngModel)]="registerData.address" name="address" />
+                    <label mdbLabel class="form-label" for="form6Example6">Dirección</label>
+                </mdb-form-control>
+            </div>
+        </div>
+        <div class="col-md-4 my-2">
+            <div class="form-outline">
+                <mdb-form-control>
+                    <input mdbInput type="number" id="form6Example1" class="form-control" autocomplete="off" [(ngModel)]="registerData.dpi" name="dpi"
+                        required />
+                    <label mdbLabel class="form-label" for="form6Example1">DPI</label>
+                </mdb-form-control>
+            </div>
+        </div>
+        <div class="col-md-4 my-2">
+            <div class="form-outline">
+                <mdb-form-control>
+                    <input mdbInput type="date" id="form6Example4" class="form-control" autocomplete="off" [(ngModel)]="registerData.birthdate" name="birthdate" />
+                    <label mdbLabel class="form-label" for="form6Example4">Fecha de Nacimiento</label>
+                </mdb-form-control>
+            </div>
+        </div>
+        <div class="col-md-4 my-2">
+            <div class="form-outline">
+                <mdb-form-control>
+                    <input mdbInput type="email" id="form6Example5" class="form-control" autocomplete="off" [(ngModel)]="registerData.email" name="email" />
+                    <label mdbLabel class="form-label" for="form6Example5">Correo Electrónico</label>
+                </mdb-form-control>
+            </div>
+        </div>
+        <div class="col-md-4 my-2">
+            <div class="form-outline">
+                <mdb-form-control>
+                    <input mdbInput type="number" id="form6Example1" class="form-control" autocomplete="off" [(ngModel)]="registerData.phone" name="phone" />
+                    <label mdbLabel class="form-label" for="form6Example1">Teléfono</label>
+                </mdb-form-control>
+            </div>
+        </div>
+        <div class="col-md-4 my-2">
+            <div class="form-outline">
+                <mdb-form-control>
+                    <input mdbInput type="number" id="form6Example1" class="form-control" autocomplete="off" [(ngModel)]="registerData.height" name="height" required />
+                    <label mdbLabel class="form-label" for="form6Example1">Altura (mts.)</label>
+                </mdb-form-control>
+            </div>
+        </div>
+        <div class="col-md-4 my-2">
+            <div class="form-check form-switch">
+                <input
+                    mdbCheckbox
+                    class="form-check-input"
+                    type="checkbox"
+                    id="flexSwitchCheckDefault"
+                    (change)="onCheckboxChange($event)"
+                />
+                <label class="form-check-label" for="flexSwitchCheckDefault"
+                    >Es padre/madre de familia o tutor (a)</label
+                >
+            </div>
+        </div>
+    </div>
+    @if (isChecked) {
+        <!-- HIJOS DINÁMICOS -->
+        @if (!isUpdate) {
+            <h5 class="pt-2">Agregar Hijo (a)</h5>
+        } @else {
+            <h5 class="pt-2">Modificar Hijo (a)</h5>
+        }
+        <!-- Iterar sobre el array de hijos -->
+        @for (child of children; track child.id) {
+        <div class="row">
+            <div class="col-md-3 my-2">
+                <div class="form-outline">
+                    <mdb-form-control>
+                        <input 
+                            mdbInput 
+                            type="text" 
+                            [id]="'fullName' + child.id" 
+                            class="form-control" 
+                            autocomplete="off"
+                            [(ngModel)]="child.fullName"
+                            [name]="'fullName' + child.id"
+                            required 
+                        />
+                        <label mdbLabel class="form-label" [for]="'fullName' + child.id">Nombre Completo</label>
+                    </mdb-form-control>
+                </div>
+            </div>
+            <div class="col-md-3 my-2">
+                <div class="form-outline">
+                    <mdb-form-control>
+                        <input 
+                            mdbInput 
+                            type="date" 
+                            [id]="'birthdate' + child.id" 
+                            class="form-control" 
+                            autocomplete="off"
+                            [(ngModel)]="child.birthdate"
+                            [name]="'birthdate' + child.id"
+                        />
+                        <label mdbLabel class="form-label" [for]="'birthdate' + child.id">Cumpleaños</label>
+                    </mdb-form-control>
+                </div>
+            </div>
+            <div class="col-md-3 my-2">
+                <div class="form-outline">
+                    <mdb-form-control>
+                        <input 
+                            mdbInput 
+                            type="number" 
+                            [id]="'height' + child.id" 
+                            class="form-control" 
+                            autocomplete="off"
+                            [(ngModel)]="child.height"
+                            [name]="'height' + child.id"
+                            required 
+                        />
+                        <label mdbLabel class="form-label" [for]="'height' + child.id">Altura (mts.)</label>
+                    </mdb-form-control>
+                </div>
+            </div>
+            <div class="col-md-3 my-2">
+                <div class="row d-flex align-items-center">
+                    <div class="col-9">
+                        <div class="form-outline">
+                            <mdb-form-control>
+                                <input 
+                                    mdbInput 
+                                    type="number" 
+                                    [id]="'age' + child.id" 
+                                    class="form-control" 
+                                    autocomplete="off"
+                                    [(ngModel)]="child.age"
+                                    [name]="'age' + child.id"
+                                    required 
+                                />
+                                <label mdbLabel class="form-label" [for]="'age' + child.id">Edad</label>
+                            </mdb-form-control>
+                        </div>
+                    </div>
+                    <div class="col-3 d-flex justify-content-center">
+                        <button 
+                            type="button" 
+                            class="btn btn-link btn-sm btn-rounded" 
+                            style="color: rgb(250, 35, 35);"
+                            (click)="eliminarHijo(child.id ?? 0)"
+                            [disabled]="children.length === 1"
+                            [title]="children.length === 1 ? 'Debe haber al menos 1 hijo' : 'Eliminar hijo'"
+                        >
+                            <i class="fa-solid fa-user-minus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        
+        <!-- Botón para agregar más hijos -->
+        <div class="col-12 d-flex justify-content-center">
+            <button 
+                type="button" 
+                class="btn btn-link btn-lg btn-rounded"
+                (click)="agregarHijo()"
+                title="Agregar hijo"
+            >
+                <i class="fa-solid fa-user-plus"></i>
+            </button>
+        </div>
+    }
+    @if (!isUpdate) {
+        <div class="d-grid gap-2 col-6 mx-auto py-2 mt-3">
+            <button class="btn btn-success btn-lg" type="submit" mdbRipple>Guardar Datos</button>
+        </div>
+    } @else {
+        <div class="d-grid gap-2 col-6 mx-auto py-2 mt-3">
+            <button class="btn btn-primary btn-lg" type="submit" mdbRipple>Actualizar Datos</button>
+        </div>
+    }
+</form>

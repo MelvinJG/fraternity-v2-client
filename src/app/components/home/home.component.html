@@ -1,0 +1,159 @@
+<mdb-tabs [justified]="true">
+    <mdb-tab>
+        <ng-template mdbTabTitle>
+            <span>
+                <i class="fas fa-chart-pie fa-fw me-2"></i>Inscripción
+            </span>
+        </ng-template>
+            <h4 class="py-2 text-center">Inscribir Devoto (a)</h4>
+            <!-- SEARCH -->
+            <form (ngSubmit)="onSearch()">
+                <div class="row py-2 d-flex align-items-center justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="border border-1 pb-4">
+                            <div class="col-auto">
+                                <span id="textExample2" class="form-text"><small>&ensp;BUSCAR</small></span>
+                            </div>
+                            <div class="row d-flex align-items-center justify-content-center">
+                                <div class="col-6 col-md-7">
+                                    <div class="form-outline">
+                                        <mdb-form-control>
+                                            <input mdbInput type="number" id="form6Example1" name="dpi" class="form-control" 
+                                                [(ngModel)]="dpiSearch" autocomplete="off" required />
+                                            <label mdbLabel class="form-label" for="form6Example1">DPI</label>
+                                        </mdb-form-control>
+                                    </div>
+                                </div>
+                                <div class="col-2 col-md-1">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        @if (isDataLoaded) {
+            <!-- FORM -->
+            <form (ngSubmit)="onSubmit()">
+                <div class="row pt-4 d-flex align-items-center justify-content-center">
+                    <div class="col-md-8">
+                        <div class="row d-flex align-items-center text-center">
+                            <div class="col-8 d-flex justify-content-center">
+                                <!-- PONER IF PARA CUANDO SEA UNA PERSONA SIN HIJOS SOLO MUESTRE ESTE TEXTO TITULO DE LO CONTRARIO EL SELECT -->
+                                @if (isTutored) {
+                                    <mdb-form-control>
+                                        <select mdbInput class="form-select select-minimal fw-bolder" 
+                                                [(ngModel)]="selectedPerson" 
+                                                name="selectedPerson"
+                                                (change)="onChangeSelect($event, 'person')">
+                                            <option *ngFor="let option of devoteesNames" [value]="option.value" class="fw-bolder">
+                                                {{ option.label }}
+                                            </option>
+                                        </select>
+                                    </mdb-form-control> 
+                                } @else {
+                                    <h5 class="fw-bolder">{{devoteeInfo.fullName}}</h5>
+                                }
+                            </div>
+                            <div class="col-4">
+                                <i class="fas fa-arrow-circle-up"></i> {{ labelHeight }} Mts.
+                            </div>
+                        </div>
+                        <div class="row d-flex align-items-center">
+                            <div class="col-8 pt-3 pb-1">
+                                <p><i class="fas fa-phone"></i> {{ devoteeInfo.phone ?? 'Sin información' }}</p>
+                                <p><i class="fas fa-map-marker-alt"></i> {{ devoteeInfo.address ?? 'Sin información' }}</p>
+                                <p><i class="fas fa-envelope"></i> {{ devoteeInfo.email ?? 'Sin información' }}</p>
+                            </div>
+                            <div class="col-4 text-center">
+                                <button type="button" class="btn btn-tertiary" mdbRipple (click)="openModal()" style="color: #7b2cbf;" disabled>
+                                    <i class="fa-solid fa-pen-to-square"></i> Actualizar datos
+                                    
+                                </button>
+                                <span class="badge rounded-pill badge-notification bg-danger">Próximamente</span>
+                            </div>
+                        </div>
+                        <div class="row d-flex align-items-center">
+                            <div class="col-8">
+                                <mdb-form-control>
+                                    <select mdbInput class="form-select" (change)="onChangeSelect($event, 'turn')">
+                                        <option selected disabled>Turno</option>
+                                        <option *ngFor="let option of turns" [value]="option.value" [disabled]="option.available === 0">
+                                            {{ option.label + (option.available === 0 ? ' (Agotado)' : '') }} 
+                                        </option>
+                                    </select>
+                                </mdb-form-control>
+                            </div>
+                            <div class="col-4 text-center">
+                                @if(!labelPrice) {
+                                    <div class="form-outline">
+                                        <mdb-form-control>
+                                            <input mdbInput type="number" id="form6Example5" class="form-control" name="amount"
+                                                [(ngModel)]="registrationData.amount" autocomplete="off" required/>
+                                            <label mdbLabel class="form-label" for="form6Example5">(Q.)</label>
+                                        </mdb-form-control>
+                                    </div>
+                                } @else {
+                                    <i class="fa-solid fa-coins"></i> Q. {{ labelPrice }}
+                                    <!-- <strong class="h5">Q</strong> {{ labelPrice }}-->
+                                    <!-- <i class="fa-solid fa-q"></i> {{ labelPrice }} -->
+                                }
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 col-6 mx-auto pt-5">
+                            <button class="btn btn-success btn-lg" type="submit" mdbRipple>Inscribir</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        } @else {
+            <!-- FORM PLACEHOLDER-->
+            <div class="row pt-4 d-flex align-items-center justify-content-center">
+                <div class="col-md-8">
+                    <div class="row d-flex align-items-center text-center placeholder-glow">
+                        <div class="col-8">
+                            <span class="h5 fw-bolder">
+                                <span class="placeholder col-8"></span>
+                            </span>
+                        </div>
+                        <div class="col-4">
+                            <span class="placeholder col-4"></span>
+                        </div>
+                    </div>
+                    <div class="row d-flex align-items-center placeholder-glow">
+                        <div class="col-8 pt-3 pb-1">
+                            <p><span class="placeholder col-4"></span></p>
+                            <p><span class="placeholder col-6"></span></p>
+                            <p><span class="placeholder col-5"></span></p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <span class="placeholder col-6" style="color: #7b2cbf;"></span>
+                        </div>
+                    </div>
+                    <div class="row d-flex align-items-center placeholder-glow">
+                        <div class="col-8">
+                            <span class="placeholder col-11"></span>
+                        </div>
+                        <div class="col-4 text-center">
+                            <span class="placeholder col-4"></span>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 col-6 mx-auto pt-5">
+                        <button class="btn btn-success btn-lg disabled placeholder" type="button" mdbRipple></button>
+                    </div>
+                </div>
+            </div>
+        }
+    </mdb-tab>
+    <mdb-tab>
+        <ng-template mdbTabTitle>
+            <span>
+                <i class="fas fa-chart-line fa-fw me-2"></i>Datos Personales
+            </span>
+        </ng-template>
+            <h4 class="py-2 text-center">Agregar Devoto (a)</h4>
+            <app-register></app-register>
+    </mdb-tab>
+</mdb-tabs>
