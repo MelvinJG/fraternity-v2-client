@@ -1,13 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Constants } from '../utils/Constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DevoteesService {
-  //HOST_URL = 'http://localhost:2200';
-  HOST_URL = 'https://6a0bf579dbbf.ngrok-free.app';
-  API_URL = `${this.HOST_URL}/api/devotees`;
+  API_URL = `${Constants.HOST_URL}/api/devotees`;
 
   constructor(private http: HttpClient) { }
 

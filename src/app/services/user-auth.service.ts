@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { BehaviorSubject } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
+import { Constants } from '../utils/Constants';
 
 // Interfaz para el payload del JWT
 interface JwtCustomPayload {
@@ -18,9 +19,7 @@ interface JwtCustomPayload {
   providedIn: 'root'
 })
 export class UserAuthService {
-  //HOST_URL = 'http://localhost:2200';
-  HOST_URL = 'https://6a0bf579dbbf.ngrok-free.app';
-  API_URL = `${this.HOST_URL}/api/users`;
+  API_URL = `${Constants.HOST_URL}/api/devotees`;
 
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
