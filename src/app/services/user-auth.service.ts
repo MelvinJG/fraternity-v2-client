@@ -19,7 +19,7 @@ interface JwtCustomPayload {
   providedIn: 'root'
 })
 export class UserAuthService {
-  API_URL = `${Constants.HOST_URL}/api/devotees`;
+  API_URL = `${Constants.HOST_URL}/api/users`;
 
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();

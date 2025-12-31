@@ -6,7 +6,7 @@ import { Constants } from '../utils/Constants';
   providedIn: 'root'
 })
 export class ReceiptsService {
-  API_URL = `${Constants.HOST_URL}/api/devotees`;
+  API_URL = `${Constants.HOST_URL}/api/inscriptions`;
 
   constructor(private http: HttpClient) { }
 

@@ -4,7 +4,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
 import { loginGuard } from './guards/login.guard';
 import { ListUsersComponent } from './components/user/list-users/list-users.component';
-import { NewUserComponent } from './components/user/new-user/new-user.component';
+import { NewUserComponent } from './components/user/new-user-update/new-user.component';
 import { AddTurnComponent } from './components/management/add-turn/add-turn.component';
 import { ReceiptsComponent } from './components/management/receipts/receipts.component';
 import { ReportsComponent } from './components/reports/reports.component';
@@ -18,7 +18,8 @@ export const routes: Routes = [
     { path: 'user', 
         children: [
             { path: 'list', component: ListUsersComponent, canActivate: [authGuard] },
-            { path: 'new', component: NewUserComponent, canActivate: [authGuard] }
+            { path: 'new', component: NewUserComponent, canActivate: [authGuard], data: { mode: 'new' } },
+            { path: 'update', component: NewUserComponent, canActivate: [authGuard], data: { mode: 'update' } }
         ]
     },
     { path: 'management', 

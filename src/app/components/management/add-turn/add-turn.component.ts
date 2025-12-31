@@ -40,6 +40,7 @@ export class AddTurnComponent implements OnInit {
   };
   isEditing: boolean = false;
   editingId: number = 0;
+  isAdminUser: boolean = false;
 
   constructor(
     private spinnerService: SpinnerService,
@@ -49,6 +50,10 @@ export class AddTurnComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinnerService.show();
+    const USER_DATA = this.authService.getUserInfo();
+    if (USER_DATA?.idPermission === 1) { // Solo el admin pueden realizar acciones
+      this.isAdminUser = true;
+    }
     this.turnsService.getTurns().subscribe({
       next: (res: any) => {
         this.loadData = res.data.map((data: any) => ({

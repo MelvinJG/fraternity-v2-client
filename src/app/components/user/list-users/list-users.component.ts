@@ -33,6 +33,18 @@ export class ListUsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinnerService.show();
+    const USER_DATA = this.authService.getUserInfo();
+    if (USER_DATA?.idPermission !== 1) { // Solo el admin pueden listar usuarios
+      this.spinnerService.hide();
+      Swal.fire({
+        icon: 'warning',
+        title: 'Acceso denegado',
+        text: 'No tienes permisos para listar usuarios.'
+      }).then(() => {
+        this.router.navigate(['/home']);
+      });
+      return;
+    }
     this.authService.listUsers().subscribe({
       next: (res: any) => {
         this.usersList = res.data.map((user: any) => ({ 

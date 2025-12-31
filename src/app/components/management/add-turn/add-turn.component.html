@@ -84,12 +84,14 @@
                 </div>
             </div>
             <div class="card-footer border-0 bg-body-tertiary p-2 d-flex justify-content-around">
-                <a class="btn btn-link m-0 text-reset" role="button" mdbRipple rippleColor="primary" (click)="onDeleteTurn(turn.id ?? 0)" style="color: rgb(250, 35, 35) !important;">
-                    <i class="fa-solid fa-x"></i> Eliminar
-                </a>
-                <a class="btn btn-link m-0 text-reset" role="button" mdbRipple rippleColor="primary" (click)="onEditTurn(turn.id ?? 0)" style="color: #1f5ac1 !important;">
-                    <i class="fa-regular fa-pen-to-square"></i> Editar
-                </a>
+                @if(isAdminUser) {
+                    <a class="btn btn-link m-0 text-reset" role="button" mdbRipple rippleColor="primary" (click)="onDeleteTurn(turn.id ?? 0)" style="color: rgb(250, 35, 35) !important;">
+                        <i class="fa-solid fa-x"></i> Eliminar
+                    </a>
+                    <a class="btn btn-link m-0 text-reset" role="button" mdbRipple rippleColor="primary" (click)="onEditTurn(turn.id ?? 0)" style="color: #1f5ac1 !important;">
+                        <i class="fa-regular fa-pen-to-square"></i> Editar
+                    </a>
+                }
             </div>
         </div>
     </div>
