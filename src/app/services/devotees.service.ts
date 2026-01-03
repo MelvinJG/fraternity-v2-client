@@ -22,9 +22,9 @@ export class DevoteesService {
     });
   }
 
-  // editDeletTurn(idTurn: number, turnData: object) {
-  //   return this.http.put(`${this.API_URL}/${idTurn}`, turnData, {
-  //     headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
-  //   });
-  // }
+  updateDevotee(dpiDevote: string, devoteeData: object) {
+    return this.http.put(`${this.API_URL}/${dpiDevote}`, devoteeData, {
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
+    });
+  }
 }

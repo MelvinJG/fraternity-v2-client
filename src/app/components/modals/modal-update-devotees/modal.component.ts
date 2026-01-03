@@ -11,6 +11,7 @@ import { RegisterComponent } from '../../register/register.component';
 })
 export class ModalComponent {
   isUpdate: boolean = false;
+  dataToUpdate: any;
 
   constructor(public modalRef: MdbModalRef<ModalComponent>) {}
 }

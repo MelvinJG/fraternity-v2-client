@@ -23,7 +23,7 @@
             <div class="form-outline">
                 <mdb-form-control>
                     <input mdbInput type="number" id="form6Example1" class="form-control" autocomplete="off" [(ngModel)]="registerData.dpi" name="dpi"
-                        required />
+                        required [disabled]="isUpdate"/>
                     <label mdbLabel class="form-label" for="form6Example1">DPI</label>
                 </mdb-form-control>
             </div>
@@ -67,6 +67,7 @@
                     class="form-check-input"
                     type="checkbox"
                     id="flexSwitchCheckDefault"
+                    [checked]="this.isChecked"
                     (change)="onCheckboxChange($event)"
                 />
                 <label class="form-check-label" for="flexSwitchCheckDefault"
@@ -84,93 +85,92 @@
         }
         <!-- Iterar sobre el array de hijos -->
         @for (child of children; track child.id) {
-        <div class="row">
-            <div class="col-md-3 my-2">
-                <div class="form-outline">
-                    <mdb-form-control>
-                        <input 
-                            mdbInput 
-                            type="text" 
-                            [id]="'fullName' + child.id" 
-                            class="form-control" 
-                            autocomplete="off"
-                            [(ngModel)]="child.fullName"
-                            [name]="'fullName' + child.id"
-                            required 
-                        />
-                        <label mdbLabel class="form-label" [for]="'fullName' + child.id">Nombre Completo</label>
-                    </mdb-form-control>
+            <div class="row">
+                <div class="col-md-3 my-2">
+                    <div class="form-outline">
+                        <mdb-form-control>
+                            <input 
+                                mdbInput 
+                                type="text" 
+                                [id]="'fullName' + child.id" 
+                                class="form-control" 
+                                autocomplete="off"
+                                [(ngModel)]="child.fullName"
+                                [name]="'fullName' + child.id"
+                                required 
+                            />
+                            <label mdbLabel class="form-label" [for]="'fullName' + child.id">Nombre Completo</label>
+                        </mdb-form-control>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3 my-2">
-                <div class="form-outline">
-                    <mdb-form-control>
-                        <input 
-                            mdbInput 
-                            type="date" 
-                            [id]="'birthdate' + child.id" 
-                            class="form-control" 
-                            autocomplete="off"
-                            [(ngModel)]="child.birthdate"
-                            [name]="'birthdate' + child.id"
-                        />
-                        <label mdbLabel class="form-label" [for]="'birthdate' + child.id">Cumpleaños</label>
-                    </mdb-form-control>
+                <div class="col-md-3 my-2">
+                    <div class="form-outline">
+                        <mdb-form-control>
+                            <input 
+                                mdbInput 
+                                type="date" 
+                                [id]="'birthdate' + child.id" 
+                                class="form-control" 
+                                autocomplete="off"
+                                [(ngModel)]="child.birthdate"
+                                [name]="'birthdate' + child.id"
+                            />
+                            <label mdbLabel class="form-label" [for]="'birthdate' + child.id">Cumpleaños</label>
+                        </mdb-form-control>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3 my-2">
-                <div class="form-outline">
-                    <mdb-form-control>
-                        <input 
-                            mdbInput 
-                            type="number" 
-                            [id]="'height' + child.id" 
-                            class="form-control" 
-                            autocomplete="off"
-                            [(ngModel)]="child.height"
-                            [name]="'height' + child.id"
-                            required 
-                        />
-                        <label mdbLabel class="form-label" [for]="'height' + child.id">Altura (mts.)</label>
-                    </mdb-form-control>
+                <div class="col-md-3 my-2">
+                    <div class="form-outline">
+                        <mdb-form-control>
+                            <input 
+                                mdbInput 
+                                type="number" 
+                                [id]="'height' + child.id" 
+                                class="form-control" 
+                                autocomplete="off"
+                                [(ngModel)]="child.height"
+                                [name]="'height' + child.id"
+                                required 
+                            />
+                            <label mdbLabel class="form-label" [for]="'height' + child.id">Altura (mts.)</label>
+                        </mdb-form-control>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3 my-2">
-                <div class="row d-flex align-items-center">
-                    <div class="col-9">
-                        <div class="form-outline">
-                            <mdb-form-control>
-                                <input 
-                                    mdbInput 
-                                    type="number" 
-                                    [id]="'age' + child.id" 
-                                    class="form-control" 
-                                    autocomplete="off"
-                                    [(ngModel)]="child.age"
-                                    [name]="'age' + child.id"
-                                    required 
-                                />
-                                <label mdbLabel class="form-label" [for]="'age' + child.id">Edad</label>
-                            </mdb-form-control>
+                <div class="col-md-3 my-2">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-9">
+                            <div class="form-outline">
+                                <mdb-form-control>
+                                    <input 
+                                        mdbInput 
+                                        type="number" 
+                                        [id]="'age' + child.id" 
+                                        class="form-control" 
+                                        autocomplete="off"
+                                        [(ngModel)]="child.age"
+                                        [name]="'age' + child.id"
+                                        required 
+                                    />
+                                    <label mdbLabel class="form-label" [for]="'age' + child.id">Edad</label>
+                                </mdb-form-control>
+                            </div>
+                        </div>
+                        <div class="col-3 d-flex justify-content-center">
+                            <button 
+                                type="button" 
+                                class="btn btn-link btn-sm btn-rounded" 
+                                style="color: rgb(250, 35, 35);"
+                                (click)="eliminarHijo(child.id ?? 0)"
+                                [disabled]="children.length === 1"
+                                [title]="children.length === 1 ? 'Debe haber al menos 1 hijo' : 'Eliminar hijo'"
+                            >
+                                <i class="fa-solid fa-user-minus"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="col-3 d-flex justify-content-center">
-                        <button 
-                            type="button" 
-                            class="btn btn-link btn-sm btn-rounded" 
-                            style="color: rgb(250, 35, 35);"
-                            (click)="eliminarHijo(child.id ?? 0)"
-                            [disabled]="children.length === 1"
-                            [title]="children.length === 1 ? 'Debe haber al menos 1 hijo' : 'Eliminar hijo'"
-                        >
-                            <i class="fa-solid fa-user-minus"></i>
-                        </button>
-                    </div>
                 </div>
             </div>
-        </div>
         }
-        
         <!-- Botón para agregar más hijos -->
         <div class="col-12 d-flex justify-content-center">
             <button 

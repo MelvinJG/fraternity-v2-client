@@ -1,8 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
-import { Router } from '@angular/router';
 import { SpinnerService } from '../../services/spinner.service';
 import { UserAuthService } from '../../services/user-auth.service';
 import Swal from 'sweetalert2';
@@ -39,8 +38,33 @@ interface IRegister {
   styleUrl: './register.component.scss'
 })
 
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
 
+  @Input() isUpdate: boolean = false;
+  @Input() dataToUpdate: any;
+  isRegisterer: boolean = false;
+  isChecked: boolean = false;
+  private nextId: number = 2;
+  children: IChild[] = [
+    { 
+      id: 1, 
+      fullName: '', 
+      birthdate: '', 
+      height: null,
+      age: null,
+      idState: 1
+    }
+  ];
+  childrenToUpdate: IChild[] = [
+    { 
+      id: 1, 
+      fullName: '', 
+      birthdate: '', 
+      height: null,
+      age: null,
+      idState: 1
+    }
+  ];
   registerData: IRegister = {
     dpi: '',
     fullName: '',
@@ -53,29 +77,40 @@ export class RegisterComponent {
     created_by: ''
   };
 
-  @Input() isUpdate: boolean = false;
-
-  isRegisterer: boolean = false;
-  isChecked: boolean = false;
-
-  children: IChild[] = [
-    { 
-      id: 1, 
-      fullName: '', 
-      birthdate: '', 
-      height: null,
-      age: null,
-      idState: 1
-    }
-  ];
-
   constructor(
-    private router: Router,
     private spinnerService: SpinnerService,
     private devoteesService: DevoteesService,
     private authService: UserAuthService
   ) {}
-  private nextId: number = 2;
+
+  ngOnInit(): void {
+    this.spinnerService.show();
+    if(this.isUpdate) {
+      console.log("DATA TO UPDATE RECEIVED -> ",this.dataToUpdate);
+      this.registerData.dpi = this.dataToUpdate.dpi;
+      this.registerData.fullName = this.dataToUpdate.fullName;
+      this.registerData.address = this.dataToUpdate.address;
+      this.registerData.birthdate = this.dataToUpdate.birthdate;
+      this.registerData.email = this.dataToUpdate.email;
+      this.registerData.phone = this.dataToUpdate.phone;
+      this.registerData.height = this.dataToUpdate.height;
+      this.registerData.isTutored = this.dataToUpdate.isTutored;
+      if(this.registerData.isTutored && this.dataToUpdate.children && this.dataToUpdate.children.length > 0) {
+        this.isChecked = true;
+        this.children = this.dataToUpdate.children.map((child: any, index: number) => ({
+          id: child.id,
+          fullName: child.fullName,
+          birthdate: child.birthdate,
+          height: child.height,
+          age: child.age,
+          idState: child.idState
+        }));
+        this.nextId = this.children[this.children.length - 1].id! + 10;
+      }
+      this.childrenToUpdate = this.children;
+    }
+    this.spinnerService.hide();
+  }
 
   agregarHijo() {
     this.children.push({
@@ -91,13 +126,16 @@ export class RegisterComponent {
   // Eliminar un hijo (mínimo 1)
   eliminarHijo(id: number) {
     if (this.children.length > 1) {
+      if(this.isUpdate) {
+        this.childrenToUpdate = this.childrenToUpdate.map(child => {
+          if(child.id === id) {
+            return { ...child, idState: 2 }; // Marcar como eliminado
+          }
+          return child;
+        });
+      }
       this.children = this.children.filter(child => child.id !== id);
     }
-  }
-
-  guardarDatos() {
-    // Lógica para guardar los datos del formulario
-    console.log('Datos guardados:', this.children);
   }
 
   onCheckboxChange(event: any) {
@@ -107,10 +145,11 @@ export class RegisterComponent {
   }
 
   onSubmit(){
-    this.spinnerService.show();
+    //this.spinnerService.show();
     if(this.registerData.dpi === "" || this.registerData.fullName === "" || this.registerData.height === null) {
       this.spinnerService.hide();
       Swal.fire({
+        position: "top-end",
         icon: 'warning',
         title: 'Oops...',
         text: 'El DPI, Nombre Completo y Altura son campos obligatorios.'
@@ -121,6 +160,7 @@ export class RegisterComponent {
       if(this.children.length === 0) {
         this.spinnerService.hide();
         Swal.fire({
+          position: "top-end",
           icon: 'warning',
           title: 'Oops...',
           text: 'Por favor, agregue al menos un hijo.'
@@ -132,6 +172,7 @@ export class RegisterComponent {
         if (child.fullName === '' || child.birthdate === '' || child.height === null || child.age === null) {
           this.spinnerService.hide();
           Swal.fire({
+            position: "top-end",
             icon: 'warning',
             title: 'Oops...',
             text: 'Por favor, complete todos los campos de los hijos.'
@@ -139,51 +180,80 @@ export class RegisterComponent {
           return;
         }
       }
-      const newObjectChildren = this.children.map(child => {
-        const { id, ...childWithoutId } = child;
-        return childWithoutId as IChild;
-      });
-      this.registerData.children = newObjectChildren;
     }
     this.registerData.dpi = this.registerData.dpi.toString();
     this.registerData.phone = this.registerData.phone?.toString() || null;
     this.registerData.birthdate = this.registerData.birthdate === "" ? undefined : this.registerData.birthdate;
     this.registerData.address = this.registerData.address === "" ? undefined : this.registerData.address;
     this.registerData.email = this.registerData.email === "" ? undefined : this.registerData.email;
-    this.registerData.created_by = this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP';
-    console.log("FORM DATA FINAL -> ",this.registerData);
-    //LLAMAMOS AL SERVICIO
-    this.devoteesService.createDevotee(this.registerData).subscribe({
-      next: (res: any) => {
-        console.log("RESPONSE CREATE DEVOTEE -> ",res)
-        this.spinnerService.hide();
-        Swal.fire({
-          icon: 'success',
-          title: 'Devoto created.',
-          showConfirmButton: false,
-          timer: 1200
-        });
-        setTimeout(() => {
-          window.location.reload();
-        }, 1200);
-        //this.router.navigate(['/user/list']);
-      },
-      error: (err: any) => {
-        console.log("ERROR CREATE DEVOTEE -> ",err)
-        this.spinnerService.hide();
-        Swal.fire({
-          icon: err.status === 500 ? 'error' : 'info',
-          title: 'Oops...',
-          text: err.error.message
-        })
-      }
-    });
+    if(this.isUpdate) { // ACTUALIZAR DEVOTO
+      delete this.registerData.created_by;
+      const eliminados = this.childrenToUpdate.filter(child => child.idState === 2);
+      const childrenFinal = [...eliminados, ...this.children];
+      this.registerData.children = childrenFinal;
+      this.registerData.updated_by = this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP';
+      console.log("FORM DATA FINAL UPDATE -> ",this.registerData);
+      //LLAMAMOS AL SERVICIO
+      this.devoteesService.updateDevotee(this.registerData.dpi, this.registerData).subscribe({
+        next: (res: any) => {
+          console.log("RESPONSE UPDATE DEVOTEE -> ",res)
+          this.spinnerService.hide();
+          Swal.fire({
+            icon: 'success',
+            title: 'Devoto Actualizado.',
+            showConfirmButton: false,
+            timer: 1200
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1200);
+        },
+        error: (err: any) => {
+          console.log("ERROR UPDATE DEVOTEE -> ",err)
+          this.spinnerService.hide();
+          Swal.fire({
+            icon: err.status === 500 ? 'error' : 'info',
+            title: 'Oops...',
+            text: err.error.message
+          })
+        }
+      });
+    } else { // CREAR DEVOTO
+      this.registerData.created_by = this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP';
+      // Quitamos el ID para los hijos nuevos ya que es incremental
+      const newObjectChildren = this.children.map(child => {
+        const { id, ...childWithoutId } = child;
+        return childWithoutId as IChild;
+      });
+      this.registerData.children = newObjectChildren;
+      console.log("FORM DATA FINAL CREATE -> ",this.registerData);
+      //LLAMAMOS AL SERVICIO
+      this.devoteesService.createDevotee(this.registerData).subscribe({
+        next: (res: any) => {
+          console.log("RESPONSE CREATE DEVOTEE -> ",res)
+          this.spinnerService.hide();
+          Swal.fire({
+            icon: 'success',
+            title: 'Devoto Creado.',
+            showConfirmButton: false,
+            timer: 1200
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1200);
+        },
+        error: (err: any) => {
+          console.log("ERROR CREATE DEVOTEE -> ",err)
+          this.spinnerService.hide();
+          Swal.fire({
+            icon: err.status === 500 ? 'error' : 'info',
+            title: 'Oops...',
+            text: err.error.message
+          })
+        }
+      });
+    }
   }
 }
 
 
-// if(this.isUpdate){
-//       this.registerData.updated_by = 'SYSTEM_UPDATE_USER';
-//     } else {
-//       this.registerData.created_by = 'SYSTEM_CREATE_USER';
-//     }

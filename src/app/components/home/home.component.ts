@@ -102,11 +102,12 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  openModal() {
+  openModalUpdate() {
     this.modalRef = this.modalService.open(ModalComponent, {
       modalClass: 'modal-lg',
       data: {
         isUpdate: true,
+        dataToUpdate: this.devoteeInfo
       }
     });
   }
