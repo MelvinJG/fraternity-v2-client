@@ -149,7 +149,6 @@ export class RegisterComponent implements OnInit {
     if(this.registerData.dpi === "" || this.registerData.fullName === "" || this.registerData.height === null) {
       this.spinnerService.hide();
       Swal.fire({
-        position: "top-end",
         icon: 'warning',
         title: 'Oops...',
         text: 'El DPI, Nombre Completo y Altura son campos obligatorios.'
@@ -160,7 +159,6 @@ export class RegisterComponent implements OnInit {
       if(this.children.length === 0) {
         this.spinnerService.hide();
         Swal.fire({
-          position: "top-end",
           icon: 'warning',
           title: 'Oops...',
           text: 'Por favor, agregue al menos un hijo.'
@@ -172,7 +170,6 @@ export class RegisterComponent implements OnInit {
         if (child.fullName === '' || child.birthdate === '' || child.height === null || child.age === null) {
           this.spinnerService.hide();
           Swal.fire({
-            position: "top-end",
             icon: 'warning',
             title: 'Oops...',
             text: 'Por favor, complete todos los campos de los hijos.'

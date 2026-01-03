@@ -108,6 +108,16 @@ body {
 .fade-in {
   animation: fadeIn 0.3s ease-in-out;
 }
+
+// SweetAlert2 - Asegurar que aparezca sobre los modales
+.swal2-container {
+  z-index: 10000 !important;
+}
+
+.swal2-popup {
+  z-index: 10001 !important;
+}
+
 // Font Awesome
 @import '@fortawesome/fontawesome-free/css/all.css';
 
