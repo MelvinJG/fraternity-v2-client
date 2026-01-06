@@ -9,15 +9,29 @@
         @if (updateMode) {
             <!-- DPI display (disabled) -->
             <mdb-form-control class="mb-4">
-            <input mdbInput type="number" id="registerDPI" name="dpi" class="form-control" [(ngModel)]="registerData.dpi" disabled/>
-            <label mdbLabel class="form-label" for="registerDPI">No. DPI</label>
+            <input mdbInput type="number" id="dpi" name="dpi" class="form-control" [(ngModel)]="registerData.dpi" disabled/>
+            <label mdbLabel class="form-label" for="dpi">No. DPI</label>
             </mdb-form-control>
         } @else {
             <!-- DPI input -->
             <mdb-form-control class="mb-4">
-            <input mdbInput type="number" id="registerDPI" name="dpi" class="form-control" [(ngModel)]="registerData.dpi" required autocomplete="off"/>
-            <label mdbLabel class="form-label" for="registerDPI">No. DPI</label>
+                <input
+                    mdbInput
+                    class="form-control"
+                    id="dpi"
+                    name="dpi"
+                    type="text"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    maxlength="15"
+                    [(ngModel)]="dpiValue"
+                    (input)="onInput($event)"
+                    pattern="^\d{4}\s\d{5}\s\d{4}$"
+                    required
+                />
+                <label mdbLabel class="form-label" for="dpi">No. DPI</label>
             </mdb-form-control>
+            <!-- [(ngModel)]="registerData.dpi" -->
         }
 
         <!-- Name input -->
