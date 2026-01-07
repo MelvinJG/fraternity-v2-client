@@ -7,7 +7,7 @@
                 <mdb-form-control>
                     <input mdbInput type="text" id="form6Example1" class="form-control" autocomplete="off"
                         [(ngModel)]="registerData.fullName" name="fullName" required />
-                    <label mdbLabel class="form-label" for="form6Example1">Nombre Completo</label>
+                    <label mdbLabel class="form-label" for="form6Example1">Nombre Completo *</label>
                 </mdb-form-control>
             </div>
         </div>
@@ -24,7 +24,7 @@
                 <mdb-form-control>
                     <input mdbInput type="number" id="form6Example1" class="form-control" autocomplete="off" [(ngModel)]="registerData.dpi" name="dpi"
                         required [disabled]="isUpdate"/>
-                    <label mdbLabel class="form-label" for="form6Example1">DPI</label>
+                    <label mdbLabel class="form-label" for="form6Example1">DPI *</label>
                 </mdb-form-control>
             </div>
         </div>
@@ -56,7 +56,7 @@
             <div class="form-outline">
                 <mdb-form-control>
                     <input mdbInput type="number" id="form6Example1" class="form-control" autocomplete="off" [(ngModel)]="registerData.height" name="height" required />
-                    <label mdbLabel class="form-label" for="form6Example1">Altura (mts.)</label>
+                    <label mdbLabel class="form-label" for="form6Example1">Altura (mts.) *</label>
                 </mdb-form-control>
             </div>
         </div>

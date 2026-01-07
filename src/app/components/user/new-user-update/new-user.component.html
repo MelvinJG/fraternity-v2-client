@@ -1,5 +1,5 @@
 <div class="container">
-    <form class="container" (ngSubmit)="onSubmit()">
+    <form class="container" (ngSubmit)="onSubmit()" [formGroup]="validationForm">
         <div class="text-center mb-4">
             <h4>
                 {{ updateMode ? 'Actualizar Usuario' : 'Registro de Usuario' }}
@@ -9,13 +9,14 @@
         @if (updateMode) {
             <!-- DPI display (disabled) -->
             <mdb-form-control class="mb-4">
-            <input mdbInput type="number" id="dpi" name="dpi" class="form-control" [(ngModel)]="registerData.dpi" disabled/>
-            <label mdbLabel class="form-label" for="dpi">No. DPI</label>
+            <input mdbInput type="number" id="dpi" name="dpi" class="form-control" [(ngModel)]="registerData.dpi" [ngModelOptions]="{standalone: true}" disabled/>
+            <label mdbLabel class="form-label" for="dpi">No. DPI *</label>
             </mdb-form-control>
         } @else {
             <!-- DPI input -->
             <mdb-form-control class="mb-4">
                 <input
+                    mdbValidate
                     mdbInput
                     class="form-control"
                     id="dpi"
@@ -28,30 +29,37 @@
                     (input)="onInput($event)"
                     pattern="^\d{4}\s\d{5}\s\d{4}$"
                     required
+                    formControlName="dpi"
                 />
-                <label mdbLabel class="form-label" for="dpi">No. DPI</label>
+                <label mdbLabel class="form-label" for="dpi">No. DPI *</label>
+                <mdb-error *ngIf="dpi?.invalid && (dpi?.dirty || dpi?.touched)">
+                    DPI Inválido
+                </mdb-error>
+                <mdb-success *ngIf="dpi?.valid && (dpi?.dirty || dpi?.touched)">
+                    <!-- Looks good! -->
+                </mdb-success>
             </mdb-form-control>
             <!-- [(ngModel)]="registerData.dpi" -->
         }
 
         <!-- Name input -->
         <mdb-form-control class="mb-4">
-        <input mdbInput type="text" id="registerName" name="fullName" class="form-control" [(ngModel)]="registerData.fullName" required autocomplete="off"/>
-        <label mdbLabel class="form-label" for="registerName">Nombre Completo</label>
+        <input mdbInput type="text" id="registerName" name="fullName" class="form-control" [(ngModel)]="registerData.fullName" [ngModelOptions]="{standalone: true}" required autocomplete="off"/>
+        <label mdbLabel class="form-label" for="registerName">Nombre Completo *</label>
         </mdb-form-control>
 
         <!-- Email input -->
         <mdb-form-control class="mb-4">
-        <input mdbInput type="email" id="registerEmail" name="email" class="form-control" [(ngModel)]="registerData.email" required autocomplete="off"/>
-        <label mdbLabel class="form-label" for="registerEmail">Correo Electrónico</label>
+        <input mdbInput type="email" id="registerEmail" name="email" class="form-control" [(ngModel)]="registerData.email" [ngModelOptions]="{standalone: true}" required autocomplete="off"/>
+        <label mdbLabel class="form-label" for="registerEmail">Correo Electrónico *</label>
         </mdb-form-control>
 
         @if (updateMode) {
 
             <!-- Fraternity -->
             <mdb-form-control class="mb-4">
-                <select class="form-select" [(ngModel)]="registerData.idFraternity" name="fraternity" disabled>
-                    <option [value]="0" disabled>Hermandad perteneciente</option>
+                <select class="form-select" [(ngModel)]="registerData.idFraternity" [ngModelOptions]="{standalone: true}" name="fraternity" disabled>
+                    <option [value]="0" disabled>Hermandad perteneciente *</option>
                     <option *ngFor="let option of fraternities" [value]="option.value">
                         {{ option.label }}
                     </option>
@@ -60,8 +68,8 @@
 
             <!-- Permissions -->
             <mdb-form-control class="mb-4">
-                <select class="form-select" [(ngModel)]="registerData.idPermissions" name="permissions" disabled>
-                    <option [value]="0" disabled>Permisos</option>
+                <select class="form-select" [(ngModel)]="registerData.idPermissions" [ngModelOptions]="{standalone: true}" name="permissions" disabled>
+                    <option [value]="0" disabled>Rol *</option>
                     <option *ngFor="let option of permissions" [value]="option.value">
                         {{ option.label }}
                     </option>
@@ -70,13 +78,13 @@
 
             <!-- Password input -->
             <mdb-form-control class="mb-4">
-                <input mdbInput type="password" id="password" name="password" class="form-control" [(ngModel)]="password" required autocomplete="off"/>
+                <input mdbInput type="password" id="password" name="password" class="form-control" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" required autocomplete="off"/>
                 <label mdbLabel class="form-label" for="password">Nueva Contraseña</label>
             </mdb-form-control>
 
             <!-- Repeat Password input -->
             <mdb-form-control class="mb-4">
-                <input mdbInput type="password" id="passwordRepeat" name="passwordRepeat" class="form-control" [(ngModel)]="passwordRepeat" required autocomplete="off"/>
+                <input mdbInput type="password" id="passwordRepeat" name="passwordRepeat" class="form-control" [(ngModel)]="passwordRepeat" [ngModelOptions]="{standalone: true}" required autocomplete="off"/>
                 <label mdbLabel class="form-label" for="passwordRepeat">Repetir Contraseña</label>
             </mdb-form-control>
 
@@ -84,8 +92,8 @@
 
             <!-- Fraternity -->
             <mdb-form-control class="mb-4">
-                <select class="form-select" [(ngModel)]="registerData.idFraternity" name="fraternity">
-                    <option [value]="0" disabled>Hermandad perteneciente</option>
+                <select class="form-select" [(ngModel)]="registerData.idFraternity" [ngModelOptions]="{standalone: true}" name="fraternity">
+                    <option [value]="0" disabled>Hermandad perteneciente *</option>
                     <option *ngFor="let option of fraternities" [value]="option.value">
                         {{ option.label }}
                     </option>
@@ -94,8 +102,8 @@
 
             <!-- Permissions -->
             <mdb-form-control class="mb-4">
-                <select class="form-select" [(ngModel)]="registerData.idPermissions" name="permissions">
-                    <option [value]="0" disabled>Permisos</option>
+                <select class="form-select" [(ngModel)]="registerData.idPermissions" [ngModelOptions]="{standalone: true}" name="permissions">
+                    <option [value]="0" disabled>Rol *</option>
                     <option *ngFor="let option of permissions" [value]="option.value">
                         {{ option.label }}
                     </option>

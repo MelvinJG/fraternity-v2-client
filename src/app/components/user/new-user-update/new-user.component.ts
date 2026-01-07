@@ -8,6 +8,9 @@ import { FormsModule } from '@angular/forms';
 import { UserAuthService } from '../../../services/user-auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { dpiIsValid } from '../../../utils/dpiIsValid';
+import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 
 interface IOption {
   value: number;
@@ -28,7 +31,7 @@ interface IRegister {
 @Component({
   selector: 'app-new-user',
   standalone: true,
-  imports: [MdbFormsModule, CommonModule, FormsModule],
+  imports: [MdbFormsModule, CommonModule, FormsModule, MdbValidationModule, ReactiveFormsModule],
   templateUrl: './new-user.component.html',
   styleUrl: './new-user.component.scss'
 })
@@ -50,6 +53,7 @@ export class NewUserComponent implements OnInit {
   passwordRepeat: string = '';
   dpiValue: string = '';
   isDPIValid: boolean = false;
+  validationForm: FormGroup;
 
   constructor(
     private router: Router,
@@ -69,6 +73,21 @@ export class NewUserComponent implements OnInit {
       this.updateMode = false;
       this.createMode = false;
     }
+    this.validationForm = new FormGroup({
+      dpi: new FormControl(null, { 
+        validators: [
+          Validators.required,
+          (control: AbstractControl) => {
+            const value = control.value?.toString().replaceAll(' ', '') || '';
+            return dpiIsValid(value) ? null : { invalidDpi: true };
+          }
+        ]
+      })
+    });
+  }
+
+  get dpi(): AbstractControl {
+    return this.validationForm.get('dpi')!;
   }
 
   ngOnInit(): void {
