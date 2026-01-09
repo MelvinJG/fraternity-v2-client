@@ -4,7 +4,8 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { SpinnerService } from '../../services/spinner.service';
 import { UserAuthService } from '../../services/user-auth.service';
 import Swal from 'sweetalert2'
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 
 interface IUser {
   dpi: string;
@@ -14,12 +15,13 @@ interface IUser {
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MdbFormsModule, FormsModule],
+  imports: [MdbFormsModule, FormsModule, MdbValidationModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
 
+  dpiValue: string = '';
   user: IUser = {
     dpi: '',
     pass: ''
@@ -74,5 +76,35 @@ export class LoginComponent implements OnInit {
       })
       
     }
+  }
+
+  onInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const cursorPos = input.selectionStart ?? input.value.length;
+    const prevVal = input.value;
+    const masked = this.formatDPI(prevVal);
+    this.dpiValue = masked;
+    setTimeout(() => {
+      const spacesBefore = (prevVal.slice(0, cursorPos).match(/ /g) || []).length;
+      const spacesAfter = (masked.slice(0, cursorPos).match(/ /g) || []).length;
+      let newPos = cursorPos + (spacesAfter - spacesBefore);
+      if (masked[newPos - 1] === ' ' && masked.replace(/ /g, '').length < 13) {
+        newPos = newPos + 1;
+      }
+      newPos = Math.max(0, Math.min(newPos, masked.length));
+      input.setSelectionRange(newPos, newPos);
+    }, 0);
+    this.user.dpi = this.dpiValue.replaceAll(' ', '');
+  }
+
+  formatDPI(value: string): string {
+    const digits = value.replace(/\D/g, '').slice(0, 13);
+    const part1 = digits.slice(0, 4);
+    const part2 = digits.slice(4, 9);
+    const part3 = digits.slice(9, 13);
+    let formatted = part1;
+    if (part2) formatted += ' ' + part2;
+    if (part3) formatted += ' ' + part3;
+    return formatted;
   }
 }

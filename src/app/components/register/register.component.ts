@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { SpinnerService } from '../../services/spinner.service';
 import { UserAuthService } from '../../services/user-auth.service';
 import Swal from 'sweetalert2';
 import { DevoteesService } from '../../services/devotees.service';
+import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 
 interface IChild {
   id?: number;
@@ -33,7 +34,7 @@ interface IRegister {
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [MdbFormsModule, CommonModule, FormsModule],
+  imports: [MdbFormsModule, CommonModule, FormsModule, MdbValidationModule, ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -76,6 +77,7 @@ export class RegisterComponent implements OnInit {
     isTutored: false,
     created_by: ''
   };
+  dpiValue: string = '';
 
   constructor(
     private spinnerService: SpinnerService,
@@ -88,6 +90,7 @@ export class RegisterComponent implements OnInit {
     if(this.isUpdate) {
       console.log("DATA TO UPDATE RECEIVED -> ",this.dataToUpdate);
       this.registerData.dpi = this.dataToUpdate.dpi;
+      this.dpiValue = this.formatDPI(this.dataToUpdate.dpi);
       this.registerData.fullName = this.dataToUpdate.fullName;
       this.registerData.address = this.dataToUpdate.address;
       this.registerData.birthdate = this.dataToUpdate.birthdate;
@@ -250,6 +253,36 @@ export class RegisterComponent implements OnInit {
         }
       });
     }
+  }
+
+  onInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const cursorPos = input.selectionStart ?? input.value.length;
+    const prevVal = input.value;
+    const masked = this.formatDPI(prevVal);
+    this.dpiValue = masked;
+    setTimeout(() => {
+      const spacesBefore = (prevVal.slice(0, cursorPos).match(/ /g) || []).length;
+      const spacesAfter = (masked.slice(0, cursorPos).match(/ /g) || []).length;
+      let newPos = cursorPos + (spacesAfter - spacesBefore);
+      if (masked[newPos - 1] === ' ' && masked.replace(/ /g, '').length < 13) {
+        newPos = newPos + 1;
+      }
+      newPos = Math.max(0, Math.min(newPos, masked.length));
+      input.setSelectionRange(newPos, newPos);
+    }, 0);
+    this.registerData.dpi = this.dpiValue.replaceAll(' ', '');
+  }
+
+  formatDPI(value: string): string {
+    const digits = value.replace(/\D/g, '').slice(0, 13);
+    const part1 = digits.slice(0, 4);
+    const part2 = digits.slice(4, 9);
+    const part3 = digits.slice(9, 13);
+    let formatted = part1;
+    if (part2) formatted += ' ' + part2;
+    if (part3) formatted += ' ' + part3;
+    return formatted;
   }
 }
 

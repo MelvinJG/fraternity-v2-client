@@ -1,5 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
@@ -13,6 +13,7 @@ import { UserAuthService } from '../../services/user-auth.service';
 import { ReceiptsService } from '../../services/receipts.service';
 import { ModalSummaryComponent } from '../modals/modal-summary/modal-summary.component';
 import { ModalComponent } from '../modals/modal-update-devotees/modal.component';
+import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 
 interface IOption {
   value: string;
@@ -35,7 +36,7 @@ interface IRegistration {
 @Component({ 
   selector: 'app-home',
   standalone: true,
-  imports: [MdbFormsModule, MdbTabsModule, RegisterComponent, CommonModule, FormsModule],
+  imports: [MdbFormsModule, MdbTabsModule, RegisterComponent, CommonModule, FormsModule, MdbValidationModule, ReactiveFormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -54,6 +55,7 @@ export class HomeComponent implements OnInit {
   selectedPerson: string = ''; // Nueva variable para el select
   nameForReceipt: string = '';
   turnForReceipt: string = '';
+  dpiValue: string = '';
 
   registrationData: IRegistration = {
     dpiDevotee: '',
@@ -245,15 +247,36 @@ export class HomeComponent implements OnInit {
         })
       }
     });
-    /*LA INSCRIPCION RETORNA ESTO
-    {
-      "code": "OPERATION_SUCCESSFUL",
-      "message": "Operación exitosa.",
-      "data": {
-        "noReceipt": 7,
-        "noTable": 1
+  }
+
+  onInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const cursorPos = input.selectionStart ?? input.value.length;
+    const prevVal = input.value;
+    const masked = this.formatDPI(prevVal);
+    this.dpiValue = masked;
+    setTimeout(() => {
+      const spacesBefore = (prevVal.slice(0, cursorPos).match(/ /g) || []).length;
+      const spacesAfter = (masked.slice(0, cursorPos).match(/ /g) || []).length;
+      let newPos = cursorPos + (spacesAfter - spacesBefore);
+      if (masked[newPos - 1] === ' ' && masked.replace(/ /g, '').length < 13) {
+        newPos = newPos + 1;
       }
-    }
-    */
+      newPos = Math.max(0, Math.min(newPos, masked.length));
+      input.setSelectionRange(newPos, newPos);
+    }, 0);
+    //this.isDPIValid = dpiIsValid(this.dpiValue.replaceAll(' ', ''));
+    this.dpiSearch = this.dpiValue.replaceAll(' ', '');
+  }
+
+  formatDPI(value: string): string {
+    const digits = value.replace(/\D/g, '').slice(0, 13);
+    const part1 = digits.slice(0, 4);
+    const part2 = digits.slice(4, 9);
+    const part3 = digits.slice(9, 13);
+    let formatted = part1;
+    if (part2) formatted += ' ' + part2;
+    if (part3) formatted += ' ' + part3;
+    return formatted;
   }
 }

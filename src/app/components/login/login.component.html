@@ -16,7 +16,21 @@
                 <div class="card-body">
                     <form (ngSubmit)="onLogin()">
                         <mdb-form-control class="mb-4">
-                            <input mdbInput type="text" id="userDPI" name="dpi" class="form-control" [(ngModel)]="user.dpi" required autocomplete="off"/>
+                            <input
+                                mdbValidate
+                                mdbInput
+                                class="form-control"
+                                id="dpi"
+                                name="dpi"
+                                type="text"
+                                inputmode="numeric"
+                                autocomplete="off"
+                                maxlength="15"
+                                [(ngModel)]="dpiValue"
+                                (input)="onInput($event)"
+                                pattern="^\d{4}\s\d{5}\s\d{4}$"
+                                required
+                            />
                             <label mdbLabel class="form-label" for="userDPI">DPI</label>
                         </mdb-form-control>
 

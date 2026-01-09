@@ -12,16 +12,20 @@
                         <div class="form-outline">
                             <mdb-form-control>
                                 <input 
+                                  mdbValidate
                                   mdbInput
-                                  type="number"
+                                  type="text"
                                   id="form6Example1"
                                   name="dpi"
                                   class="form-control"
-                                  [(ngModel)]="dpiSearch"
-                                  (input)="onInputChange()"
+                                  inputmode="numeric"
+                                  [(ngModel)]="dpiValue"
                                   autocomplete="off"
+                                  maxlength="15"
+                                  (input)="onInput($event)"
+                                  pattern="^\d{4}\s\d{5}\s\d{4}$"
                                   required />
-                                <label mdbLabel class="form-label" for="form6Example1">DPI</label>
+                                <label mdbLabel class="form-label" for="form6Example1">DPI *</label>
                             </mdb-form-control>
                         </div>
                     </div>

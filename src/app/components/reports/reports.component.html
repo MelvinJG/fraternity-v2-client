@@ -19,9 +19,14 @@
                         }
                     }
                 </div>
-                <span class="badge badge-primary rounded-pill">
-                    {{ turn.armNumber !== null ? "Anda de: " + turn.armNumber + " Brazos" : "Anda de: NO APLICA" }}
-                </span>
+                @if(turn.armNumber !== null) {
+                    <span class="badge badge-primary rounded-pill">
+                        Anda de: {{ turn.armNumber }} Brazos
+                    </span>
+                }
+                <!-- <span class="badge badge-primary rounded-pill">
+                    {{ turn.armNumber !== null ? "Anda de: " + turn.armNumber + " Brazos" : "Anda de: NO APLICA "}}
+                </span> -->
             </li>
         </ol>
 

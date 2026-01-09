@@ -5,14 +5,15 @@ import { ReceiptsService } from '../../../services/receipts.service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserAuthService } from '../../../services/user-auth.service';
 import { ModalSummaryComponent } from '../../modals/modal-summary/modal-summary.component';
+import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 
 @Component({
   selector: 'app-receipts',
   standalone: true,
-  imports: [MdbFormsModule, CommonModule, FormsModule],
+  imports: [MdbFormsModule, CommonModule, FormsModule, MdbValidationModule, ReactiveFormsModule],
   templateUrl: './receipts.component.html',
   styleUrl: './receipts.component.scss'
 })
@@ -21,6 +22,7 @@ export class ReceiptsComponent implements OnInit {
   modalRefReceipt: MdbModalRef<ModalSummaryComponent> | null = null;
   dpiSearch: string = '';
   isSearching: boolean = false;
+  dpiValue: string = '';
 
   constructor(
       private spinnerService: SpinnerService,
@@ -69,7 +71,8 @@ export class ReceiptsComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: 'gray',
-      confirmButtonText: 'Si, Eliminar!'
+      confirmButtonText: 'Si, Eliminar!',
+      cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
         this.spinnerService.show();
@@ -209,5 +212,39 @@ export class ReceiptsComponent implements OnInit {
     if (!this.dpiSearch || this.dpiSearch.toString().trim() === '') {
       this.loadAllReceipts();
     }
+  }
+
+  onInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const cursorPos = input.selectionStart ?? input.value.length;
+    const prevVal = input.value;
+    const masked = this.formatDPI(prevVal);
+    this.dpiValue = masked;
+    setTimeout(() => {
+      const spacesBefore = (prevVal.slice(0, cursorPos).match(/ /g) || []).length;
+      const spacesAfter = (masked.slice(0, cursorPos).match(/ /g) || []).length;
+      let newPos = cursorPos + (spacesAfter - spacesBefore);
+      if (masked[newPos - 1] === ' ' && masked.replace(/ /g, '').length < 13) {
+        newPos = newPos + 1;
+      }
+      newPos = Math.max(0, Math.min(newPos, masked.length));
+      input.setSelectionRange(newPos, newPos);
+    }, 0);
+    //this.isDPIValid = dpiIsValid(this.dpiValue.replaceAll(' ', ''));
+    this.dpiSearch = this.dpiValue.replaceAll(' ', '');
+    if (!this.dpiSearch || this.dpiSearch.toString().trim() === '') {
+      this.loadAllReceipts();
+    }
+  }
+
+  formatDPI(value: string): string {
+    const digits = value.replace(/\D/g, '').slice(0, 13);
+    const part1 = digits.slice(0, 4);
+    const part2 = digits.slice(4, 9);
+    const part3 = digits.slice(9, 13);
+    let formatted = part1;
+    if (part2) formatted += ' ' + part2;
+    if (part3) formatted += ' ' + part3;
+    return formatted;
   }
 }
