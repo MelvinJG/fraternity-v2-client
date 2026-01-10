@@ -177,10 +177,8 @@ export class NewUserComponent implements OnInit {
           // @ts-ignore
           delete this.registerData.pass;
         }
-        console.log("DATOS INGRESADOS UPDATE -> ",this.registerData);
         this.authService.editDeleteUser(dpiToUpdate, this.registerData).subscribe({
           next: (res: any) => {
-            console.log("RESPONSE UPDATE USER -> ",res)
             this.spinnerService.hide();
             Swal.fire({
               icon: 'success',
@@ -192,7 +190,6 @@ export class NewUserComponent implements OnInit {
             this.router.navigate(['/login']);
           },
           error: (err: any) => {
-            console.log("ERROR UPDATE USER -> ",err)
             this.spinnerService.hide();
             Swal.fire({
               icon: err.status === 500 ? 'error' : 'info',
@@ -216,10 +213,8 @@ export class NewUserComponent implements OnInit {
       this.registerData.pass = this.registerData.dpi.toString();
       this.registerData.created_by = this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP';
       delete this.registerData.updated_by;
-      console.log("DATOS INGRESADOS CREATE -> ",this.registerData);
       this.authService.createUser(this.registerData).subscribe({
         next: (res: any) => {
-          console.log("RESPONSE CREATE USER -> ",res)
           this.spinnerService.hide();
           Swal.fire({
             icon: 'success',
@@ -230,7 +225,6 @@ export class NewUserComponent implements OnInit {
           this.router.navigate(['/user/list']);
         },
         error: (err: any) => {
-          console.log("ERROR CREATE USER -> ",err)
           this.spinnerService.hide();
           Swal.fire({
             icon: err.status === 500 ? 'error' : 'info',

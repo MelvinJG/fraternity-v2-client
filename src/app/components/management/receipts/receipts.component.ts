@@ -37,7 +37,6 @@ export class ReceiptsComponent implements OnInit {
 
   ngAfterViewInit() {
     const element = document.getElementById(`page-1`);
-    console.log("element", element);
     if (element) {
       element.classList.add('active');
     }
@@ -45,7 +44,6 @@ export class ReceiptsComponent implements OnInit {
   }
 
   print(data: any){
-    console.log("data", data)
     this.modalRefReceipt = this.modalService.open(ModalSummaryComponent, {
       modalClass: 'modal-lg',
       data: {
@@ -63,7 +61,6 @@ export class ReceiptsComponent implements OnInit {
   }
 
   delete(id: number){
-    console.log("inscripcion_id", id)
     Swal.fire({
       title: 'Eliminar Inscripción',
       text: "¿Quieres eliminar esta inscripción?",
@@ -79,7 +76,6 @@ export class ReceiptsComponent implements OnInit {
         const deletedUser = { deleted_by: this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP' };
         this.receiptsService.deleteInscription(id, deletedUser).subscribe({
           next: (res: any) => {
-            console.log("RESPONSE deleteInscription -> ",res)
             this.spinnerService.hide();
             Swal.fire({
               icon: 'success',
@@ -93,7 +89,6 @@ export class ReceiptsComponent implements OnInit {
             }, 1200);
           },
           error: (err: any) => {
-            console.log("ERROR deleteInscription -> ",err)
             this.spinnerService.hide();
             Swal.fire({
               icon: err.status === 500 ? 'error' : 'info',
@@ -108,9 +103,7 @@ export class ReceiptsComponent implements OnInit {
 
   changePage(page: number) {
     this.spinnerService.show();
-    console.log("Change to page:", page);
     const elementI = document.getElementsByClassName(`custom-mel`);
-    console.log("elementI", elementI);
     if (elementI) {
       for (let i = 0; i < elementI.length; i++) {
         elementI[i].classList.remove('active');
@@ -124,9 +117,7 @@ export class ReceiptsComponent implements OnInit {
       this.receiptsService.getInscriptionsByDPI(this.dpiSearch, page).subscribe({
         next: (res: any) => {
           this.loadData = res.data;
-          console.log("this.loadData",this.loadData)
           this.isSearching = true;
-          console.log("this.isSearching",this.isSearching)
           this.spinnerService.hide();
         },
         error: (err: any) => {
@@ -144,7 +135,6 @@ export class ReceiptsComponent implements OnInit {
       this.receiptsService.getInscriptions(page).subscribe({
         next: (res: any) => {
           this.loadData = res.data;
-          console.log("this.loadData",this.loadData)
         },
         error: (err: any) => {
           Swal.fire({
@@ -159,7 +149,6 @@ export class ReceiptsComponent implements OnInit {
   }
 
   onSearch() {
-    console.log("🟩 START this.dpiSearch ->", this.dpiSearch);
     if(!this.dpiSearch || this.dpiSearch === '') {
       Swal.fire({
         icon: 'warning',
@@ -173,9 +162,7 @@ export class ReceiptsComponent implements OnInit {
     this.receiptsService.getInscriptionsByDPI(this.dpiSearch).subscribe({
       next: (res: any) => {
         this.loadData = res.data;
-        console.log("this.loadData",this.loadData)
         this.isSearching = true;
-        console.log("this.isSearching",this.isSearching)
         this.spinnerService.hide();
       },
       error: (err: any) => {
@@ -195,7 +182,6 @@ export class ReceiptsComponent implements OnInit {
     this.receiptsService.getInscriptions(1).subscribe({
       next: (res: any) => {
         this.loadData = res.data;
-        console.log("this.loadData",this.loadData)
       },
       error: (err: any) => {
         Swal.fire({

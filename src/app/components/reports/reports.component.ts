@@ -34,7 +34,6 @@ export class ReportsComponent implements OnInit {
     this.spinnerService.show();
     this.turnsService.getTurns().subscribe({
       next: (res: any) => {
-        console.log("res", res);
         this.loadData = res.data.map((data: any) => ({
             id: data.id,
             description: data.description,
@@ -59,10 +58,7 @@ export class ReportsComponent implements OnInit {
     this.spinnerService.show();
     this.receiptsService.report().subscribe({
       next: (res: any) => {
-        console.log("response report", res);
-        console.log("🔥🔥");
         const DATA = orderReportInscription(res.data.turnos);
-        console.log("DATA", JSON.stringify(DATA));
         this.excelService.ExcelOfficial(DATA, 'reporte_inscripciones');
         this.modalRefReport = this.modalService.open(ModalSummaryComponent, {
           modalClass: 'modal-lg',
@@ -71,7 +67,6 @@ export class ReportsComponent implements OnInit {
             summaryData: res.data.resumen
           }
         });
-        console.log("🔥🔥");
         //this.loadData = res.data;
       },
       error: (err: any) => {
@@ -82,15 +77,6 @@ export class ReportsComponent implements OnInit {
         })
       }
     });
-    const data = [
-      { Name: 'John Doe', Age: 30, City: 'New York' },
-      { Name: 'Jane Smith', Age: 25, City: 'San Francisco' },
-      // Add more data as needed
-    ];
-    //this.excelService.generateExcel(data, 'reporte_inscripciones');
-
-    //FORMATEAR DATA
-    
     this.spinnerService.hide();
   }
 }

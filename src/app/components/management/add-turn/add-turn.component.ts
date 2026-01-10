@@ -88,10 +88,8 @@ export class AddTurnComponent implements OnInit {
       if(!this.isEditing){ //CREAR
         this.turnData.created_by = this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP';
         this.turnData.idFraternity = this.authService.getUserInfo()?.idFraternity || 777;
-        console.log("DATOS INGRESADOS GUARDAR -> ",this.turnData);
         this.turnsService.createTurn(this.turnData).subscribe({
           next: (res: any) => {
-            console.log("RESPONSE CREATE TURN -> ",res)
             this.spinnerService.hide();
             Swal.fire({
               icon: 'success',
@@ -105,7 +103,6 @@ export class AddTurnComponent implements OnInit {
             //this.router.navigate(['/user/list']);
           },
           error: (err: any) => {
-            console.log("ERROR CREATE TURN -> ",err)
             this.spinnerService.hide();
             Swal.fire({
               icon: err.status === 500 ? 'error' : 'info',
@@ -115,7 +112,6 @@ export class AddTurnComponent implements OnInit {
           }
         });
       } else { //ACTUALIZAR
-        console.log("SOLD:",this.turnData.sold," - QUANTITY:",this.turnData.quantity);
         // if ((this.turnData.sold ?? 0) > (this.turnData.quantity ?? 0)) {
         //   this.spinnerService.hide();
         //   Swal.fire({
@@ -129,10 +125,8 @@ export class AddTurnComponent implements OnInit {
           delete this.turnData.sold;
           delete this.turnData.id;
           this.turnData.updated_by = this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP';
-          console.log("DATOS INGRESADOS ACTUALIZAR -> ",this.turnData);
           this.turnsService.editDeletTurn(this.editingId,this.turnData).subscribe({
             next: (res: any) => {
-              console.log("RESPONSE UPDATE TURN -> ",res)
               this.spinnerService.hide();
               Swal.fire({
                 icon: 'success',
@@ -146,7 +140,6 @@ export class AddTurnComponent implements OnInit {
               //this.router.navigate(['/user/list']);
             },
             error: (err: any) => {
-              console.log("ERROR UPDATE TURN -> ",err)
               this.spinnerService.hide();
               Swal.fire({
                 icon: err.status === 500 ? 'error' : 'info',
@@ -192,7 +185,6 @@ export class AddTurnComponent implements OnInit {
           const deletedUser = { idState: 2, deleted_by: this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP' };
           this.turnsService.editDeletTurn(idTurn, deletedUser).subscribe({
             next: (res: any) => {
-              console.log("RESPONSE editDeletTurn -> ",res)
               this.spinnerService.hide();
               Swal.fire({
                 icon: 'success',
@@ -206,7 +198,6 @@ export class AddTurnComponent implements OnInit {
               }, 1200);
             },
             error: (err: any) => {
-              console.log("ERROR editDeletTurn -> ",err)
               this.spinnerService.hide();
               Swal.fire({
                 icon: err.status === 500 ? 'error' : 'info',

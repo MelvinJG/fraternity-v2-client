@@ -92,7 +92,6 @@ export class HomeComponent implements OnInit {
           price: turn.price,
           available: turn.quantity === null ? null : turn.quantity - turn.sold
         }));
-        console.log("this.turns -> ", this.turns);
       },
       error: (err: any) => {
         Swal.fire({
@@ -118,8 +117,6 @@ export class HomeComponent implements OnInit {
     this.labelHeight = '... ';
     this.isTutored = false;
     this.devoteesNames = [];
-    console.log("🟩 START this.isTutored ->", this.isTutored);
-    console.log("🟦 START this.devoteesNames -> ", this.devoteesNames);
     if(this.dpiSearch === '') {
       Swal.fire({
         icon: 'warning',
@@ -132,7 +129,6 @@ export class HomeComponent implements OnInit {
     this.devoteesService.getDevoteeByDPI(this.dpiSearch).subscribe({
       next: (res: any) => {
         this.devoteeInfo = res.data;
-        console.log("RESPONSE GET DPI DEVOTEE -> ",this.devoteeInfo);
         this.registrationData.dpiDevotee = this.devoteeInfo.dpi;
         if(this.devoteeInfo.isTutored) {
           this.isTutored = true;
@@ -156,17 +152,13 @@ export class HomeComponent implements OnInit {
           this.labelHeight = this.devoteeInfo.height ? `${this.devoteeInfo.height}` : 'N/A';
           this.nameForReceipt = this.devoteeInfo.fullName;
         }
-        console.log("DEVOTEE INFO -> ", this.devoteeInfo);
         this.spinnerService.hide();
         setTimeout(() => {
           this.isDataLoaded = true;
         }, 100);
-        console.log("🟩🟩 END this.isTutored ->", this.isTutored);
-        console.log("🟦🟦 END this.devoteesNames -> ", this.devoteesNames);
       },
       error: (err: any) => {
         this.isDataLoaded = false;
-        console.log("ERROR DET DPI DEVOTEE -> ",err)
         this.spinnerService.hide();
         setTimeout(() => {
           Swal.fire({
@@ -180,7 +172,6 @@ export class HomeComponent implements OnInit {
   }
 
   onChangeSelect(event: any, nameSelect: string){
-    console.log("EVENT SELECT -> ", event.target.value);
     if(nameSelect === 'person') {
       this.devoteesNames.map(option => {
         if(option.value === event.target.value) {
@@ -202,12 +193,10 @@ export class HomeComponent implements OnInit {
           this.turnForReceipt = option.label;
         }
       });
-      console.log("LABEL PRICE -> ", this.labelPrice);
     }
   }
 
   onSubmit() {
-    console.log("🔥 REGISTRATION DATA -> ", this.registrationData);
     this.registrationData.created_by = this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP';
     if(this.registrationData.dpiDevotee === '' || this.registrationData.idTurn === 0 || 
       this.registrationData.amount === null) {
@@ -221,14 +210,13 @@ export class HomeComponent implements OnInit {
     this.spinnerService.show();
     this.receiptsService.registration(this.registrationData).subscribe({
       next: (res: any) => {
-        console.log("🔥🔥 RESPONSE REGISTRATION -> ",res);
         this.spinnerService.hide();
         this.modalRefReceipt = this.modalService.open(ModalSummaryComponent, {
           modalClass: 'modal-lg',
           data: {
-            noTable: String(res.data.noTable).padStart(3, '0'), //1 remplazar por SERVICIO.DATA.noTable
+            noTable: String(res.data.noTable).padStart(3, '0'),
             height: this.labelHeight,
-            noReceipt: `M-${String(res.data.noReceipt).padStart(4, '0')}`, //REEMPLAZAR POR SERVICIO.DATA.noReceipt
+            noReceipt: `M-${String(res.data.noReceipt).padStart(4, '0')}`,
             name: this.nameForReceipt,
             address: this.devoteeInfo.address || 'Sin información',
             turn: this.turnForReceipt,

@@ -40,12 +40,10 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(){
-    console.log("DATOS INGRESADOS -> ",this.user);
     this.spinnerService.show();
     if(this.user.dpi !== "" && this.user.pass !== ""){
       this.userAuthService.signin(this.user).subscribe({
         next: (res: any) => {
-          console.log("RESPONSE INICIO DE SESION -> ",res)
           localStorage.setItem('token',JSON.parse(JSON.stringify(res)).data.token);
           this.userAuthService.login();
           this.spinnerService.hide();
@@ -58,7 +56,6 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/home']);
         },
         error: (err: any) => {
-          console.log("ERROR INICIO DE SESION -> ",err)
           this.spinnerService.hide();
           Swal.fire({
             icon: err.status === 500 ? 'error' : 'info',

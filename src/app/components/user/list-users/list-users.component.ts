@@ -55,7 +55,6 @@ export class ListUsersComponent implements OnInit {
           created_at: new Date(user.created_at),
           idState: user.idState
         }));
-        console.log("USERS LIST -> ",this.usersList);
         this.spinnerService.hide();
       },
       error: (err: any) => {
@@ -86,7 +85,6 @@ export class ListUsersComponent implements OnInit {
           const deletedUser = { idState: 2, deleted_by: this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP' };
           this.authService.editDeleteUser(dpi, deletedUser).subscribe({
             next: (res: any) => {
-              console.log("RESPONSE editDeleteUser -> ",res)
               this.spinnerService.hide();
               Swal.fire({
                 icon: 'success',
@@ -97,7 +95,6 @@ export class ListUsersComponent implements OnInit {
               this.ngOnInit();
             },
             error: (err: any) => {
-              console.log("ERROR editDeleteUser -> ",err)
               this.spinnerService.hide();
               Swal.fire({
                 icon: err.status === 500 ? 'error' : 'info',
@@ -123,7 +120,6 @@ export class ListUsersComponent implements OnInit {
           const updatedUser = { idState: 1, updated_by: this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP' };
           this.authService.editDeleteUser(dpi, updatedUser).subscribe({
             next: (res: any) => {
-              console.log("RESPONSE editDeleteUser -> ",res)
               this.spinnerService.hide();
               Swal.fire({
                 icon: 'success',
@@ -134,7 +130,6 @@ export class ListUsersComponent implements OnInit {
               this.ngOnInit();
             },
             error: (err: any) => {
-              console.log("ERROR editDeleteUser -> ",err)
               this.spinnerService.hide();
               Swal.fire({
                 icon: err.status === 500 ? 'error' : 'info',
@@ -146,9 +141,5 @@ export class ListUsersComponent implements OnInit {
         }
       });
     }
-  }
-
-  actDelUser(dpi: string, user: object){
-    
   }
 }

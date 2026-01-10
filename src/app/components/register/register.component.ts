@@ -88,7 +88,6 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.spinnerService.show();
     if(this.isUpdate) {
-      console.log("DATA TO UPDATE RECEIVED -> ",this.dataToUpdate);
       this.registerData.dpi = this.dataToUpdate.dpi;
       this.dpiValue = this.formatDPI(this.dataToUpdate.dpi);
       this.registerData.fullName = this.dataToUpdate.fullName;
@@ -142,7 +141,6 @@ export class RegisterComponent implements OnInit {
   }
 
   onCheckboxChange(event: any) {
-    console.log('Checkbox changed:', event.target.checked);
     this.isChecked = event.target.checked;
     this.registerData.isTutored = this.isChecked;
   }
@@ -192,11 +190,9 @@ export class RegisterComponent implements OnInit {
       const childrenFinal = [...eliminados, ...this.children];
       this.registerData.children = childrenFinal;
       this.registerData.updated_by = this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP';
-      console.log("FORM DATA FINAL UPDATE -> ",this.registerData);
       //LLAMAMOS AL SERVICIO
       this.devoteesService.updateDevotee(this.registerData.dpi, this.registerData).subscribe({
         next: (res: any) => {
-          console.log("RESPONSE UPDATE DEVOTEE -> ",res)
           this.spinnerService.hide();
           Swal.fire({
             icon: 'success',
@@ -209,7 +205,6 @@ export class RegisterComponent implements OnInit {
           }, 1200);
         },
         error: (err: any) => {
-          console.log("ERROR UPDATE DEVOTEE -> ",err)
           this.spinnerService.hide();
           Swal.fire({
             icon: err.status === 500 ? 'error' : 'info',
@@ -226,11 +221,9 @@ export class RegisterComponent implements OnInit {
         return childWithoutId as IChild;
       });
       this.registerData.children = newObjectChildren;
-      console.log("FORM DATA FINAL CREATE -> ",this.registerData);
       //LLAMAMOS AL SERVICIO
       this.devoteesService.createDevotee(this.registerData).subscribe({
         next: (res: any) => {
-          console.log("RESPONSE CREATE DEVOTEE -> ",res)
           this.spinnerService.hide();
           Swal.fire({
             icon: 'success',
@@ -243,7 +236,6 @@ export class RegisterComponent implements OnInit {
           }, 1200);
         },
         error: (err: any) => {
-          console.log("ERROR CREATE DEVOTEE -> ",err)
           this.spinnerService.hide();
           Swal.fire({
             icon: err.status === 500 ? 'error' : 'info',
