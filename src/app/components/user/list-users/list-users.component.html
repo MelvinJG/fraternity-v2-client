@@ -26,15 +26,17 @@
         }
       </td>
       <td>
-        <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="editUser(user.dpi, user.idState)">
-          @if(user.idState === 1) {
-            <!-- <i class="fa-solid fa-user-xmark" style="color: rgb(250, 35, 35);"></i> -->
-            <strong><i class="fa-solid fa-x" style="color: rgb(250, 35, 35);"></i></strong>
-          } @else {
-            <!-- <i class="fa-solid fa-user-check" style="color: rgb(7, 145, 7);"></i> -->
-            <strong><i class="fa-solid fa-check"></i></strong>
-          }
-        </button>
+        @if(user.dpi !== '777') {
+          <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="editUser(user.dpi, user.idState)">
+            @if(user.idState === 1) {
+              <!-- <i class="fa-solid fa-user-xmark" style="color: rgb(250, 35, 35);"></i> -->
+              <strong><i class="fa-solid fa-x" style="color: rgb(250, 35, 35);"></i></strong>
+            } @else {
+              <!-- <i class="fa-solid fa-user-check" style="color: rgb(7, 145, 7);"></i> -->
+              <strong><i class="fa-solid fa-check"></i></strong>
+            }
+          </button>
+        }
       </td>
     </tr>
     <!-- <tr>

@@ -61,7 +61,18 @@
         <div class="col-md-4 my-2">
             <div class="form-outline">
                 <mdb-form-control>
-                    <input mdbInput type="number" id="form6Example1" class="form-control" autocomplete="off" [(ngModel)]="registerData.phone" name="phone" />
+                    <input
+                        mdbValidate
+                        mdbInput
+                        type="tel"
+                        id="form6Example1"
+                        class="form-control"
+                        autocomplete="off"
+                        maxlength="8"
+                        pattern="[0-9]{8}"
+                        [(ngModel)]="registerData.phone"
+                        name="phone"
+                    />
                     <label mdbLabel class="form-label" for="form6Example1">Teléfono</label>
                 </mdb-form-control>
             </div>
