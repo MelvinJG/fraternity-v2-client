@@ -6,6 +6,8 @@ import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
 import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
 import { UserAuthService } from '../../services/user-auth.service';
 import { SpinnerService } from '../../services/spinner.service';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { HelpComponent } from '../modals/help/help.component';
 
 @Component({
   selector: 'app-nav-bar',
@@ -31,11 +33,13 @@ export class NavBarComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
   isUsuariosDropdownOpen = false;
   isProductosDropdownOpen = false;
+  modalRef: MdbModalRef<HelpComponent> | null = null;
 
   constructor(
       private router: Router,
       private spinnerService: SpinnerService,
-      private authService: UserAuthService
+      private authService: UserAuthService,
+      private modalService: MdbModalService
     ) {}
 
   toggleSidenav() {
@@ -90,6 +94,10 @@ export class NavBarComponent implements OnInit, OnDestroy {
   onProfileClick() {
     console.log('Ir al perfil');
     // Aquí puedes agregar la navegación al perfil
+  }
+
+  onHelpClick() {
+    this.modalRef = this.modalService.open(HelpComponent);
   }
 
   onSettingsClick() {

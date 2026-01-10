@@ -1,0 +1,68 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">
+        <i class="fas fa-question-circle me-2 text-primary"></i>Centro de Ayuda
+    </h5>
+    <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modalRef.close()"
+    ></button>
+</div>
+<div class="modal-body">
+    <span class="text-muted">
+        <!--class="text-muted" Esta sección está diseñada para facilitar el contacto con el administrador del sistema -->
+        Este espacio te permite contactar al administrador del sistema para resolver dudas, 
+        reportar errores o solicitar apoyo técnico. También pone a tu disposición el manual 
+        de usuario como guía para el uso de la plataforma.
+    </span>
+    <hr />
+    <h6 class="fw-bold mb-2">
+        <i class="fas fa-user-shield me-2"></i>
+        Información de contacto
+    </h6>
+    <ul class="list-unstyled small">
+        <li class="mb-2">
+            <!-- <i class="fas fa-user me-2 text-secondary"></i> -->
+            <strong>Administrador:</strong> Ing. Melvin Joj
+        </li>
+        <li class="mb-2">
+            <!-- <i class="fas fa-envelope me-2 text-secondary"></i> -->
+            <strong>Email:</strong>
+            <a href="mailto:melvinjoj58@gmail.com"> melvinjoj58&#64;gmail.com</a>
+        </li>
+        <!-- <li class="mb-2">
+            <i class="fas fa-phone me-2 text-secondary"></i>
+            <strong>Teléfono:</strong> +502 5555-5555
+        </li> -->
+        <li class="mb-2">
+            <!-- <i class="fas fa-clock me-2 text-secondary"></i> -->
+            <strong>Horario:</strong> Lunes a Viernes, 8:00 a 17:00<br/>
+            <span class="text-muted small">Si necesitas ayuda urgentemente, contacta via teléfono o WhatsApp.</span>
+        </li>
+    </ul>
+    <hr />
+    <h6 class="fw-bold mb-2">Tiempo de respuesta</h6>
+    <p class="text-muted mb-0">
+        El tiempo estimado de respuesta es de <strong>24 a 48 horas hábiles</strong>.
+    </p>
+    <hr />
+    <h6 class="fw-bold mb-2">¿En qué podemos ayudarte?</h6>
+    <ul>
+        <li>Problemas de acceso al sistema</li>
+        <li>Errores o fallos en el funcionamiento</li>
+        <li>Solicitudes de soporte técnico</li>
+        <li>Consultas generales</li>
+    </ul>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
+        Cerrar
+    </button>
+    <button type="button" class="btn primary" (click)="openPDF($event)">
+        <i class="fa-solid fa-eye"></i> Ver Manual
+    </button>
+    <!-- <a href="mailto:melvinjoj58@gmail.com" class="btn btn-dark" tabindex="-1" role="button" aria-disabled="true">
+        Contactar soporte
+    </a> -->
+</div>

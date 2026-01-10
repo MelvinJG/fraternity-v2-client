@@ -9,6 +9,7 @@ import { AddTurnComponent } from './components/management/add-turn/add-turn.comp
 import { ReceiptsComponent } from './components/management/receipts/receipts.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { authGuard } from './guards/auth.guard';
+import { PdfViewerComponent } from './components/pdf-viewer/pdf-viewer.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -29,5 +30,6 @@ export const routes: Routes = [
         ]
     },
     { path: 'reports', component: ReportsComponent, canActivate: [authGuard] },
+    { path: 'pdf-viewer', component: PdfViewerComponent, canActivate: [authGuard] },
     { path: '**', redirectTo: 'home' } // Wildcard SIEMPRE al final
 ];

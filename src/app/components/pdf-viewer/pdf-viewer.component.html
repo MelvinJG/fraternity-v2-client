@@ -1,0 +1,19 @@
+<div class="pdf-viewer-container">
+    <div class="pdf-header">
+        <button class="btn btn-secondary" routerLink="/home">
+            <i class="fas fa-arrow-left"></i> Volver
+        </button>
+        <h4 class="mb-0">Manual de Usuario</h4>
+        <a [href]="pdfPath" download="Manual de Usuario v2.pdf" class="btn primary">
+            <i class="fas fa-download"></i> Descargar
+        </a>
+    </div>
+    <div class="pdf-content">
+        <iframe 
+            *ngIf="pdfUrl" 
+            [src]="pdfUrl" 
+            type="application/pdf"
+            class="pdf-frame">
+        </iframe>
+    </div>
+</div>
