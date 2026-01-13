@@ -315,7 +315,7 @@ export const templateReceipt = (info: any) => {
     
     <!-- Notas Importantes -->
     <div class="notas-importantes">
-      <h2>Notas Importantes</h2>
+      <h2>Nota Importante</h2>
       
       <div class="nota-seccion">
         <p>Las fechas de entrega de turnos serán anunciadas oportunamente a través de las redes sociales oficiales de la Hermandad.</p>
@@ -324,18 +324,23 @@ export const templateReceipt = (info: any) => {
       <div class="nota-seccion">
         <p>
           <strong>Uniformidad Caballeros:</strong><br>
-          - Domingo de Ramos: Túnica y turbante color morado, tapasol y cinturón color blanco, pantalón y zapatos de vestir color negro.<br>
-          - Viernes Santo, Procesión Penitencial: Túnica y turbante color blanco, tapasol y cinturón color morado, pantalón y zapatos de vestir color negro.<br>
-          - Viernes Santo, Santo Entierro: Túnica y turbante color blanco, tapasol y cinturón color negro, pantalón y zapatos de vestir color negro.<br>
-          - Uniformidad Particular: Traje negro o color oscuro, camisa blanca y zapatos de vestir color negro.<br>
-          - La uniformidad de turnos honores, será totalmente OBLIGATORIO la túnica.<br>
-          <span class="destacado">NO TENIS, NO LENTES OSCUROS, NO ARETES, NO CELULARES DENTRO DE LAS FILAS.</span>
+          •⁠ Domingo de Ramos: Túnica y turbante color morado, tapasol y cinturón color blanco, pantalón y zapatos de vestir color negro.<br>
+          •⁠ Viernes Santo, Procesión Penitencial: Túnica y turbante color blanco, tapasol y cinturón color morado, pantalón y zapatos de vestir color negro.<br>
+          •⁠ Viernes Santo, Santo Entierro: Túnica y turbante color blanco, tapasol y cinturón color negro, pantalón y zapatos de vestir color negro.<br>
+          •⁠ Uniformidad Particular: Traje negro o color oscuro, camisa blanca y zapatos de vestir color negro.<br>
+          •⁠ La uniformidad de turnos honores, será totalmente OBLIGATORIO la túnica.<br/>
+          <strong>Uniformidad Damas:</strong> traje color oscuro, perraje y sandalias con cincho.
         </p>
       </div>
-
-      <div class="nota-seccion">
+      <!-- <div class="nota-seccion">
         <p>
-          <strong>Uniformidad Damas:</strong> traje color oscuro, perraje y sandalias con cincho. <span class="destacado">NO TACONES, NO LENTES OSCUROS, NO CELULARES.</span></p>
+          <strong>Uniformidad Damas:</strong> traje color oscuro, perraje y sandalias con cincho.
+        </p>
+      </div> -->
+      <div class="nota-seccion">
+        <p style="text-align: center;">
+          <strong>RECOMENDACIÓN GENERAL</strong><br/>
+          <span class="destacado">NO UTILIZAR: TENIS, LENTES OSCUROS, ARETES, CELULARES Y NO ANDAR EN PAREJAS DENTRO DE LAS FILAS.</span>
         </p>
       </div>
     </div>
