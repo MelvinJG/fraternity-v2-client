@@ -411,7 +411,7 @@ ${t.map((i,r)=>`${r+1}) ${i.toString()}`).join(`
     
     <!-- Notas Importantes -->
     <div class="notas-importantes">
-      <h2>Notas Importantes</h2>
+      <h2>Nota Importante</h2>
       
       <div class="nota-seccion">
         <p>Las fechas de entrega de turnos ser\xE1n anunciadas oportunamente a trav\xE9s de las redes sociales oficiales de la Hermandad.</p>
@@ -420,18 +420,23 @@ ${t.map((i,r)=>`${r+1}) ${i.toString()}`).join(`
       <div class="nota-seccion">
         <p>
           <strong>Uniformidad Caballeros:</strong><br>
-          - Domingo de Ramos: T\xFAnica y turbante color morado, tapasol y cintur\xF3n color blanco, pantal\xF3n y zapatos de vestir color negro.<br>
-          - Viernes Santo, Procesi\xF3n Penitencial: T\xFAnica y turbante color blanco, tapasol y cintur\xF3n color morado, pantal\xF3n y zapatos de vestir color negro.<br>
-          - Viernes Santo, Santo Entierro: T\xFAnica y turbante color blanco, tapasol y cintur\xF3n color negro, pantal\xF3n y zapatos de vestir color negro.<br>
-          - Uniformidad Particular: Traje negro o color oscuro, camisa blanca y zapatos de vestir color negro.<br>
-          - La uniformidad de turnos honores, ser\xE1 totalmente OBLIGATORIO la t\xFAnica.<br>
-          <span class="destacado">NO TENIS, NO LENTES OSCUROS, NO ARETES, NO CELULARES DENTRO DE LAS FILAS.</span>
+          \u2022\u2060 Domingo de Ramos: T\xFAnica y turbante color morado, tapasol y cintur\xF3n color blanco, pantal\xF3n y zapatos de vestir color negro.<br>
+          \u2022\u2060 Viernes Santo, Procesi\xF3n Penitencial: T\xFAnica y turbante color blanco, tapasol y cintur\xF3n color morado, pantal\xF3n y zapatos de vestir color negro.<br>
+          \u2022\u2060 Viernes Santo, Santo Entierro: T\xFAnica y turbante color blanco, tapasol y cintur\xF3n color negro, pantal\xF3n y zapatos de vestir color negro.<br>
+          \u2022\u2060 Uniformidad Particular: Traje negro o color oscuro, camisa blanca y zapatos de vestir color negro.<br>
+          \u2022\u2060 La uniformidad de turnos honores, ser\xE1 totalmente OBLIGATORIO la t\xFAnica.<br/>
+          <strong>Uniformidad Damas:</strong> traje color oscuro, perraje y sandalias con cincho.
         </p>
       </div>
-
-      <div class="nota-seccion">
+      <!-- <div class="nota-seccion">
         <p>
-          <strong>Uniformidad Damas:</strong> traje color oscuro, perraje y sandalias con cincho. <span class="destacado">NO TACONES, NO LENTES OSCUROS, NO CELULARES.</span></p>
+          <strong>Uniformidad Damas:</strong> traje color oscuro, perraje y sandalias con cincho.
+        </p>
+      </div> -->
+      <div class="nota-seccion">
+        <p style="text-align: center;">
+          <strong>RECOMENDACI\xD3N GENERAL</strong><br/>
+          <span class="destacado">NO UTILIZAR: TENIS, LENTES OSCUROS, ARETES, CELULARES Y NO ANDAR EN PAREJAS DENTRO DE LAS FILAS.</span>
         </p>
       </div>
     </div>
