@@ -67,9 +67,11 @@ export class AddTurnComponent implements OnInit {
       },
       error: (err: any) => {
         Swal.fire({
+          position: "top-end",
           icon: err.status === 500 ? 'error' : 'info',
-          title: 'Oops...',
-          text: err.error.message
+          title: err.error.message,
+          showConfirmButton: false,
+          timer: 1500
         })
       }
     });

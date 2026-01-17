@@ -84,23 +84,6 @@ export class HomeComponent implements OnInit {
     if (containerDiv) {
       containerDiv.classList.add('container-fluid', 'p-4');
     }
-    this.turnsService.getTurns().subscribe({
-      next: (res: any) => {
-        this.turns = res.data.map((turn: any) => ({
-          value: String(turn.id),
-          label: turn.description,
-          price: turn.price,
-          available: turn.quantity === null ? null : turn.quantity - turn.sold
-        }));
-      },
-      error: (err: any) => {
-        Swal.fire({
-          icon: err.status === 500 ? 'error' : 'info',
-          title: 'Oops...',
-          text: err.error.message
-        })
-      }
-    });
   }
 
   openModalUpdate() {
@@ -152,6 +135,25 @@ export class HomeComponent implements OnInit {
           this.labelHeight = this.devoteeInfo.height ? `${this.devoteeInfo.height}` : 'N/A';
           this.nameForReceipt = this.devoteeInfo.fullName;
         }
+        this.turnsService.getTurns().subscribe({
+          next: (res: any) => {
+            this.turns = res.data.map((turn: any) => ({
+              value: String(turn.id),
+              label: turn.description,
+              price: turn.price,
+              available: turn.quantity === null ? null : turn.quantity - turn.sold
+            }));
+          },
+          error: (err: any) => {
+            Swal.fire({
+              position: "top-end",
+              icon: err.status === 500 ? 'error' : 'info',
+              title: err.error.message,
+              showConfirmButton: false,
+              timer: 1500
+            })
+          }
+        });
         this.spinnerService.hide();
         setTimeout(() => {
           this.isDataLoaded = true;
