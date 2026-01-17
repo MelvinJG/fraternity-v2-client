@@ -21,7 +21,7 @@ export class PdfViewerComponent implements OnInit {
 
   ngOnInit(): void {
     // Por defecto, carga el manual de usuario
-    this.pdfPath = 'assets/documents/Manual de Usuario v2.pdf';
+    this.pdfPath = 'assets/documents/Manual de Usuario v3.pdf';
     this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.pdfPath);
   }
 }

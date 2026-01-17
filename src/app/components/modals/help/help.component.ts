@@ -11,8 +11,6 @@ import { Router } from '@angular/router';
 })
 export class HelpComponent {
 
-  userManual: string = '../../../../assets/documents/Manual de Usuario v2.pdf';
-
   constructor(
     public modalRef: MdbModalRef<HelpComponent>,
     private router: Router
