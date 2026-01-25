@@ -39,7 +39,8 @@ export class ExcelService {
   ExcelOfficial(data: any[], fileName: string): void {
     const workbook = new ExcelJS.Workbook();
     data.forEach((turnData, index) => {
-        const worksheet = workbook.addWorksheet(turnData[0].descripcion || `Turno ${index + 1}`);
+        const nameSheet = `${turnData[0].idTurno}-${turnData[0].descripcion}`;
+        const worksheet = workbook.addWorksheet(`${nameSheet.substring(0,31)}` || `Turno ${index + 1}`);
         
         // Definir columnas con anchos específicos
         worksheet.columns = [
@@ -48,7 +49,7 @@ export class ExcelService {
           { header: 'Mesa', key: 'mesa', width: 8 },
           { header: 'Altura', key: 'altura', width: 10 },
           { header: 'Dirección', key: 'direccion', width: 40 },
-          { header: 'Turno Descripción', key: 'turno', width: 30 },
+          { header: 'Turno Descripción', key: 'turno', width: 50 },
           { header: 'Monto', key: 'monto', width: 12 },
           { header: 'No. Turno', key: 'noTurno', width: 12 },
           { header: 'Brazo Asignado', key: 'brazo', width: 15 }
@@ -90,6 +91,16 @@ export class ExcelService {
           // Convertir mesa (índice 2) de string a número
           if (values[2] && typeof values[2] === 'string') {
             values[2] = parseInt(values[2], 10);
+          }
+
+          // Convertir altura (índice 3) de string a número
+          if (values[3] && typeof values[3] === 'string') {
+            values[3] = parseFloat(values[3]);
+          }
+
+          // Convertir monto (índice 6) de string a número
+          if (values[6] && typeof values[6] === 'string') {
+            values[6] = parseFloat(values[6]);
           }
           
           const row = worksheet.addRow(values);
@@ -135,7 +146,13 @@ export class ExcelService {
                   cell.font = { size: 11, name: 'Calibri', bold: true, color: { argb: 'FF2C3E50' } };
                   break;
                 case 3: // Mesa
+                  cell.alignment = { vertical: 'middle', horizontal: 'center' };
+                  cell.numFmt = '000';
+                  break;
                 case 4: // Altura
+                  cell.alignment = { vertical: 'middle', horizontal: 'center' };
+                  cell.numFmt = '0.00'; // Forzar 2 decimales
+                  break;
                 case 8: // Brazo Asignado
                 case 9: // No. Turno
                   cell.alignment = { vertical: 'middle', horizontal: 'center' };
