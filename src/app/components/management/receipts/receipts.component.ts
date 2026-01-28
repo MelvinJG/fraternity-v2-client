@@ -49,7 +49,6 @@ export class ReceiptsComponent implements OnInit {
     if (element) {
       element.classList.add('active');
     }
-    //this.spinnerService.hide();
   }
 
   print(data: any){
@@ -192,6 +191,16 @@ export class ReceiptsComponent implements OnInit {
     this.receiptsService.getInscriptions(1).subscribe({
       next: (res: any) => {
         this.loadData = res.data;
+        const elementI = document.getElementsByClassName(`custom-mel`);
+        if (elementI) {
+          for (let i = 0; i < elementI.length; i++) {
+            elementI[i].classList.remove('active');
+          }
+        }
+        const element = document.getElementById(`page-1`);
+        if (element) {
+          element.classList.add('active');
+        }
         this.spinnerService.hide();
       },
       error: (err: any) => {
