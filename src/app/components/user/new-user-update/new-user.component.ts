@@ -106,23 +106,30 @@ export class NewUserComponent implements OnInit {
       return;
     }
 
+    // First: get fraternities
     this.managementService.getFraternities().subscribe({
       next: (res: any) => {
+        // 200 OK fraternities
         this.fraternities = res.data.map((fraternity: any) => ({ value: fraternity.id, label: fraternity.name }));
+        // NEXT: get permissions
+        this.managementService.getPermissions().subscribe({
+          next: (res: any) => {
+            // 200 OK permissions
+            this.permissions = res.data.map((permission: any) => ({ value: permission.id, label: permission.description }));
+            this.spinnerService.hide();
+          },
+          error: (err: any) => {
+            this.spinnerService.hide();
+            Swal.fire({
+              icon: err.status === 500 ? 'error' : 'info',
+              title: 'Oops...',
+              text: err.error.message
+            })
+          }
+        });
       },
       error: (err: any) => {
-        Swal.fire({
-          icon: err.status === 500 ? 'error' : 'info',
-          title: 'Oops...',
-          text: err.error.message
-        })
-      }
-    });
-    this.managementService.getPermissions().subscribe({
-      next: (res: any) => {
-        this.permissions = res.data.map((permission: any) => ({ value: permission.id, label: permission.description }));
-      },
-      error: (err: any) => {
+        this.spinnerService.hide();
         Swal.fire({
           icon: err.status === 500 ? 'error' : 'info',
           title: 'Oops...',
@@ -141,7 +148,6 @@ export class NewUserComponent implements OnInit {
         created_by: '' 
       };
     }
-    this.spinnerService.hide();
   }
 
   onSubmit(){

@@ -57,15 +57,17 @@ export class AddTurnComponent implements OnInit {
     this.turnsService.getTurns().subscribe({
       next: (res: any) => {
         this.loadData = res.data.map((data: any) => ({
-            id: data.id,
-            description: data.description,
-            price: data.price,
-            quantity: data.quantity,
-            armNumber: data.armNumber,
-            sold: data.sold
-          }));
+          id: data.id,
+          description: data.description,
+          price: data.price,
+          quantity: data.quantity,
+          armNumber: data.armNumber,
+          sold: data.sold
+        }));
+        this.spinnerService.hide();
       },
       error: (err: any) => {
+        this.spinnerService.hide();
         Swal.fire({
           position: "top-end",
           icon: err.status === 500 ? 'error' : 'info',
@@ -75,7 +77,6 @@ export class AddTurnComponent implements OnInit {
         })
       }
     });
-    this.spinnerService.hide();
   }
 
   onSubmit(){
