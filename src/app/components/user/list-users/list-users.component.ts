@@ -66,7 +66,6 @@ export class ListUsersComponent implements OnInit {
         })
       }
     });
-    this.spinnerService.hide();
   }
 
   editUser(dpi: string, isState: number){
