@@ -144,8 +144,10 @@ export class ReceiptsComponent implements OnInit {
       this.receiptsService.getInscriptions(page).subscribe({
         next: (res: any) => {
           this.loadData = res.data;
+          this.spinnerService.hide();
         },
         error: (err: any) => {
+          this.spinnerService.hide();
           Swal.fire({
             icon: err.status === 500 ? 'error' : 'info',
             title: 'Oops...',
@@ -154,7 +156,6 @@ export class ReceiptsComponent implements OnInit {
         }
       });
     }
-    this.spinnerService.hide();
   }
 
   onSearch() {
