@@ -18,7 +18,16 @@ import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
   styleUrl: './receipts.component.scss'
 })
 export class ReceiptsComponent implements OnInit {
-  loadData: any = [];
+  loadData: any = {
+    records: [],
+    pagination: {
+      hasPreviousPage: false,
+      hasNextPage: false,
+      previousPage: null,
+      nextPage: null,
+      pages: []
+    }
+  };
   modalRefReceipt: MdbModalRef<ModalSummaryComponent> | null = null;
   dpiSearch: string = '';
   isSearching: boolean = false;
@@ -182,8 +191,10 @@ export class ReceiptsComponent implements OnInit {
     this.receiptsService.getInscriptions(1).subscribe({
       next: (res: any) => {
         this.loadData = res.data;
+        this.spinnerService.hide();
       },
       error: (err: any) => {
+        this.spinnerService.hide();
         Swal.fire({
           position: "top-end",
           icon: err.status === 500 ? 'error' : 'info',
@@ -193,7 +204,6 @@ export class ReceiptsComponent implements OnInit {
         })
       }
     });
-    this.spinnerService.hide();
   }
 
   onInputChange() {
