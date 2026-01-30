@@ -44,13 +44,6 @@ export class ReceiptsComponent implements OnInit {
     this.loadAllReceipts();
   }
 
-  ngAfterViewInit() {
-    const element = document.getElementById(`page-1`);
-    if (element) {
-      element.classList.add('active');
-    }
-  }
-
   print(data: any){
     this.modalRefReceipt = this.modalService.open(ModalSummaryComponent, {
       modalClass: 'modal-lg',
@@ -191,17 +184,23 @@ export class ReceiptsComponent implements OnInit {
     this.receiptsService.getInscriptions(1).subscribe({
       next: (res: any) => {
         this.loadData = res.data;
-        const elementI = document.getElementsByClassName(`custom-mel`);
-        if (elementI) {
-          for (let i = 0; i < elementI.length; i++) {
-            elementI[i].classList.remove('active');
-          }
-        }
-        const element = document.getElementById(`page-1`);
-        if (element) {
-          element.classList.add('active');
-        }
         this.spinnerService.hide();
+        setTimeout(() => {
+          const elementI = document.getElementsByClassName(`custom-mel`);
+          if (elementI) {
+            for (let i = 0; i < elementI.length; i++) {
+              elementI[i].classList.remove('active');
+            }
+          }
+          const element = document.getElementById(`page-1`);
+          console.log('🔍 Element page-1 found:', element);
+          if (element) {
+            element.classList.add('active');
+            console.log('✅ Active class added to page-1');
+          } else {
+            console.log('❌ Element page-1 NOT found in DOM');
+          }
+        }, 100);
       },
       error: (err: any) => {
         this.spinnerService.hide();
