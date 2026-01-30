@@ -30,11 +30,21 @@ export class DashboardComponent implements OnInit {
   exampleChart5: any;
   exampleChart6: any;
   dataIncomePerDay: Array<any> = [];
+  dataIncomePerDay2: Array<any> = [];
   dataIncomePerDayWithTurns: Array<any> = [];
   delayed: boolean = false;
 
   ngOnInit(): void {
     this.spinnerService.show();
+    this.dashboardService.getIncomePerDay2().subscribe({
+      next: (res: any) => {
+        this.dataIncomePerDay2 = res.data;
+        console.log('💯 dataIncomePerDay2:', this.dataIncomePerDay2);
+      },
+      error: (err: any) => {
+        console.error('Error fetching income per day data:', err);
+      }
+    });
     this.dashboardService.getIncomePerDay().subscribe({
       next: (res: any) => {
         this.dataIncomePerDay = res.data;

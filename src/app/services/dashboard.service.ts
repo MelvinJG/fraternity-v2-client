@@ -16,6 +16,12 @@ export class DashboardService {
     });
   }
 
+  getIncomePerDay2() {
+    return this.http.get(`${this.API_URL}/incomePerDay2`,{
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
+    });
+  }
+
   getIncomePerDayWithTurns() {
     return this.http.get(`${this.API_URL}/incomePerDayWithTurns`,{
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
