@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
   exampleChart1: any;
   exampleChart2: any;
   exampleChart3: any;
-  exampleChart4: any;
+  // exampleChart4: any;
   exampleChart5: any;
   exampleChart6: any;
   dataIncomePerDay: Array<any> = [];
@@ -56,7 +56,6 @@ export class DashboardComponent implements OnInit {
   }
 
   createChartsExamples() {
-
     // MISMOS DATOS GRAFICA 1 Y 2
     this.exampleChart1 = new Chart("Chart1", {
       type: 'bar',
@@ -181,7 +180,48 @@ export class DashboardComponent implements OnInit {
       },
     });
 
-    // MISMOS DATOS GRAFICA 3 Y 4
+    this.exampleChart3 = new Chart("Chart3", {
+      type: 'line',
+      data: {
+        labels: this.dataIncomePerDay.map(item => {
+          const date = new Date(item.fecha);
+          const day = String(date.getUTCDate()).padStart(2, '0');
+          const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+          const year = date.getUTCFullYear();
+          return `${day}/${month}/${year}`;
+        }),
+        datasets: [
+          {
+            label: 'Inscripciones',
+            data: this.dataIncomePerDay.map(item => item.total_inscripciones),
+            backgroundColor:'rgba(54, 162, 235, 0.4)',
+            borderColor:'rgb(54, 162, 235)',
+            borderWidth: 2,
+            fill: true,
+            pointStyle: 'star',
+            pointRadius: 8,
+            pointHoverRadius: 15,
+            order: 0
+          }
+        ]
+      },
+      options: {
+        animation: {
+          onComplete: () => {
+            this.delayed = true;
+          },
+          delay: (context) => {
+            let delay = 0;
+            if (context.type === 'data' && context.mode === 'default' && !this.delayed) {
+              delay = context.dataIndex * 300 + context.datasetIndex * 100;
+            }
+            return delay;
+          },
+        },
+      }
+    });
+
+    // GRAFICA RECAUDACION POR DIA Y TURNO PENDIENTE
     const grouped = this.dataIncomePerDayWithTurns.reduce((acc: any, item: any) => {
       const fecha = item.fecha;
       const existing = acc.find((g: any) => g.fecha === fecha);
@@ -202,12 +242,6 @@ export class DashboardComponent implements OnInit {
       
       return acc;
     }, []);
-
-    console.log("💯 FORMATEADO ",JSON.stringify(grouped));
-
-
-
-
 
     this.exampleChart5 = new Chart("Chart5", {
       type: 'doughnut',
@@ -268,6 +302,4 @@ export class DashboardComponent implements OnInit {
     var alpha = opacity === undefined ? 0.5 : 1 - opacity;
     return colorLib(value).alpha(alpha).rgbString();
   }
-
-  
 }
