@@ -30,40 +30,26 @@ export class DashboardComponent implements OnInit {
   exampleChart5: any;
   exampleChart6: any;
   dataIncomePerDay: Array<any> = [];
-  dataIncomePerDay2: Array<any> = [];
   dataIncomePerDayWithTurns: Array<any> = [];
   delayed: boolean = false;
 
   ngOnInit(): void {
     this.spinnerService.show();
-    this.dashboardService.getIncomePerDay2().subscribe({
-      next: (res: any) => {
-        this.dataIncomePerDay2 = res.data;
-        console.log('💯 dataIncomePerDay2:', this.dataIncomePerDay2);
-      },
-      error: (err: any) => {
-        console.error('Error fetching income per day data:', err);
-      }
-    });
     this.dashboardService.getIncomePerDay().subscribe({
       next: (res: any) => {
         this.dataIncomePerDay = res.data;
-        console.log('💩 dataIncomePerDay:', this.dataIncomePerDay);
         this.dashboardService.getIncomePerDayWithTurns().subscribe({
           next: (res: any) => {
             this.dataIncomePerDayWithTurns = res.data;
-            console.log('🔥 Income per day with turns data:', this.dataIncomePerDayWithTurns);
             this.spinnerService.hide();
             this.createChartsExamples();
           },
           error: (err: any) => {
-            console.error('Error fetching income per day with turns data:', err);
             this.spinnerService.hide();
           }
         });
       },
       error: (err: any) => {
-        console.error('Error fetching income per day data:', err);
         this.spinnerService.hide();
       }
     });
@@ -76,12 +62,10 @@ export class DashboardComponent implements OnInit {
       type: 'bar',
       data: {
         labels: this.dataIncomePerDay.map(item => {
-          console.log("📅📅 ITEM FECHA",item.fecha);
           const date = new Date(item.fecha);
-          console.log("📅 DATE 1",date);
-          const day = String(date.getDate()).padStart(2, '0');
-          const month = String(date.getMonth() + 1).padStart(2, '0');
-          const year = date.getFullYear();
+          const day = String(date.getUTCDate()).padStart(2, '0');
+          const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+          const year = date.getUTCFullYear();
           return `${day}/${month}/${year}`;
         }),
         datasets: [
@@ -152,12 +136,10 @@ export class DashboardComponent implements OnInit {
       type: 'bar',
       data: {
         labels: this.dataIncomePerDay.map(item => {
-          console.log("👀👀 ITEM FECHA",item.fecha);
           const date = new Date(item.fecha);
-          console.log("👀 DATE 2",date);
-          const day = String(date.getDate()).padStart(2, '0');
-          const month = String(date.getMonth() + 1).padStart(2, '0');
-          const year = date.getFullYear();
+          const day = String(date.getUTCDate()).padStart(2, '0');
+          const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+          const year = date.getUTCFullYear();
           return `${day}-${month}-${year}`;
         }),
         datasets: [
