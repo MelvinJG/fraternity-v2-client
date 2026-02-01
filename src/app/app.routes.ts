@@ -7,7 +7,7 @@ import { ListUsersComponent } from './components/user/list-users/list-users.comp
 import { NewUserComponent } from './components/user/new-user-update/new-user.component';
 import { AddTurnComponent } from './components/management/add-turn/add-turn.component';
 import { ReceiptsComponent } from './components/management/receipts/receipts.component';
-import { ReportsComponent } from './components/reports/reports.component';
+import { ExcelReportTurnsComponent } from './components/excel-report-turns/excel-report-turns.component';
 import { authGuard } from './guards/auth.guard';
 import { PdfViewerComponent } from './components/pdf-viewer/pdf-viewer.component';
 
@@ -29,7 +29,7 @@ export const routes: Routes = [
             { path: 'receipts', component: ReceiptsComponent, canActivate: [authGuard] }
         ]
     },
-    { path: 'reports', component: ReportsComponent, canActivate: [authGuard] },
+    { path: 'reports', component: ExcelReportTurnsComponent, canActivate: [authGuard] },
     { path: 'pdf-viewer', component: PdfViewerComponent, canActivate: [authGuard] },
     { path: '**', redirectTo: 'home' } // Wildcard SIEMPRE al final
 ];

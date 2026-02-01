@@ -11,14 +11,14 @@ import { ModalSummaryComponent } from '../modals/modal-summary/modal-summary.com
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 
 @Component({
-  selector: 'app-reports',
+  selector: 'app-excel-report-turns',
   standalone: true,
   imports: [MdbFormsModule, CommonModule],
-  templateUrl: './reports.component.html',
-  styleUrl: './reports.component.scss'
+  templateUrl: './excel-report-turns.component.html',
+  styleUrl: './excel-report-turns.component.scss'
 })
 
-export class ReportsComponent implements OnInit {
+export class ExcelReportTurnsComponent implements OnInit {
   loadData: any;
   modalRefReport: MdbModalRef<ModalSummaryComponent> | null = null;
 
