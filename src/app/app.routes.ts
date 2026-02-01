@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DashboardComponent } from './components/reports/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
 import { loginGuard } from './guards/login.guard';
 import { ListUsersComponent } from './components/user/list-users/list-users.component';
 import { NewUserComponent } from './components/user/new-user-update/new-user.component';
 import { AddTurnComponent } from './components/management/add-turn/add-turn.component';
 import { ReceiptsComponent } from './components/management/receipts/receipts.component';
-import { ExcelReportTurnsComponent } from './components/excel-report-turns/excel-report-turns.component';
+import { ExcelReportTurnsComponent } from './components/reports/excel-report-turns/excel-report-turns.component';
 import { authGuard } from './guards/auth.guard';
 import { PdfViewerComponent } from './components/pdf-viewer/pdf-viewer.component';
 

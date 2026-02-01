@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import colorLib from '@kurkle/color';
-import { DashboardService } from '../../services/dashboard.service';
-import { SpinnerService } from '../../services/spinner.service';
+import { DashboardService } from '../../../services/dashboard.service';
+import { SpinnerService } from '../../../services/spinner.service';
 
 @Component({
   selector: 'app-dashboard',

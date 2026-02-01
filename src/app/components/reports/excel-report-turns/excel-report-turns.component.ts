@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
-import { SpinnerService } from '../../services/spinner.service';
-import { TurnsService } from '../../services/turns.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { TurnsService } from '../../../services/turns.service';
 import Swal from 'sweetalert2';
-import { ReceiptsService } from '../../services/receipts.service';
-import { ExcelService } from '../../services/excel.service';
-import { orderReportInscription } from '../../utils/orderReportInscription';
-import { ModalSummaryComponent } from '../modals/modal-summary/modal-summary.component';
+import { ReceiptsService } from '../../../services/receipts.service';
+import { ExcelService } from '../../../services/excel.service';
+import { orderReportInscription } from '../../../utils/orderReportInscription';
+import { ModalSummaryComponent } from '../../modals/modal-summary/modal-summary.component';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 
 @Component({
