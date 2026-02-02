@@ -3,11 +3,12 @@ import { Chart, registerables } from 'chart.js';
 import colorLib from '@kurkle/color';
 import { DashboardService } from '../../../services/dashboard.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { KpiDataComponent } from '../kpi-data/kpi-data.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [],
+  imports: [KpiDataComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -32,6 +33,7 @@ export class DashboardComponent implements OnInit {
   dataIncomePerDay: Array<any> = [];
   dataIncomePerDayWithTurns: Array<any> = [];
   delayed: boolean = false;
+  loading: boolean = false;
 
   ngOnInit(): void {
     this.spinnerService.show();
@@ -40,6 +42,7 @@ export class DashboardComponent implements OnInit {
         this.dataIncomePerDay = res.data;
         this.dashboardService.getIncomePerDayWithTurns().subscribe({
           next: (res: any) => {
+            this.loading = true;
             this.dataIncomePerDayWithTurns = res.data;
             this.spinnerService.hide();
             this.createChartsExamples();

@@ -21,4 +21,10 @@ export class DashboardService {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
     });
   }
+
+  getKpis() {
+    return this.http.get(`${this.API_URL}/kpis`,{
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
+    });
+  }
 }

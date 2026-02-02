@@ -1,0 +1,134 @@
+<!-- KPIs Section -->
+<div class="container-fluid my-4">
+    <div class="row justify-content-center">
+        <!-- KPI 1: Total Devotos -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card kpi-card">
+                <div class="card-body text-center">
+                    <div class="kpi-icon mb-3">
+                        <i class="fas fa-users fa-3x text-primary"></i>
+                    </div>
+                    <h6 class="text-muted mb-2">Total Devotos</h6>
+                    @if(loading){
+                        <!-- *ngIf="!loading" -->
+                        <h2 class="fw-bold mb-2">
+                            {{ formatNumber(kpiData.total_devotos) }}
+                        </h2>
+                        <p class="text-success mb-0">
+                            <i class="fas fa-arrow-up me-1"></i>
+                            <small>+12% este mes</small>
+                        </p>
+                    }@else{
+                        <!-- *ngIf="loading" -->
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI 2: Total Inscripciones -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card kpi-card">
+                <div class="card-body text-center">
+                    <div class="kpi-icon mb-3">
+                        <i class="fas fa-ticket-alt fa-3x text-info"></i>
+                    </div>
+                    <h6 class="text-muted mb-2">Total Inscripciones</h6>
+                    @if(loading){
+                        <h2 class="fw-bold mb-2">
+                            {{ formatNumber(kpiData.total_inscripciones) }}
+                        </h2>
+                        <p class="text-success mb-0">
+                            <i class="fas fa-arrow-up me-1"></i>
+                            <small>+8% esta semana</small>
+                        </p>
+                    }@else{
+                        <div class="spinner-border text-info" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI 3: Ingresos Totales -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card kpi-card">
+                <div class="card-body text-center">
+                    <div class="kpi-icon mb-3">
+                        <i class="fas fa-dollar-sign fa-3x text-success"></i>
+                    </div>
+                    <h6 class="text-muted mb-2">Ingresos Totales</h6>
+                    @if(loading){
+                        <h2 class="fw-bold mb-2">
+                            {{ formatCurrency(kpiData.ingresos_totales) }}
+                        </h2>
+                        <p class="text-success mb-0">
+                            <i class="fas fa-arrow-up me-1"></i>
+                            <small>+15% vs mes anterior</small>
+                        </p>
+                    }@else{
+                        <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI 4: Turnos Activos -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card kpi-card">
+                <div class="card-body text-center">
+                    <div class="kpi-icon mb-3">
+                        <i class="fas fa-clipboard-list fa-3x text-warning"></i>
+                    </div>
+                    <h6 class="text-muted mb-2">Turnos Activos</h6>
+                    @if(loading){
+                        <h2 class="fw-bold mb-2">
+                            {{ kpiData.turnos_activos }}
+                        </h2>
+                        <p class="text-muted mb-0">
+                            <small>disponibles</small>
+                        </p>
+                    }@else{
+                        <div class="spinner-border text-warning" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI 5: Ticket Promedio -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card kpi-card">
+                <div class="card-body text-center">
+                    <div class="kpi-icon mb-3">
+                        <i class="fas fa-chart-line fa-3x text-danger"></i>
+                    </div>
+                    <h6 class="text-muted mb-2">Ticket Promedio</h6>
+                    @if(loading){
+                        <h2 class="fw-bold mb-2">
+                            {{ formatCurrency(kpiData.ticket_promedio) }}
+                        </h2>
+                        <p class="text-muted mb-0">
+                            <small>por inscripción</small>
+                        </p>
+                    }@else{
+                        <div class="spinner-border text-danger" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- IMPORTANTE PARA ENTENDER COMO FUNCIONAN LOS GRID -->
+<!-- col-lg-4: En pantallas grandes mostrará 3 columnas (12÷4=3)
+col-md-6: En pantallas medianas mostrará 2 columnas (12÷6=2)
+col-sm-12: En pantallas pequeñas mostrará 1 columna -->
