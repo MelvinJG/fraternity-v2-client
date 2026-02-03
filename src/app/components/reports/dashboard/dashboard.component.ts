@@ -4,6 +4,8 @@ import colorLib from '@kurkle/color';
 import { DashboardService } from '../../../services/dashboard.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { KpiDataComponent } from '../kpi-data/kpi-data.component';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,42 +25,68 @@ export class DashboardComponent implements OnInit {
   }
 
   chartIncomePerDay: any;
-  chartInscriptionsPerTurns: any;
-  chartTop10Devotees: any;
   dataIncomePerDay: Array<any> = [];
+  isChartIncomePerDay: boolean = false;
+
+  chartInscriptionsPerTurns: any;
   dataInscriptionsPerTurns: Array<any> = [];
+  isChartInscriptionsPerTurns: boolean = false;
+
+  chartTop10Devotees: any;
   dataTop10Devotees: Array<any> = [];
+  isChartTop10Devotees: boolean = false;
+
   delayed: boolean = false;
-  loading: boolean = false;
-  isLoading: boolean = false;
+  isChartsLoading: boolean = true;
 
   ngOnInit(): void {
+    this.loadDashboardData();
+  }
+
+  loadDashboardData(): void {
     this.spinnerService.show();
-    this.dashboardService.getIncomePerDay().subscribe({
-      next: (res: any) => {
-        this.dataIncomePerDay = res.data;
-        this.dashboardService.getInscriptionsPerTurns().subscribe({
-          next: (res: any) => {
-            this.dataInscriptionsPerTurns = res.data;
-            this.dashboardService.getTop10Devotees().subscribe({
-              next: (res: any) => {
-                this.dataTop10Devotees = res.data;
-                this.spinnerService.hide();
-                this.loading = true;
-                this.cdr.detectChanges();
-                this.createCharts();
-              },
-              error: (err: any) => {
-                this.spinnerService.hide();
-              }
-            });
-          },
-          error: (err: any) => {
-            this.spinnerService.hide();
-          }
-        });
+    // Ejecutar las 3 llamadas en paralelo
+    forkJoin({
+      incomePerDay: this.dashboardService.getIncomePerDay().pipe(
+        catchError(error => {
+          this.isChartIncomePerDay = true;
+          console.error('Error al cargar ingresos por día:', error);
+          return of({ data: [] }); // Retornar array vacío en caso de error
+        })
+      ),
+      inscriptionsPerTurns: this.dashboardService.getInscriptionsPerTurns().pipe(
+        catchError(error => {
+          this.isChartInscriptionsPerTurns = true;
+          console.error('Error al cargar inscripciones por turno:', error);
+          return of({ data: [] }); // Retornar array vacío en caso de error
+        })
+      ),
+      top10Devotees: this.dashboardService.getTop10Devotees().pipe(
+        catchError(error => {
+          this.isChartTop10Devotees = true;
+          console.error('Error al cargar top 10 devotos:', error);
+          return of({ data: [] }); // Retornar array vacío en caso de error
+        })
+      )
+    }).subscribe({
+      next: (results) => {
+        // Asignar los datos (incluso si algunos están vacíos por errores)
+        this.dataIncomePerDay = (results.incomePerDay as any).data || [];
+        this.dataInscriptionsPerTurns = (results.inscriptionsPerTurns as any).data || [];
+        this.dataTop10Devotees = (results.top10Devotees as any).data || [];
+        
+        // Siempre ocultar el spinner y actualizar estados
+        this.spinnerService.hide();
+        this.isChartIncomePerDay = this.isChartIncomePerDay ? false : true;
+        this.isChartInscriptionsPerTurns = this.isChartInscriptionsPerTurns ? false : true;
+        this.isChartTop10Devotees = this.isChartTop10Devotees ? false : true;
+        this.cdr.detectChanges();
+        // Crear charts con los datos disponibles
+        this.createCharts();
       },
-      error: (err: any) => {
+      error: (err) => {
+        // Este error solo ocurriría si forkJoin falla completamente (muy raro)
+        console.error('Error crítico al cargar datos del dashboard:', err);
         this.spinnerService.hide();
       }
     });
@@ -182,7 +210,7 @@ export class DashboardComponent implements OnInit {
         },
       }
     });
-    this.isLoading = true;
+    this.isChartsLoading = true;
   }
 
   transparentize(value: any, opacity: any) {

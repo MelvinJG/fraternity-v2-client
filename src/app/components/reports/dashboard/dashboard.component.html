@@ -1,12 +1,12 @@
 <div class="row justify-content-center">
-    @if(isLoading){
+    @if(isChartsLoading){
         <app-kpi-data></app-kpi-data>
     }
     <div class="col-xl-6">
         <p class="h5 pt-3 text-center">
             Recaudación e Inscripciones por Fecha
         </p>
-        @if(loading){
+        @if(isChartIncomePerDay){
             <div class="chart-container">
                 <canvas id="chartIncomePerDay">
                     {{ chartIncomePerDay }}
@@ -24,7 +24,7 @@
         <p class="h5 pt-3 text-center">
             Top 10 Devotos
         </p>
-        @if(loading){
+        @if(isChartTop10Devotees){
             <div class="chart-container">
                 <canvas id="chartTop10Devotees">
                     {{ chartTop10Devotees }}
@@ -42,7 +42,7 @@
         <p class="h5 pt-3 text-center">
             Disponibilidad de Turnos
         </p>
-        @if(loading){
+        @if(isChartInscriptionsPerTurns){
             <div class="chart-container">
                 <canvas id="chartInscriptionsPerTurns">
                     {{ chartInscriptionsPerTurns }}
