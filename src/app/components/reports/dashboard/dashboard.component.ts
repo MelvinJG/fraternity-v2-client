@@ -23,7 +23,11 @@ export class DashboardComponent implements OnInit {
   }
 
   chartIncomePerDay: any;
+  chartInscriptionsPerTurns: any;
+  chartTop10Devotees: any;
   dataIncomePerDay: Array<any> = [];
+  dataInscriptionsPerTurns: Array<any> = [];
+  dataTop10Devotees: Array<any> = [];
   delayed: boolean = false;
   loading: boolean = false;
   isLoading: boolean = false;
@@ -33,10 +37,26 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getIncomePerDay().subscribe({
       next: (res: any) => {
         this.dataIncomePerDay = res.data;
-        this.spinnerService.hide();
-        this.loading = true;
-        this.cdr.detectChanges();
-        this.createCharts();
+        this.dashboardService.getInscriptionsPerTurns().subscribe({
+          next: (res: any) => {
+            this.dataInscriptionsPerTurns = res.data;
+            this.dashboardService.getTop10Devotees().subscribe({
+              next: (res: any) => {
+                this.dataTop10Devotees = res.data;
+                this.spinnerService.hide();
+                this.loading = true;
+                this.cdr.detectChanges();
+                this.createCharts();
+              },
+              error: (err: any) => {
+                this.spinnerService.hide();
+              }
+            });
+          },
+          error: (err: any) => {
+            this.spinnerService.hide();
+          }
+        });
       },
       error: (err: any) => {
         this.spinnerService.hide();
@@ -92,6 +112,75 @@ export class DashboardComponent implements OnInit {
         // aspectRatio: 2.5,
         responsive: true
       },
+    });
+    this.chartTop10Devotees = new Chart("chartTop10Devotees", {
+      type: 'bar',
+      data: {
+        labels: this.dataTop10Devotees.map(item => { return [item.devoto, item.dpi]; } ),
+        datasets: [
+          {
+            label: 'Turnos Adquiridos',
+            data: this.dataTop10Devotees.map(item => item.total_inscripciones),
+            backgroundColor:'rgba(54, 162, 235, 0.4)',
+            borderColor:'rgb(54, 162, 235)',
+            borderWidth: 2,
+            order: 1,
+            borderRadius: 5,
+            borderSkipped: false
+          }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        animation: {
+          onComplete: () => {
+            this.delayed = true;
+          },
+          delay: (context) => {
+            let delay = 0;
+            if (context.type === 'data' && context.mode === 'default' && !this.delayed) {
+              delay = context.dataIndex * 300 + context.datasetIndex * 100;
+            }
+            return delay;
+          },
+        },
+      }
+    });
+    this.chartInscriptionsPerTurns = new Chart("chartInscriptionsPerTurns", {
+      type: 'bar',
+      data: {
+        labels: this.dataInscriptionsPerTurns.map(item => item.turno),
+        datasets: [
+          {
+            label: 'Vendidos',
+            data: this.dataInscriptionsPerTurns.map(item => item.total_inscripciones),
+            backgroundColor: 'rgba(255, 99, 132, 0.4)',
+            borderColor: 'rgb(255, 99, 132)',
+            borderWidth: 2,
+            type: 'line',
+            fill: true,
+            pointStyle: 'star',
+            pointRadius: 6,
+            pointHoverRadius: 15,
+            order: 0
+          }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        animation: {
+          onComplete: () => {
+            this.delayed = true;
+          },
+          delay: (context) => {
+            let delay = 0;
+            if (context.type === 'data' && context.mode === 'default' && !this.delayed) {
+              delay = context.dataIndex * 300 + context.datasetIndex * 100;
+            }
+            return delay;
+          },
+        },
+      }
     });
     this.isLoading = true;
   }

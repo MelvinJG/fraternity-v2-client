@@ -16,8 +16,14 @@ export class DashboardService {
     });
   }
 
-  getIncomePerDayWithTurns() {
-    return this.http.get(`${this.API_URL}/incomePerDayWithTurns`,{
+  getInscriptionsPerTurns() {
+    return this.http.get(`${this.API_URL}/inscriptionsPerTurns`,{
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
+    });
+  }
+
+  getTop10Devotees() {
+    return this.http.get(`${this.API_URL}/top10Devotees`,{
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
     });
   }
