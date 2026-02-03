@@ -14,10 +14,17 @@
                         <h2 class="fw-bold mb-2">
                             {{ formatNumber(kpiData.total_devotos) }}
                         </h2>
-                        <p class="text-success mb-0">
-                            <i class="fas fa-arrow-up me-1"></i>
-                            <small>+12% este mes</small>
-                        </p>
+                        @if(kpiData.devotos_esta_semana > 0){
+                            <p class="text-success mb-0">
+                                <i class="fa-solid fa-arrow-up me-1"></i>
+                                <small>+{{ kpiData.devotos_esta_semana }} esta semana</small>
+                            </p>
+                        }@else{
+                            <p class="text-warning mb-0">
+                                <i class="fa-solid fa-equals me-1"></i>
+                                <small>{{ kpiData.devotos_esta_semana }} esta semana</small>
+                            </p>
+                        }
                     }@else{
                         <!-- *ngIf="loading" -->
                         <div class="spinner-border text-primary" role="status">
@@ -40,10 +47,17 @@
                         <h2 class="fw-bold mb-2">
                             {{ formatNumber(kpiData.total_inscripciones) }}
                         </h2>
-                        <p class="text-success mb-0">
-                            <i class="fas fa-arrow-up me-1"></i>
-                            <small>+8% esta semana</small>
-                        </p>
+                        @if(kpiData.inscripciones_esta_semana > 0){
+                            <p class="text-success mb-0">
+                                <i class="fa-solid fa-arrow-up me-1"></i>
+                                <small>+{{ kpiData.inscripciones_esta_semana }} esta semana</small>
+                            </p>
+                        }@else{
+                            <p class="text-warning mb-0">
+                                <i class="fa-solid fa-minus me-1"></i>
+                                <small>={{ kpiData.inscripciones_esta_semana }} esta semana</small>
+                            </p>
+                        }
                     }@else{
                         <div class="spinner-border text-info" role="status">
                             <span class="visually-hidden">Cargando...</span>
@@ -65,10 +79,17 @@
                         <h2 class="fw-bold mb-2">
                             {{ formatCurrency(kpiData.ingresos_totales) }}
                         </h2>
-                        <p class="text-success mb-0">
-                            <i class="fas fa-arrow-up me-1"></i>
-                            <small>+15% vs mes anterior</small>
-                        </p>
+                        @if(kpiData.ingresos_esta_semana > 0){
+                            <p class="text-success mb-0">
+                                <i class="fa-solid fa-arrow-up me-1"></i>
+                                <small>+{{ formatCurrency(kpiData.ingresos_esta_semana) }} esta semana</small>
+                            </p>
+                        }@else{
+                            <p class="text-danger mb-0">
+                                <i class="fa-solid fa-arrow-down me-1"></i>
+                                <small>-{{ formatCurrency(kpiData.ingresos_esta_semana) }} esta semana</small>
+                            </p>
+                        }
                     }@else{
                         <div class="spinner-border text-success" role="status">
                             <span class="visually-hidden">Cargando...</span>

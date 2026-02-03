@@ -193,12 +193,8 @@ export class ReceiptsComponent implements OnInit {
             }
           }
           const element = document.getElementById(`page-1`);
-          console.log('🔍 Element page-1 found:', element);
           if (element) {
             element.classList.add('active');
-            console.log('✅ Active class added to page-1');
-          } else {
-            console.log('❌ Element page-1 NOT found in DOM');
           }
         }, 100);
       },

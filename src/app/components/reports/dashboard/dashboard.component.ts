@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
   dataIncomePerDay: Array<any> = [];
   delayed: boolean = false;
   loading: boolean = false;
+  isLoading: boolean = false;
 
   ngOnInit(): void {
     this.spinnerService.show();
@@ -92,6 +93,7 @@ export class DashboardComponent implements OnInit {
         responsive: true
       },
     });
+    this.isLoading = true;
   }
 
   transparentize(value: any, opacity: any) {

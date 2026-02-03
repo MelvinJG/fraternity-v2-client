@@ -23,7 +23,7 @@ export class DashboardService {
   }
 
   getKpis() {
-    return this.http.get(`${this.API_URL}/kpis`,{
+    return this.http.get(`${this.API_URL}/KPIs`,{
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
     });
   }
