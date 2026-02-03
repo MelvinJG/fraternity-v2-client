@@ -20,7 +20,7 @@ import { SpinnerService } from '../../services/spinner.service';
           <div class="dot"></div>
           <div class="dot"></div>
         </div>
-        <p class="loading-text">Loading...</p>
+        <p class="loading-text">Cargando...</p>
       </div>
     </div>
   `,

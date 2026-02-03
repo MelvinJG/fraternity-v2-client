@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import colorLib from '@kurkle/color';
 import { DashboardService } from '../../../services/dashboard.service';
@@ -16,7 +16,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private dashboardService: DashboardService,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    private cdr: ChangeDetectorRef
   ) {
     Chart.register(...registerables);
   }
@@ -42,9 +43,10 @@ export class DashboardComponent implements OnInit {
         this.dataIncomePerDay = res.data;
         this.dashboardService.getIncomePerDayWithTurns().subscribe({
           next: (res: any) => {
-            this.loading = true;
             this.dataIncomePerDayWithTurns = res.data;
             this.spinnerService.hide();
+            this.loading = true;
+            this.cdr.detectChanges();
             this.createChartsExamples();
           },
           error: (err: any) => {
