@@ -171,3 +171,61 @@ MySQL    → PlanetScale (gratis hasta 5GB)
 ```
 
 ¿Cuántos usuarios esperas tener? ¿Es para uso interno de la hermandad?
+
+**Chart Config Bars and Line**
+
+```
+    // GRAFICA DESCARTADAS POR HERMANDAD
+    // GRAFICA DE BARRAS JUNTO A LINEAS
+    /*this.exampleChart1 = new Chart("Chart1", {
+      type: 'bar',
+      data: {
+        labels: this.dataIncomePerDay.map(item => {
+          const date = new Date(item.fecha);
+          const day = String(date.getUTCDate()).padStart(2, '0');
+          const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+          const year = date.getUTCFullYear();
+          return `${day}/${month}/${year}`;
+        }),
+        datasets: [
+          {
+            label: 'Recaudado',
+            data: this.dataIncomePerDay.map(item => item.total_recaudado),
+            backgroundColor: 'rgba(255, 99, 132, 0.4)',
+            borderColor: 'rgb(255, 99, 132)',
+            borderWidth: 2,
+            order: 1,
+            borderRadius: 9,
+            borderSkipped: false,
+          },
+          {
+            label: 'Inscripciones',
+            data: this.dataIncomePerDay.map(item => item.total_inscripciones),
+            backgroundColor:'rgba(54, 162, 235, 0.4)',
+            borderColor:'rgb(54, 162, 235)',
+            borderWidth: 2,
+            type: 'line',
+            fill: true,
+            pointStyle: 'star',
+            pointRadius: 6,
+            pointHoverRadius: 15,
+            order: 0
+          }
+        ]
+      },
+      options: {
+        animation: {
+          onComplete: () => {
+            this.delayed = true;
+          },
+          delay: (context) => {
+            let delay = 0;
+            if (context.type === 'data' && context.mode === 'default' && !this.delayed) {
+              delay = context.dataIndex * 300 + context.datasetIndex * 100;
+            }
+            return delay;
+          },
+        },
+      }
+    });*/
+```

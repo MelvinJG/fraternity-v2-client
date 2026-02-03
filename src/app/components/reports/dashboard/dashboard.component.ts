@@ -22,17 +22,8 @@ export class DashboardComponent implements OnInit {
     Chart.register(...registerables);
   }
 
-  chartDevotos: any;
-  chartAlturas: any;
-  chartVentas: any;
-  exampleChart1: any;
-  exampleChart2: any;
-  exampleChart3: any;
-  // exampleChart4: any;
-  exampleChart5: any;
-  exampleChart6: any;
+  chartIncomePerDay: any;
   dataIncomePerDay: Array<any> = [];
-  dataIncomePerDayWithTurns: Array<any> = [];
   delayed: boolean = false;
   loading: boolean = false;
 
@@ -41,18 +32,10 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getIncomePerDay().subscribe({
       next: (res: any) => {
         this.dataIncomePerDay = res.data;
-        this.dashboardService.getIncomePerDayWithTurns().subscribe({
-          next: (res: any) => {
-            this.dataIncomePerDayWithTurns = res.data;
-            this.spinnerService.hide();
-            this.loading = true;
-            this.cdr.detectChanges();
-            this.createChartsExamples();
-          },
-          error: (err: any) => {
-            this.spinnerService.hide();
-          }
-        });
+        this.spinnerService.hide();
+        this.loading = true;
+        this.cdr.detectChanges();
+        this.createCharts();
       },
       error: (err: any) => {
         this.spinnerService.hide();
@@ -60,83 +43,8 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  createChartsExamples() {
-    // MISMOS DATOS GRAFICA 1 Y 2
-    this.exampleChart1 = new Chart("Chart1", {
-      type: 'bar',
-      data: {
-        labels: this.dataIncomePerDay.map(item => {
-          const date = new Date(item.fecha);
-          const day = String(date.getUTCDate()).padStart(2, '0');
-          const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-          const year = date.getUTCFullYear();
-          return `${day}/${month}/${year}`;
-        }),
-        datasets: [
-          {
-            label: 'Recaudado',
-            data: this.dataIncomePerDay.map(item => item.total_recaudado),
-            backgroundColor: 'rgba(255, 99, 132, 0.4)',
-            borderColor: 'rgb(255, 99, 132)',
-            borderWidth: 2,
-            order: 1,
-            borderRadius: 9,
-            borderSkipped: false,
-          },
-          {
-            label: 'Inscripciones',
-            data: this.dataIncomePerDay.map(item => item.total_inscripciones),
-            backgroundColor:'rgba(54, 162, 235, 0.4)',
-            borderColor:'rgb(54, 162, 235)',
-            borderWidth: 2,
-            type: 'line',
-            fill: true,
-            pointStyle: 'star',
-            pointRadius: 6,
-            pointHoverRadius: 15,
-            order: 0
-          }
-        ]
-      },
-      options: {
-        //responsive: true,
-        //aspectRatio: 2.5,
-        // plugins: {
-        //   legend: {
-        //     position: 'top',
-        //   },
-        //   title: {
-        //     display: true,
-        //     text: 'Recaudación e Inscripciones Diarias',
-        //     font: {
-        //       size: 20,
-        //       family: "'Inter', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif",
-        //       weight: 'normal',
-        //       style: 'normal'
-        //     },
-        //     padding: {
-        //       top: 10,
-        //       bottom: 20
-        //     }
-        //   }
-        // },
-        animation: {
-          onComplete: () => {
-            this.delayed = true;
-          },
-          delay: (context) => {
-            let delay = 0;
-            if (context.type === 'data' && context.mode === 'default' && !this.delayed) {
-              delay = context.dataIndex * 300 + context.datasetIndex * 100;
-            }
-            return delay;
-          },
-        },
-      }
-    });
-
-    // MISMOS DATOS GRAFICA 1 Y 2
-    this.exampleChart2 = new Chart("Chart2", {
+  createCharts() {
+    this.chartIncomePerDay = new Chart("chartIncomePerDay", {
       type: 'bar',
       data: {
         labels: this.dataIncomePerDay.map(item => {
@@ -153,7 +61,7 @@ export class DashboardComponent implements OnInit {
             borderColor: 'blue',
             backgroundColor: this.transparentize('blue', 0.5),
             borderWidth: 2,
-            borderRadius: 9,
+            borderRadius: 6,
             borderSkipped: false,
           },
           {
@@ -162,7 +70,7 @@ export class DashboardComponent implements OnInit {
             borderColor: 'limegreen',
             backgroundColor: this.transparentize('limegreen', 0.5),
             borderWidth: 2,
-            borderRadius: 9,
+            borderRadius: 6,
             borderSkipped: false,
           },
         ],
@@ -181,125 +89,8 @@ export class DashboardComponent implements OnInit {
           },
         },
         // aspectRatio: 2.5,
-        // responsive: true
+        responsive: true
       },
-    });
-
-    this.exampleChart3 = new Chart("Chart3", {
-      type: 'line',
-      data: {
-        labels: this.dataIncomePerDay.map(item => {
-          const date = new Date(item.fecha);
-          const day = String(date.getUTCDate()).padStart(2, '0');
-          const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-          const year = date.getUTCFullYear();
-          return `${day}/${month}/${year}`;
-        }),
-        datasets: [
-          {
-            label: 'Inscripciones',
-            data: this.dataIncomePerDay.map(item => item.total_inscripciones),
-            backgroundColor:'rgba(54, 162, 235, 0.4)',
-            borderColor:'rgb(54, 162, 235)',
-            borderWidth: 2,
-            fill: true,
-            pointStyle: 'star',
-            pointRadius: 8,
-            pointHoverRadius: 15,
-            order: 0
-          }
-        ]
-      },
-      options: {
-        animation: {
-          onComplete: () => {
-            this.delayed = true;
-          },
-          delay: (context) => {
-            let delay = 0;
-            if (context.type === 'data' && context.mode === 'default' && !this.delayed) {
-              delay = context.dataIndex * 300 + context.datasetIndex * 100;
-            }
-            return delay;
-          },
-        },
-      }
-    });
-
-    // GRAFICA RECAUDACION POR DIA Y TURNO PENDIENTE
-    const grouped = this.dataIncomePerDayWithTurns.reduce((acc: any, item: any) => {
-      const fecha = item.fecha;
-      const existing = acc.find((g: any) => g.fecha === fecha);
-      
-      const record = {
-          idTurn: item.idTurn,
-          turno: item.turno,
-          precio_turno: item.precio_turno,
-          inscripciones: item.inscripciones,
-          total_recaudado: item.total_recaudado
-      };
-      
-      if (existing) {
-          existing.records.push(record);
-      } else {
-          acc.push({ fecha, records: [record] });
-      }
-      
-      return acc;
-    }, []);
-
-    this.exampleChart5 = new Chart("Chart5", {
-      type: 'doughnut',
-      data: {
-        labels: ['Hombres','Mujeres'],
-        datasets: [
-          {
-            data: [100,80],
-            backgroundColor: [
-              'rgb(142, 68, 173)',
-              'rgba(142, 68, 173,0.4)'
-            ]
-          }
-        ]
-      },
-      options: {
-        aspectRatio: 2.5,
-      }
-    });
-
-    this.exampleChart6 = new Chart("Chart6", {
-      type: 'line',
-      data: {
-        labels: [
-          '2025-05-10',
-          '2025-05-11',
-          '2025-05-12',
-          '2025-05-13',
-          '2025-05-14',
-          '2025-05-15',
-          '2025-05-16',
-          '2025-05-17',
-        ],
-        datasets: [
-          {
-            data: ['467', '576', '572', '79', '92', '574', '573', '576'],
-            label: 'Ingresos',
-            backgroundColor:'rgba(54, 162, 235, 0.4)',
-            borderColor:'rgb(54, 162, 235)',
-            // backgroundColor: 'rgba(255, 99, 132, 0.4)',
-            // borderColor: 'rgb(255, 99, 132)',
-            borderWidth: 3,
-            fill: true,
-            pointStyle: 'circle',
-            pointRadius: 10,
-            pointHoverRadius: 15
-          }
-        ]
-      },
-      options: {
-        //responsive: true
-        aspectRatio: 2.5
-      }
     });
   }
 

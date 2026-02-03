@@ -1,54 +1,13 @@
 <div class="row justify-content-center">
-    <!-- <div class="col-xl-6">
-        <p class="h4 pt-3 text-center">Promedio Alturas</p>
-        <div class="chart-container">
-            <canvas id="Alturas">
-                {{ chartAlturas }}
-            </canvas>
-        </div>
-    </div>
-    <div class="col-xl-6">
-        <p class="h4 pt-3 text-center">Cantidad cargadores</p>
-        <div class="chart-container">
-            <canvas id="Devotos">
-                {{ chartDevotos }}
-            </canvas>
-        </div>
-    </div>
-    <div class="col-xl-9">
-        <p class="h4 pt-3 text-center">Cantidad de Recaudaciones</p>
-        <div class="chart-container">
-            <canvas id="Ventas">
-                {{ chartVentas }}
-            </canvas>
-        </div>
-    </div> -->
-    <div class="col-xl-6">
-        <p class="h5 pt-3 text-center">
-            Recaudación e Inscripciones Diarias
-        </p>
-        @if(loading){
-            <div class="chart-container">
-                <canvas id="Chart1">
-                    {{ exampleChart1 }}
-                </canvas>
-            </div>
-        }@else{
-            <div class="d-flex justify-content-center py-5">
-                <div class="spinner-grow" style="width: 5rem; height: 5rem; color: #7b2cbf;" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
-        }
-    </div>
+    <!-- <app-kpi-data></app-kpi-data> -->
     <div class="col-xl-6">
         <p class="h5 pt-3 text-center">
             Recaudación e Inscripciones por Fecha
         </p>
         @if(loading){
             <div class="chart-container">
-                <canvas id="Chart2">
-                    {{ exampleChart2 }}
+                <canvas id="chartIncomePerDay">
+                    {{ chartIncomePerDay }}
                 </canvas>
             </div>
         }@else{
@@ -59,46 +18,4 @@
             </div>
         }
     </div>
-    <div class="col-xl-6">
-        <p class="h5 pt-3 text-center">
-            Inscripciones por Fecha
-        </p>
-        @if(loading){
-            <div class="chart-container">
-                <canvas id="Chart3">
-                    {{ exampleChart3 }}
-                </canvas>
-            </div>
-        }@else{
-            <div class="d-flex justify-content-center py-5">
-                <div class="spinner-grow" style="width: 5rem; height: 5rem; color: #7b2cbf;" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
-        }
-    </div>
-
-    <!-- GRAFICA DE EJEMPLOS -->
-    <!--
-    <div class="col-xl-6">
-        <p class="h4 pt-3 text-center text-muted">Grafica #5 (Ejemplo)
-            <span class="badge rounded-pill badge-notification bg-danger">Próximamente</span>
-        </p>
-        <div class="chart-container">
-            <canvas id="Chart5">
-                {{ exampleChart5 }}
-            </canvas>
-        </div>
-    </div>
-    <div class="col-xl-6">
-        <p class="h4 pt-3 text-center text-muted">Grafica #6 (Ejemplo)
-            <span class="badge rounded-pill badge-notification bg-danger">Próximamente</span>
-        </p>
-        <div class="chart-container">
-            <canvas id="Chart6">
-                {{ exampleChart6 }}
-            </canvas>
-        </div>
-    </div>
-    -->
 </div>
