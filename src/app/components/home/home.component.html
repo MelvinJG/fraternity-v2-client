@@ -114,7 +114,12 @@
                             </div>
                         </div>
                         <div class="d-grid gap-2 col-6 mx-auto pt-5">
-                            <button class="btn btn-success btn-lg" type="submit" mdbRipple>Inscribir</button>
+                            <button class="btn btn-success btn-lg" type="submit" mdbRipple [disabled]="isSubmitting">
+                                <span *ngIf="!isSubmitting">Inscribir</span>
+                                <span *ngIf="isSubmitting">
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                </span>
+                            </button>
                         </div>
                     </div>
                 </div>

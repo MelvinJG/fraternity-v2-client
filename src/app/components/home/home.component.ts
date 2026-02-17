@@ -43,6 +43,7 @@ interface IRegistration {
 
 export class HomeComponent implements OnInit {
   isDataLoaded: boolean = false;
+  isSubmitting: boolean = false;
   modalRef: MdbModalRef<ModalComponent> | null = null;
   modalRefReceipt: MdbModalRef<ModalSummaryComponent> | null = null;
   dpiSearch: string = '';
@@ -199,6 +200,9 @@ export class HomeComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.isSubmitting) {
+      return;
+    }
     this.registrationData.created_by = this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP';
     if(this.registrationData.dpiDevotee === '' || this.registrationData.idTurn === 0 || 
       this.registrationData.amount === null) {
@@ -209,12 +213,14 @@ export class HomeComponent implements OnInit {
       });
       return;
     }
+    this.isSubmitting = true;
     this.spinnerService.show();
     this.receiptsService.registration(this.registrationData).subscribe({
       next: (res: any) => {
         this.spinnerService.hide();
         this.modalRefReceipt = this.modalService.open(ModalSummaryComponent, {
           modalClass: 'modal-lg',
+          ignoreBackdropClick: true,
           data: {
             noTable: String(res.data.noTable).padStart(3, '0'),
             height: this.labelHeight,
@@ -230,6 +236,7 @@ export class HomeComponent implements OnInit {
       },
       error: (err: any) => {
         this.spinnerService.hide();
+        this.isSubmitting = false;
         Swal.fire({
           icon: err.status === 500 ? 'error' : 'info',
           title: 'Oops...',
