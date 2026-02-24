@@ -13,6 +13,7 @@ interface JwtCustomPayload {
   idPermission: number;
   fraternityName: string;
   permissionDescription: string;
+  exp?: number;
 }
 
 @Injectable({
@@ -25,7 +26,13 @@ export class UserAuthService {
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true' && this.hasValidToken();
+
+    if (!isLoggedIn) {
+      localStorage.setItem('isLoggedIn', 'false');
+      localStorage.removeItem('token');
+    }
+
     this.isLoggedInSubject.next(isLoggedIn);
   }
 
@@ -45,16 +52,41 @@ export class UserAuthService {
   }
 
   getLoginStatus(): boolean {
+    if (this.isLoggedInSubject.value && !this.hasValidToken()) {
+      this.logout();
+      return false;
+    }
+
     return this.isLoggedInSubject.value;
   }
 
   getUserInfo() {
-    if(this.isLoggedInSubject.value) {
+    if(this.isLoggedInSubject.value && this.hasValidToken()) {
       const token = localStorage.getItem('token');
       const decoded = jwtDecode<JwtCustomPayload>(token!);
       return decoded;
     }
     return null;
+  }
+
+  private hasValidToken(): boolean {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const decoded = jwtDecode<JwtCustomPayload>(token);
+
+      if (!decoded.exp) {
+        return false;
+      }
+
+      return decoded.exp * 1000 > Date.now();
+    } catch {
+      return false;
+    }
   }
 
   createUser(user: object) {
