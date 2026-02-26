@@ -32,6 +32,8 @@ export class ReceiptsComponent implements OnInit {
   dpiSearch: string = '';
   isSearching: boolean = false;
   dpiValue: string = '';
+  currentPage: number = 1;
+  visiblePages: (number | '...')[] = [];
 
   constructor(
       private spinnerService: SpinnerService,
@@ -103,22 +105,18 @@ export class ReceiptsComponent implements OnInit {
   }
 
   changePage(page: number) {
+    if (!page || page === this.currentPage) {
+      return;
+    }
+
     this.spinnerService.show();
-    const elementI = document.getElementsByClassName(`custom-mel`);
-    if (elementI) {
-      for (let i = 0; i < elementI.length; i++) {
-        elementI[i].classList.remove('active');
-      }
-    }
-    const element = document.getElementById(`page-${page}`);
-    if (element) {
-      element.classList.add('active');
-    }
+
     if(this.isSearching) {
       this.receiptsService.getInscriptionsByDPI(this.dpiSearch, page).subscribe({
         next: (res: any) => {
           this.loadData = res.data;
           this.isSearching = true;
+          this.refreshVisiblePages(page);
           this.spinnerService.hide();
         },
         error: (err: any) => {
@@ -136,6 +134,7 @@ export class ReceiptsComponent implements OnInit {
       this.receiptsService.getInscriptions(page).subscribe({
         next: (res: any) => {
           this.loadData = res.data;
+          this.refreshVisiblePages(page);
           this.spinnerService.hide();
         },
         error: (err: any) => {
@@ -165,6 +164,7 @@ export class ReceiptsComponent implements OnInit {
       next: (res: any) => {
         this.loadData = res.data;
         this.isSearching = true;
+        this.refreshVisiblePages(1);
         this.spinnerService.hide();
       },
       error: (err: any) => {
@@ -184,19 +184,8 @@ export class ReceiptsComponent implements OnInit {
     this.receiptsService.getInscriptions(1).subscribe({
       next: (res: any) => {
         this.loadData = res.data;
+        this.refreshVisiblePages(1);
         this.spinnerService.hide();
-        setTimeout(() => {
-          const elementI = document.getElementsByClassName(`custom-mel`);
-          if (elementI) {
-            for (let i = 0; i < elementI.length; i++) {
-              elementI[i].classList.remove('active');
-            }
-          }
-          const element = document.getElementById(`page-1`);
-          if (element) {
-            element.classList.add('active');
-          }
-        }, 100);
       },
       error: (err: any) => {
         this.spinnerService.hide();
@@ -249,5 +238,51 @@ export class ReceiptsComponent implements OnInit {
     if (part2) formatted += ' ' + part2;
     if (part3) formatted += ' ' + part3;
     return formatted;
+  }
+
+  private refreshVisiblePages(fallbackPage: number): void {
+    const pagination = this.loadData?.pagination || {};
+    const totalPages = typeof pagination.totalPages === 'number'
+      ? pagination.totalPages
+      : Array.isArray(pagination.pages)
+        ? pagination.pages.length
+        : 0;
+
+    const current = typeof pagination.currentPage === 'number'
+      ? pagination.currentPage
+      : fallbackPage;
+
+    this.currentPage = current;
+    this.visiblePages = this.buildVisiblePages(current, totalPages);
+  }
+
+  private buildVisiblePages(currentPage: number, totalPages: number): (number | '...')[] {
+    if (!totalPages || totalPages <= 0) {
+      return [];
+    }
+
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, index) => index + 1);
+    }
+
+    const start = Math.max(2, currentPage - 1);
+    const end = Math.min(totalPages - 1, currentPage + 1);
+
+    const pages: (number | '...')[] = [1];
+    if (start > 2) {
+      pages.push('...');
+    }
+
+    for (let page = start; page <= end; page++) {
+      pages.push(page);
+    }
+
+    if (end < totalPages - 1) {
+      pages.push('...');
+    }
+
+
+    pages.push(totalPages);
+    return pages;
   }
 }
