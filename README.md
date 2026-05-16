@@ -121,3 +121,4 @@ MySQL    → PlanetScale (gratis hasta 5GB)
 
 ¿Cuántos usuarios esperas tener? ¿Es para uso interno de la hermandad?
 
+opencode -s ses_1db19fc87ffe2DNH1Ge55yWp1i

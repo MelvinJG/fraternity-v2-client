@@ -2,7 +2,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark navbar-purple fixed-top">
   <div class="container-fluid">
     @if (isLoggedIn) {
-    <!-- Botón hamburguesa para móvil -->
       <button
         class="navbar-toggler d-lg-none"
         type="button"
@@ -15,75 +14,56 @@
       </button>
     }
 
-    <!-- Brand -->
     <a class="navbar-brand d-flex align-items-center" routerLink="#">
       <img
         src="assets/images/LogoHermandad.png"
-        class="rounded-circle me-2"
-        height="50"
-        width="50"
+        class="rounded-circle"
+        height="42"
+        width="42"
         alt="Avatar"
         loading="lazy"
       />
-      Sumpango, Sac.
-      <!-- <i class="fas fa-home me-2 brand-text"></i> -->
-      <!-- <span class="brand-text">Sumpango, Sac.</span> -->
+      <span class="d-none d-sm-inline ms-2">Hermandad Sumpango</span>
     </a>
 
     @if (isLoggedIn) {
-      <!-- Elementos del lado derecho -->
       <div class="d-flex align-items-center">
-        <!-- Perfil de usuario -->
         <div class="dropdown" [class.show]="isProfileDropdownOpen">
           <button
-            class=" btn-link nav-link d-flex align-items-center p-2"
-            type=""
+            class="btn-link nav-link d-flex align-items-center"
+            type="button"
             id="profileDropdown"
             (click)="toggleProfileDropdown()"
             [attr.aria-expanded]="isProfileDropdownOpen"
           >
-            <i class="fa-solid fa-user"></i>&nbsp;
-            <span class="text-white d-none d-md-inline">{{ userName.split(' ')[0] }}</span>
-            <i class="fas fa-chevron-down text-white ms-2" style="font-size: 0.8rem;"></i>
+            <div class="profile-avatar d-flex d-lg-none">
+              <i class="fas fa-user"></i>
+            </div>
+            <span class="text-white d-none d-lg-inline">{{ userName.split(' ')[0] }}</span>
+            <i class="fas fa-chevron-down text-white ms-2 d-none d-lg-inline" style="font-size: 0.75rem;"></i>
           </button>
-          <ul class="dropdown-menu dropdown-menu-end shadow" [class.show]="isProfileDropdownOpen">
+          <ul class="dropdown-menu dropdown-menu-end" [class.show]="isProfileDropdownOpen">
             <li>
               <div class="dropdown-item-text">
                 <div class="d-flex align-items-center pb-3">
-                  <div class="position-relative me-3">
-                    <!-- background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);  -->
-                    <div style="background: linear-gradient(135deg, #536976 0%, #292e49 100%);
-                                width: 60px; 
-                                height: 60px; 
-                                border-radius: 50%; 
-                                display: flex; 
-                                align-items: center; 
-                                justify-content: center;
-                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                      <i class="fas fa-user" style="font-size: 24px; color: white;"></i>
-                    </div>
+                  <div class="profile-avatar me-3">
+                    <i class="fas fa-user"></i>
                   </div>
                   <div>
-                    <div class="fw-bold" style="font-size: 1rem; margin-bottom: 2px;">{{ userName }}</div>
-                    <small class="text-muted" style="display: block;">{{ userEmail }}</small>
+                    <div class="fw-bold" style="font-size: 1rem; color: var(--text-primary);">{{ userName }}</div>
+                    <small class="text-muted">{{ userEmail }}</small>
                   </div>
                 </div>
-                <!-- linear-gradient(135deg, #667eea 0%, #764ba2 100%);  -->
-                <div style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-                      color: white; 
-                      padding: 1px 5px; 
-                      border-radius: 8px; 
-                      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
-                      class="d-flex justify-content-center">
-                  <span style="font-weight: 600; margin-right: 8px;">Rol:</span>
-                  <span style="font-weight: 400;">{{ userRole }}</span>
+                <div class="user-role-badge d-inline-flex">
+                  <span class="me-1">Rol:</span>
+                  <span>{{ userRole }}</span>
                 </div>
               </div>
             </li>
             <li><hr class="dropdown-divider"></li>
             <li>
               <a class="dropdown-item" routerLink="/user/update" (click)="closeAllDropdowns(); $event.preventDefault()">
-                <i class="fas fa-user me-2"></i>Mi Perfil
+                <i class="fas fa-user-edit me-2"></i>Mi Perfil
               </a>
             </li>
             <li>

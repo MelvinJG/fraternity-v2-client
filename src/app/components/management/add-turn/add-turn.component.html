@@ -1,9 +1,21 @@
 <div class="container pb-4">
+    <div class="page-header">
+        <h1>
+            <i class="fas fa-calendar-plus"></i>
+            Agregar Turno
+        </h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/home">Inicio</a></li>
+                <li class="breadcrumb-item active">Gestiones / Turnos</li>
+            </ol>
+        </nav>
+    </div>
+
     <form class="row" (ngSubmit)="onSubmit()">
         <p class="note note-warning">
             <strong>Nota:</strong> Si el precio, cantidad y/o número de brazos <strong>No Aplica</strong> dejarlo vacío.
         </p>
-        <h4 class="py-2 text-center">Agregar Turno</h4>
         <div class="col-md-4 my-2">
             <div class="form-outline">
                 <mdb-form-control>

@@ -1,48 +1,66 @@
-<!-- Background image -->
-<div class="bg-image-container">
-    <div class="bg-image-content">
-        <div class="text-overlay">
-            <!-- <h1 class="title">Iniciar sesión</h1><br/> -->
+<div class="login-wrapper">
+  <div class="login-bg-pattern"></div>
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo-container">
+        <div class="logo-wrapper">
+          <img src="assets/images/LogoHermandad.png" alt="Logo Hermandad" />
         </div>
+        <h1 class="brand-title">Hermandad</h1>
+        <p class="brand-subtitle">Sumpango, Sacatepéquez</p>
+      </div>
     </div>
-</div>
-<!-- Background image -->
-
-
-<div class="container-fluid px-3">
-    <div class="row d-flex justify-content-center login-form-container">
-        <div class="col-md-4 d-flex justify-content-center">
-            <div class="card w-100">
-                <div class="card-body">
-                    <form (ngSubmit)="onLogin()">
-                        <mdb-form-control class="mb-4">
-                            <input
-                                mdbValidate
-                                mdbInput
-                                class="form-control"
-                                id="dpi"
-                                name="dpi"
-                                type="text"
-                                inputmode="numeric"
-                                autocomplete="off"
-                                maxlength="15"
-                                [(ngModel)]="dpiValue"
-                                (input)="onInput($event)"
-                                pattern="^\d{4}\s\d{5}\s\d{4}$"
-                                required
-                            />
-                            <label mdbLabel class="form-label" for="userDPI">DPI</label>
-                        </mdb-form-control>
-
-                        <mdb-form-control class="mb-4">
-                            <input mdbInput type="password" id="userPassword" name="password" class="form-control" [(ngModel)]="user.pass" required autocomplete="off"/>
-                            <label mdbLabel class="form-label" for="userPassword">Contraseña</label>
-                        </mdb-form-control>
-
-                        <button mdbRipple type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
-                    </form>
-                </div>
-            </div>
+    <div class="login-body">
+      <form (ngSubmit)="onLogin()">
+        <div class="form-group">
+          <label for="dpi" class="form-label">Número de DPI</label>
+          <input
+            mdbValidate
+            mdbInput
+            class="form-control"
+            id="dpi"
+            name="dpi"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            maxlength="15"
+            [(ngModel)]="dpiValue"
+            (input)="onInput($event)"
+            pattern="^\d{4}\s\d{5}\s\d{4}$"
+            placeholder="0000 00000 0000"
+            required
+          />
         </div>
+
+        <div class="form-group">
+          <label for="userPassword" class="form-label">Contraseña</label>
+          <input
+            mdbInput
+            type="password"
+            id="userPassword"
+            name="password"
+            class="form-control"
+            [(ngModel)]="user.pass"
+            placeholder="Ingresa tu contraseña"
+            required
+            autocomplete="off"
+          />
+        </div>
+
+        <button mdbRipple type="submit" class="btn-login">
+          <i class="fas fa-sign-in-alt"></i>
+          Iniciar Sesión
+        </button>
+      </form>
+
+      <div class="help-links">
+        <a routerLink="/register">¿No tienes cuenta? Regístrate aquí</a>
+      </div>
+
+      <div class="footer-branding">
+        <i class="fas fa-cross cross-icon"></i>
+        <p> Sistema de Gestión de la Hermandad</p>
+      </div>
     </div>
+  </div>
 </div>

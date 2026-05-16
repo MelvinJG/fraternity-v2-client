@@ -1,59 +1,95 @@
-<div class="row justify-content-center">
-    @if(isChartsLoading){
-        <app-kpi-data></app-kpi-data>
-    }
+<div class="dashboard-container">
+  <div class="page-header">
+    <h1>Dashboard</h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/home">Inicio</a></li>
+        <li class="breadcrumb-item active">Dashboard</li>
+      </ol>
+    </nav>
+  </div>
+
+  @if(isChartsLoading){
+    <app-kpi-data></app-kpi-data>
+  }
+
+  <div class="row g-4 justify-content-center">
     <div class="col-xl-6">
-        <p class="h5 pt-3 text-center">
+      <div class="chart-card">
+        <div class="chart-header">
+          <h5 class="chart-title">
+            <i class="fas fa-chart-line me-2"></i>
             Recaudación e Inscripciones por Fecha
-        </p>
-        @if(isChartIncomePerDay){
+          </h5>
+        </div>
+        <div class="chart-body">
+          @if(isChartIncomePerDay){
             <div class="chart-container">
-                <canvas id="chartIncomePerDay">
-                    {{ chartIncomePerDay }}
-                </canvas>
+              <canvas id="chartIncomePerDay">
+                {{ chartIncomePerDay }}
+              </canvas>
             </div>
-        }@else{
-            <div class="d-flex justify-content-center py-5">
-                <div class="spinner-grow" style="width: 5rem; height: 5rem; color: #7b2cbf;" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
+          }@else{
+            <div class="chart-loading">
+              <div class="spinner-grow" style="color: #6B21A8;" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
             </div>
-        }
+          }
+        </div>
+      </div>
     </div>
+
     <div class="col-xl-6">
-        <p class="h5 pt-3 text-center">
+      <div class="chart-card">
+        <div class="chart-header">
+          <h5 class="chart-title">
+            <i class="fas fa-users me-2"></i>
             Top 10 Devotos
-        </p>
-        @if(isChartTop10Devotees){
+          </h5>
+        </div>
+        <div class="chart-body">
+          @if(isChartTop10Devotees){
             <div class="chart-container">
-                <canvas id="chartTop10Devotees">
-                    {{ chartTop10Devotees }}
-                </canvas>
+              <canvas id="chartTop10Devotees">
+                {{ chartTop10Devotees }}
+              </canvas>
             </div>
-        }@else{
-            <div class="d-flex justify-content-center py-5">
-                <div class="spinner-grow" style="width: 5rem; height: 5rem; color: #7b2cbf;" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
+          }@else{
+            <div class="chart-loading">
+              <div class="spinner-grow" style="color: #6B21A8;" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
             </div>
-        }
+          }
+        </div>
+      </div>
     </div>
+
     <div class="col-xl-9">
-        <p class="h5 pt-3 text-center">
+      <div class="chart-card">
+        <div class="chart-header">
+          <h5 class="chart-title">
+            <i class="fas fa-clipboard-list me-2"></i>
             Disponibilidad de Turnos
-        </p>
-        @if(isChartInscriptionsPerTurns){
+          </h5>
+        </div>
+        <div class="chart-body">
+          @if(isChartInscriptionsPerTurns){
             <div class="chart-container">
-                <canvas id="chartInscriptionsPerTurns">
-                    {{ chartInscriptionsPerTurns }}
-                </canvas>
+              <canvas id="chartInscriptionsPerTurns">
+                {{ chartInscriptionsPerTurns }}
+              </canvas>
             </div>
-        }@else{
-            <div class="d-flex justify-content-center py-5">
-                <div class="spinner-grow" style="width: 5rem; height: 5rem; color: #7b2cbf;" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
+          }@else{
+            <div class="chart-loading">
+              <div class="spinner-grow" style="color: #6B21A8;" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
             </div>
-        }
+          }
+        </div>
+      </div>
     </div>
+  </div>
 </div>

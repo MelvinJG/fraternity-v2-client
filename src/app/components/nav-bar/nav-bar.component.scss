@@ -1,46 +1,31 @@
-// Paleta de colores morados
 :root {
-  --purple-primary: #7b2cbf;
-  --purple-dark: #5a189a;
-  --purple-light: #9d4edd;
-  --purple-hover: rgba(123, 44, 191, 0.08);
-  --purple-active: rgba(123, 44, 191, 0.1);
-  --purple-border: rgba(123, 44, 191, 0.2);
+  --purple-primary: #6B21A8;
+  --purple-dark: #4C1D95;
+  --purple-light: #A855F7;
+  --purple-50: #F3E8FF;
+  --purple-100: #EDE9FE;
+  --purple-200: #DDD6FE;
+  --accent-gold: #F59E0B;
+  --accent-gold-light: #FCD34D;
 }
 
-// Navbar Styles Mejorados
 .navbar {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
   z-index: 1030;
-  min-height: 56px !important;
-  height: 56px !important;
+  min-height: 64px !important;
+  height: 64px !important;
+  backdrop-filter: blur(12px);
+  background: linear-gradient(135deg, rgba(107, 33, 168, 0.97), rgba(76, 29, 149, 0.98)) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 
   &.navbar-purple {
-    //background: #5C2D91; 135deg
-    background: linear-gradient(1deg, var(--purple-dark), var(--purple-primary)) !important;//var(--purple-dark);//
-  }
-
-  // Eliminar bordes de todos los botones en el navbar
-  button {
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-    
-    &:focus,
-    &:focus-visible,
-    &:active,
-    &.focus,
-    &.btn:focus,
-    &.btn:active {
-      border: none !important;
-      outline: none !important;
-      box-shadow: none !important;
-    }
+    background: linear-gradient(135deg, var(--purple-dark), var(--purple-primary)) !important;
   }
 
   .container-fluid {
     height: 100%;
     align-items: center;
+    padding: 0 1.5rem;
   }
 
   .navbar-brand {
@@ -48,52 +33,50 @@
     color: white !important;
     text-decoration: none;
     height: auto;
-    
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.1rem;
+    letter-spacing: 0.25px;
+
     &:hover {
-      color: rgba(255, 255, 255, 0.9) !important;
+      color: rgba(255, 255, 255, 0.92) !important;
     }
-    
-    .brand-text {
-      font-size: 1.1rem;
+
+    img {
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
 
     i {
-      color: #ffc107;
+      color: var(--accent-gold);
     }
   }
 
   .navbar-toggler {
     border: none !important;
     outline: none !important;
-    padding: 0.25rem 0.5rem;
-    background-color: transparent !important;
+    padding: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1) !important;
     box-shadow: none !important;
-    
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.15) !important;
+    }
+
     &:focus,
-    &:focus-visible,
-    &:active,
-    &.focus {
-      border: none !important;
-      outline: none !important;
+    &:focus-visible {
       box-shadow: none !important;
-      background-color: rgba(255, 255, 255, 0.08) !important;
+      outline: none !important;
     }
 
     .navbar-toggler-icon {
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
     }
   }
 
-  // Contenedor de elementos del lado derecho
-  .d-flex.align-items-center {
-    height: 100%;
-    
-    > .dropdown {
-      height: auto;
-    }
-  }
-
-  // Botones del navbar (notificaciones y perfil)
   .btn-link {
     border: none !important;
     outline: none !important;
@@ -104,105 +87,61 @@
     transition: all 0.2s ease;
     height: auto;
     line-height: normal;
-    padding: 0.5rem !important;
+    padding: 0.5rem 0.75rem !important;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 
     &:hover {
       color: white !important;
-      background-color: rgba(255, 255, 255, 0.08) !important;
-      border-radius: 0.5rem;
-      border: none !important;
-      outline: none !important;
-      box-shadow: none !important;
+      background-color: rgba(255, 255, 255, 0.12) !important;
     }
 
     &:focus,
     &:focus-visible,
-    &:active,
-    &.focus {
-      color: white !important;
-      background-color: rgba(255, 255, 255, 0.08) !important;
-      border: none !important;
-      outline: none !important;
-      box-shadow: none !important;
-    }
-
-    &.btn:focus,
-    &.btn:active,
-    &.btn.active {
-      border: none !important;
-      outline: none !important;
+    &:active {
       box-shadow: none !important;
     }
   }
 
-  // Contenedor dropdown
-  .dropdown {
-    position: relative;
-    
-    // Prevenir que el dropdown afecte el layout del navbar
-    &:after {
-      content: '';
-      display: table;
-      clear: both;
-    }
-
-    // Asegurar que el botón dentro del dropdown no tenga bordes
-    button {
-      border: none !important;
-      outline: none !important;
-      box-shadow: none !important;
-      
-      &:focus,
-      &:focus-visible,
-      &:active,
-      &.focus {
-        border: none !important;
-        outline: none !important;
-        box-shadow: none !important;
-      }
-    }
-  }
-
-  // Estilos de dropdown mejorados
   .dropdown-menu {
     position: absolute !important;
-    top: 100% !important;
+    top: calc(100% + 8px) !important;
     right: 0 !important;
     left: auto !important;
     z-index: 1050 !important;
     border: none;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    border-radius: 0.5rem;
-    margin-top: 0.5rem;
-    min-width: 280px;
-    max-height: 400px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    border-radius: var(--radius-lg);
+    margin-top: 0;
+    min-width: 300px;
+    max-height: 450px;
     overflow-y: auto;
     display: none;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-10px);
+    transform: translateY(-8px);
     transition: all 0.2s ease-in-out;
-    
+    background: var(--bg-surface) !important;
+    padding: 0.75rem;
+
     &.show {
       display: block !important;
       opacity: 1;
       visibility: visible;
       transform: translateY(0);
-      
-      // Asegurar que no afecte el layout del navbar
-      position: absolute !important;
-      float: none !important;
     }
 
     &::before {
       content: '';
       position: absolute;
       top: -6px;
-      right: 15px;
+      right: 20px;
       width: 12px;
       height: 12px;
       background: white;
-      border: 1px solid #e9ecef;
+      border: 1px solid var(--border-light);
       border-bottom: none;
       border-right: none;
       transform: rotate(45deg);
@@ -211,293 +150,100 @@
 
     .dropdown-header {
       font-weight: 600;
-      color: #495057;
+      color: var(--text-primary);
       padding: 0.75rem 1rem;
-      border-bottom: 1px solid #e9ecef;
-      background-color: #f8f9fa;
+      border-bottom: 1px solid var(--border-light);
+      background-color: var(--purple-50);
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      margin: -0.75rem -0.75rem 0.5rem -0.75rem;
     }
 
     .dropdown-item {
-      padding: 0.5rem 1rem;
-      transition: all 0.2s ease;
+      padding: 0.625rem 1rem;
+      transition: all 0.15s ease;
+      border-radius: var(--radius-sm);
+      margin: 2px 0;
+      color: var(--text-secondary);
 
       &:hover {
-        background-color: var(--purple-hover);
+        background-color: var(--purple-50);
         color: var(--purple-primary);
       }
 
       &.text-danger:hover {
-        background-color: rgba(220, 53, 69, 0.08);
-        color: #dc3545;
+        background-color: rgba(239, 68, 68, 0.08);
+        color: var(--danger);
       }
 
       i {
-        width: 16px;
+        width: 18px;
         text-align: center;
+        color: var(--purple-primary);
       }
     }
 
     .dropdown-item-text {
-      padding: 0.75rem 1rem;
+      padding: 0;
     }
 
     .dropdown-divider {
       margin: 0.5rem 0;
-      border-color: #e9ecef;
+      border-color: var(--border-light);
     }
   }
 
-  // Badge de notificaciones
-  .badge {
-    font-size: 0.6rem;
-    padding: 0.25em 0.4em;
-  }
-}
+  .profile-avatar {
+    background: linear-gradient(135deg, var(--purple-primary), var(--purple-light));
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(107, 33, 168, 0.3);
 
-// Desktop adjustments (md y superior)
-@media (min-width: 768px) {
-  .navbar {
-    .dropdown-menu {
-      position: absolute !important;
-      top: calc(100% + 0.5rem) !important;
-      right: 0 !important;
-      left: auto !important;
-      transform-origin: top right;
-      
-      &::before {
-        right: 15px;
-      }
+    i {
+      font-size: 1.25rem;
+      color: white;
     }
   }
-}
 
-// Tablet adjustments
-@media (max-width: 767.98px) and (min-width: 576px) {
-  .navbar {
-    .navbar-brand .brand-text {
-      font-size: 1rem;
-    }
-
-    .dropdown-menu {
-      position: absolute !important;
-      top: calc(100% + 0.5rem) !important;
-      right: 0 !important;
-      left: auto !important;
-      min-width: 280px;
-      margin-top: 0.25rem;
-      max-width: 320px;
-
-      &::before {
-        right: 20px;
-      }
-    }
-
-    .btn-link {
-      padding: 0.5rem;
-    }
+  .user-role-badge {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    padding: 2px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
 }
 
-// Mobile adjustments (Pequeño)
-@media (max-width: 575.98px) {
-  .navbar {
-    .navbar-brand .brand-text {
-      display: none;
-    }
-
-    .dropdown {
-      position: static;
-    }
-
-    .dropdown-menu {
-      position: fixed !important;
-      top: 56px !important;
-      right: 5px !important;
-      left: 5px !important;
-      min-width: auto !important;
-      max-width: none !important;
-      width: calc(100vw - 10px) !important;
-      margin: 0;
-      border-radius: 0.75rem;
-      max-height: calc(100vh - 70px) !important;
-      height: auto !important;
-      overflow: hidden !important;
-      z-index: 1060 !important;
-      transform: none !important;
-      padding-bottom: 0.5rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
-      border: none !important;
-      background-color: white !important;
-      
-      // Ocultar completamente cualquier scrollbar
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* Internet Explorer 10+ */
-      
-      &::-webkit-scrollbar {
-        display: none; /* WebKit */
-      }
-
-      &.show {
-        transform: none !important;
-        animation: slideDownFadeIn 0.3s ease-out;
-      }
-
-      &::before {
-        display: none;
-      }
-
-      .dropdown-item {
-        padding: 0.625rem 1rem;
-        font-size: 0.9rem;
-        border-radius: 0.5rem;
-        margin: 0.125rem 0.5rem;
-        transition: all 0.2s ease;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .dropdown-header {
-        padding: 0.75rem 1rem 0.5rem 1rem;
-        font-size: 0.95rem;
-        margin: 0;
-        border-radius: 0;
-      }
-
-      .dropdown-item-text {
-        padding: 0.75rem 1rem;
-        margin: 0;
-      }
-
-      .dropdown-divider {
-        margin: 0.25rem 1rem;
-      }
-      
-      // Ajustar elementos específicos para evitar desbordamiento
-      li:first-child .dropdown-header {
-        margin-top: 0;
-        padding-top: 0.75rem;
-      }
-      
-      li:last-child {
-        margin-bottom: 0.25rem;
-      }
-      
-      // Ajustes específicos para el dropdown de perfil
-      .dropdown-item-text .d-flex {
-        align-items: center;
-        
-        img {
-          flex-shrink: 0;
-        }
-        
-        div {
-          overflow: hidden;
-          
-          .fw-bold {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 0.9rem;
-          }
-          
-          small {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 0.8rem;
-          }
-        }
-      }
-    }
-
-    // Ajustar botones para móvil
-    .btn-link {
-      padding: 0.75rem 0.5rem !important;
-      border: none !important;
-      outline: none !important;
-      box-shadow: none !important;
-      background-color: transparent !important;
-      
-      &:focus,
-      &:focus-visible,
-      &:active,
-      &.focus,
-      &:hover {
-        border: none !important;
-        outline: none !important;
-        box-shadow: none !important;
-        background-color: rgba(255, 255, 255, 0.08) !important;
-      }
-    }
-  }
-
-  // Overlay para dropdowns en móvil
-  .dropdown.show::after {
-    content: '';
-    position: fixed;
-    top: 56px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.2);
-    z-index: 1058;
-    backdrop-filter: blur(1px);
-    animation: fadeIn 0.2s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  // Animación para móvil
-  @keyframes slideDownFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-20px) scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-
-}
-
-// Mobile muy pequeño (extra small)
-@media (max-width: 375px) {
-  .navbar {
-    .dropdown-menu {
-      right: 2px !important;
-      left: 2px !important;
-      width: calc(100vw - 4px) !important;
-      
-      .dropdown-item {
-        padding: 0.875rem 0.75rem;
-      }
-    }
-  }
-}
-
-// Sidenav Styles - Completamente Responsivo
 .sidenav {
   position: fixed;
   top: 0;
   left: -280px;
   width: 280px;
   height: 100vh;
-  background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  background: var(--bg-surface);
+  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.08);
   transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1040;
   overflow-y: auto;
-  border-right: 1px solid #dee2e6;
+  overflow-x: hidden;
+  border-right: 1px solid var(--border-light);
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
 
   * {
     list-style: none !important;
@@ -508,88 +254,63 @@
     left: 0;
   }
 
-  // En desktop, ajustar posición para navbar fija
   @media (min-width: 992px) {
-    top: 56px; // Altura de la navbar
-    height: calc(100vh - 56px);
+    top: 64px;
+    height: calc(100vh - 64px);
     left: 0;
     position: fixed;
+    box-shadow: none;
+    border-right: 1px solid var(--border-light);
   }
 
-  // Header del sidenav - Solo móvil
   .sidenav-header {
-    display: none; // Oculto por defecto (desktop)
-    padding: 1.5rem 1rem;
-    background: linear-gradient(135deg, var(--purple-primary), var(--purple-dark));
-    color: white;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: none;
 
-    // Mostrar solo en móvil y tablet
     @media (max-width: 991.98px) {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 1.25rem 1rem;
+      background: linear-gradient(135deg, var(--purple-primary), var(--purple-dark));
+      color: white;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .sidenav-brand {
       display: flex;
       align-items: center;
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       font-weight: 600;
       text-decoration: none;
       color: white;
       width: 100%;
       cursor: pointer;
       transition: all 0.2s ease;
+      padding: 0.5rem;
+      border-radius: var(--radius-sm);
 
       &:hover {
         background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 0.5rem;
       }
 
       i {
-        color: #ffc107;
-        
-        &.sidenav-arrow {
-          font-size: 0.9rem;
-          transition: transform 0.2s ease;
-          color: white;
-        }
+        color: var(--accent-gold);
+        margin-right: 0.5rem;
       }
 
-      // Animación de la flecha cuando está expandido
-      &[aria-expanded="true"] .sidenav-arrow {
-        transform: rotate(180deg);
-      }
-    }
-
-    .sidenav-close {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.2rem;
-      cursor: pointer;
-      padding: 0.25rem;
-      border-radius: 0.25rem;
-      transition: background-color 0.2s ease;
-
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
+      .sidenav-arrow {
+        font-size: 0.85rem;
+        margin-left: auto;
+        transition: transform 0.2s ease;
       }
     }
   }
 
-  // Menu del sidenav
-  .sidenav-menu {
-    padding: 1rem 0;
-  }
-
-  // Enlaces del sidenav
   .sidenav-link {
     display: flex;
     align-items: center;
-    padding: 0.875rem 1.5rem;
-    color: #495057;
+    padding: 0.875rem 1.25rem;
+    color: var(--text-secondary);
     text-decoration: none;
     transition: all 0.2s ease;
     border: none;
@@ -597,9 +318,12 @@
     width: 100%;
     text-align: left;
     position: relative;
+    font-weight: 500;
+    margin: 2px 0.5rem;
+    border-radius: var(--radius-md);
 
     &:hover {
-      background-color: var(--purple-hover);
+      background-color: var(--purple-50);
       color: var(--purple-primary);
       transform: translateX(2px);
 
@@ -609,13 +333,16 @@
     }
 
     &.active {
-      background: linear-gradient(90deg, var(--purple-active), transparent);
-      color: var(--purple-primary);
-      border-right: 3px solid var(--purple-primary);
-      font-weight: 600;
+      background: linear-gradient(135deg, var(--purple-primary), var(--purple-dark));
+      color: white;
+      box-shadow: 0 4px 12px rgba(107, 33, 168, 0.25);
 
       .sidenav-icon {
-        color: var(--purple-primary);
+        color: white;
+      }
+
+      .sidenav-arrow {
+        color: rgba(255, 255, 255, 0.8);
       }
     }
 
@@ -623,14 +350,16 @@
       width: 20px;
       margin-right: 0.875rem;
       text-align: center;
-      color: #6c757d;
+      color: var(--text-muted);
       transition: color 0.2s ease;
+      font-size: 1rem;
     }
 
     .sidenav-arrow {
       margin-left: auto;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       transition: transform 0.2s ease;
+      color: var(--text-muted);
     }
 
     &[aria-expanded="true"] .sidenav-arrow {
@@ -638,77 +367,47 @@
     }
   }
 
-  // Dropdown del sidenav
   .sidenav-dropdown {
     .sidenav-dropdown-toggle {
       cursor: pointer;
-      
-      &:hover .sidenav-arrow {
-        color: var(--purple-primary);
-      }
-
-      // Animación de la flecha
-      .sidenav-arrow {
-        transition: transform 0.3s ease;
-        
-        &.rotated {
-          transform: rotate(180deg);
-        }
-      }
-
-      &[aria-expanded="true"] .sidenav-arrow {
-        transform: rotate(180deg);
-      }
     }
 
-    // Submenu del sidenav
-    .sidenav-submenu {
+    .collapse {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s ease-in-out, opacity 0.2s ease;
-      opacity: 0;
-      background-color: rgba(0, 0, 0, 0.02);
-      list-style: none;
-      padding: 0;
-      margin: 0;
+      transition: max-height 0.3s ease-in-out;
+      background-color: transparent;
 
       &.show {
-        max-height: 300px; // Ajusta según necesites
-        opacity: 1;
-      }
-
-      * {
-        list-style: none;
-        list-style-type: none;
+        max-height: 300px;
       }
     }
   }
 
-
-  
   .sidenav-sublink {
     display: flex;
     align-items: center;
-    padding: 0.625rem 1.5rem 0.625rem 2.5rem;
-    color: #6c757d;
+    padding: 0.625rem 1.25rem 0.625rem 2.5rem;
+    color: var(--text-secondary);
     text-decoration: none;
     font-size: 0.9rem;
     transition: all 0.2s ease;
     position: relative;
-    list-style: none; // Quitar estilos de lista
+    list-style: none;
+    margin: 2px 0.5rem;
+    border-radius: var(--radius-sm);
 
-    // Ícono del sublink
     .sidenav-subicon {
       width: 16px;
       margin-right: 0.75rem;
       text-align: center;
-      color: #adb5bd;
+      color: var(--text-muted);
       transition: color 0.2s ease;
       font-size: 0.85rem;
     }
 
     &:hover {
-      background-color: rgba(123, 44, 191, 0.05);
+      background-color: var(--purple-50);
       color: var(--purple-primary);
       transform: translateX(2px);
 
@@ -718,9 +417,9 @@
     }
 
     &.active {
-      background-color: var(--purple-active);
+      background-color: var(--purple-100);
       color: var(--purple-primary);
-      font-weight: 500;
+      font-weight: 600;
 
       .sidenav-subicon {
         color: var(--purple-primary);
@@ -729,19 +428,18 @@
   }
 }
 
-// Overlay para cerrar el sidenav (solo en móvil)
 .sidenav-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 1035;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
 
   &.show {
     opacity: 1;
@@ -749,23 +447,9 @@
   }
 }
 
-// Responsive Design Mejorado
-// ===========================
-
-// Desktop (lg y superior)
 @media (min-width: 992px) {
   .navbar-toggler {
     display: none !important;
-  }
-
-  .sidenav {
-    position: fixed;
-    left: 0;
-    top: 56px; // Altura de navbar
-    height: calc(100vh - 56px);
-    box-shadow: none;
-    border-right: 1px solid #dee2e6;
-    z-index: 1020;
   }
 
   .sidenav-overlay {
@@ -773,15 +457,10 @@
   }
 
   .sidenav-header {
-    display: none !important; // Ocultar header en desktop
-  }
-
-  .sidenav-close {
-    display: none; // No necesario en desktop
+    display: none !important;
   }
 }
 
-// Tablet y Móvil (md y menor)
 @media (max-width: 991.98px) {
   .sidenav {
     top: 0;
@@ -795,14 +474,13 @@
   }
 
   .navbar-brand .brand-text {
-    font-size: 1rem; // Texto más pequeño en móvil
+    display: none;
   }
 }
 
-// Móvil pequeño (sm y menor)
 @media (max-width: 575.98px) {
   .sidenav {
-    width: 100vw; // Ancho completo en móviles muy pequeños
+    width: 100vw;
     left: -100vw;
 
     &.sidenav-open {
@@ -810,58 +488,64 @@
     }
   }
 
-  .navbar-brand .brand-text {
-    display: none; // Ocultar texto del brand en móviles pequeños
-  }
+  .navbar {
+    .container-fluid {
+      padding: 0 1rem;
+    }
 
-  // Ajustar padding de elementos del menú
-  .sidenav-link {
-    padding: 1rem 1.25rem;
-    font-size: 0.95rem;
-  }
+    .dropdown-menu {
+      position: fixed !important;
+      top: 64px !important;
+      right: 8px !important;
+      left: 8px !important;
+      width: calc(100vw - 16px) !important;
+      min-width: auto !important;
+      max-width: none !important;
+      margin: 0;
+      border-radius: var(--radius-md);
+      max-height: calc(100vh - 80px) !important;
+      z-index: 1060 !important;
+      transform: none !important;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
 
-  .sidenav-sublink {
-    padding: 0.75rem 1.25rem 0.75rem 3rem;
-    font-size: 0.9rem;
+      &.show {
+        transform: none !important;
+        animation: slideDownFadeIn 0.25s ease-out;
+      }
+
+      &::before {
+        display: none;
+      }
+    }
   }
 }
 
-// Estados de carga y animaciones
-.sidenav {
-  // Prevenir selección de texto durante animaciones
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-
-  // Optimizaciones de performance para animaciones
-  will-change: transform;
-  transform: translateZ(0);
+@keyframes slideDownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-// Scroll suave para navegación interna
-html {
-  scroll-behavior: smooth;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-// Animaciones adicionales
 .sidenav-link,
 .sidenav-sublink {
   position: relative;
   overflow: hidden;
+}
 
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
-  }
-
-  &:hover::after {
-    left: 100%;
-  }
+html {
+  scroll-behavior: smooth;
 }
