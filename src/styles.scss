@@ -1,11 +1,57 @@
 // Paleta de colores morados personalizados
+// :root {
+//   --purple-primary: #7b2cbf;
+//   --purple-dark: #5a189a;
+//   --purple-light: #9d4edd;
+//   --purple-hover: rgba(123, 44, 191, 0.08);
+//   --purple-active: rgba(123, 44, 191, 0.1);
+//   --purple-border: rgba(123, 44, 191, 0.2);
+// }
 :root {
-  --purple-primary: #7b2cbf;
-  --purple-dark: #5a189a;
-  --purple-light: #9d4edd;
-  --purple-hover: rgba(123, 44, 191, 0.08);
-  --purple-active: rgba(123, 44, 191, 0.1);
-  --purple-border: rgba(123, 44, 191, 0.2);
+  --purple-primary: #6B21A8;
+  --purple-dark: #4C1D95;
+  --purple-light: #A855F7;
+  --purple-50: #F3E8FF;
+  --purple-100: #EDE9FE;
+  --purple-200: #DDD6FE;
+  --accent-gold: #F59E0B;
+  --accent-gold-light: #FCD34D;
+
+  --bg-page: #FAFAFA;
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #FFFFFF;
+
+  --text-primary: #1F2937;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+
+  --border-light: #E5E7EB;
+  --border-medium: #D1D5DB;
+
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --info: #3B82F6;
+
+  --purple-hover: rgba(107, 33, 168, 0.08);
+  --purple-active: rgba(107, 33, 168, 0.12);
+  --purple-border: rgba(107, 33, 168, 0.2);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  --transition-fast: 150ms ease-out;
+  --transition-normal: 200ms ease-out;
+  --transition-slow: 300ms ease-out;
+
+  --gray-light: #F3F4F6;
 }
 
 // Override Bootstrap primary colors with purple
@@ -123,3 +169,91 @@ body {
 
 // MDB SCSS
 @import "mdb-angular-ui-kit/assets/scss/mdb.scss";
+
+.page-header {
+  // margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-light);
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    i {
+      color: var(--purple-primary);
+    }
+  }
+
+  .breadcrumb {
+    background: none;
+    padding: 0;
+    margin: 0;
+
+    .breadcrumb-item {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+
+      a {
+        color: var(--purple-primary);
+        text-decoration: none;
+        transition: color var(--transition-fast);
+
+        &:hover {
+          color: var(--purple-dark);
+        }
+      }
+
+      &.active {
+        color: var(--purple-dark);
+        font-weight: 500;
+      }
+
+      + .breadcrumb-item::before {
+        content: '/';
+        color: var(--text-muted);
+        padding: 0 0.5rem;
+      }
+    }
+  }
+}
+
+.page-header {
+  // margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-light);
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .breadcrumb {
+    background: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.875rem;
+
+    .breadcrumb-item {
+      color: var(--text-secondary);
+
+      &.active {
+        color: var(--purple-primary);
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}

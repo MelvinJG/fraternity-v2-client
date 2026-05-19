@@ -1,4 +1,16 @@
-<h4 class="py-2 text-center">Buscar Recibos</h4>
+<div class="page-header mb-4">
+  <h1>
+      <i class="fas fa-file-invoice-dollar"></i>
+      Buscar Recibos
+  </h1>
+  <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/home">Inicio</a></li>
+          <li class="breadcrumb-item"><a routerLink="/management">Gestiones</a></li>
+          <li class="breadcrumb-item active">Recibos</li>
+      </ol>
+  </nav>
+</div>
 <!-- SEARCH -->
 <form (ngSubmit)="onSearch()" class="pb-3">
     <div class="row py-2 d-flex align-items-center justify-content-center">
@@ -46,7 +58,7 @@
       <th scope="col">#</th>
       <th scope="col">Descripción</th>
       <th scope="col">Fecha</th>
-      <th scope="col">Importe</th>
+      <th scope="col">Monto</th>
       <th scope="col">Acciones</th>
     </tr>
   </thead>

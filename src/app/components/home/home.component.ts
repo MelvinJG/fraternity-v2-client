@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
-import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
+import { MdbTabsModule, MdbTabChange } from 'mdb-angular-ui-kit/tabs';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { RegisterComponent } from '../register/register.component';
 import { SpinnerService } from '../../services/spinner.service';
@@ -57,6 +57,7 @@ export class HomeComponent implements OnInit {
   nameForReceipt: string = '';
   turnForReceipt: string = '';
   dpiValue: string = '';
+  title: string = '';
 
   registrationData: IRegistration = {
     dpiDevotee: '',
@@ -85,6 +86,10 @@ export class HomeComponent implements OnInit {
     if (containerDiv) {
       containerDiv.classList.add('container-fluid', 'p-4');
     }
+  }
+
+  onTabChange(event: MdbTabChange): void {
+    this.title = event.index === 0 ? 'Inscribir Devoto (a)' : 'Agregar Devoto (a)';
   }
 
   openModalUpdate() {
