@@ -257,3 +257,49 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
+
+.bg-primary {
+  background: linear-gradient(135deg, var(--purple-primary), var(--purple-dark)) !important;
+}
+
+.btn-primary {
+  color: white !important;
+  background: linear-gradient(135deg, var(--purple-primary), var(--purple-dark)) !important;
+  border: none !important;
+  border-radius: var(--radius-md) !important;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+
+  &:hover {
+    background: linear-gradient(135deg, var(--purple-dark), var(--purple-primary)) !important;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    background: var(--purple-dark) !important;
+    transform: translateY(0);
+  }
+}
+
+.size-search {
+  padding: 0.625rem 1.5rem;
+}
+
+.size-btn-primary {
+  padding: 0.875rem 2rem;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--success), #059669) !important;
+  border: none !important;
+  border-radius: var(--radius-md) !important;
+  padding: 0.875rem 2rem;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+  transition: all var(--transition-normal);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+  }
+}
