@@ -19,15 +19,13 @@
     <a class="navbar-brand d-flex align-items-center" routerLink="#">
       <img
         src="assets/images/LogoHermandad.png"
-        class="rounded-circle me-2"
-        height="50"
-        width="50"
+        class="rounded-circle"
+        height="42"
+        width="42"
         alt="Avatar"
         loading="lazy"
       />
-      Sumpango, Sac.
-      <!-- <i class="fas fa-home me-2 brand-text"></i> -->
-      <!-- <span class="brand-text">Sumpango, Sac.</span> -->
+      <span class="d-none d-sm-inline ms-2">Hermandad Sumpango</span>
     </a>
 
     @if (isLoggedIn) {
@@ -42,7 +40,7 @@
             (click)="toggleProfileDropdown()"
             [attr.aria-expanded]="isProfileDropdownOpen"
           >
-            <i class="fa-solid fa-user"></i>&nbsp;
+            <i class="fa-solid fa-user"></i>
             <span class="text-white d-none d-md-inline">{{ userName.split(' ')[0] }}</span>
             <i class="fas fa-chevron-down text-white ms-2" style="font-size: 0.8rem;"></i>
           </button>
