@@ -1,64 +1,80 @@
 <!-- FORM -->
-<form (ngSubmit)="onSubmit()">
+<form (ngSubmit)="onSubmit()" [formGroup]="validationForm">
     <!-- PRINCIPAL -->
     <div class="row">
-        <div class="col-md-6 my-2">
+        <div class="col-md-6 mt-2 mb-3">
             <div class="form-outline">
                 <mdb-form-control>
                     <input mdbInput type="text" id="form6Example1" class="form-control" autocomplete="off"
-                        [(ngModel)]="registerData.fullName" name="fullName" required />
+                        [(ngModel)]="registerData.fullName" name="fullName" required [ngModelOptions]="{standalone: true}" />
                     <label mdbLabel class="form-label" for="form6Example1">Nombre Completo *</label>
                 </mdb-form-control>
             </div>
         </div>
-        <div class="col-md-6 my-2">
+        <div class="col-md-6 mt-2 mb-3">
             <div class="form-outline">
                 <mdb-form-control>
-                    <input mdbInput type="text" id="form6Example6" class="form-control" autocomplete="off" [(ngModel)]="registerData.address" name="address" />
+                    <input mdbInput type="text" id="form6Example6" class="form-control" autocomplete="off" [(ngModel)]="registerData.address" name="address" [ngModelOptions]="{standalone: true}"/>
                     <label mdbLabel class="form-label" for="form6Example6">Dirección</label>
                 </mdb-form-control>
             </div>
         </div>
-        <div class="col-md-4 my-2">
-            <div class="form-outline">
-                <mdb-form-control>
-                    <input
-                        mdbValidate
-                        mdbInput
-                        class="form-control"
-                        id="dpi"
-                        name="dpi"
-                        type="text"
-                        inputmode="numeric"
-                        autocomplete="off"
-                        maxlength="15"
-                        [(ngModel)]="dpiValue"
-                        (input)="onInput($event)"
-                        pattern="^\d{4}\s\d{5}\s\d{4}$"
-                        required
-                        [disabled]="isUpdate"
-                    />
-                    <label mdbLabel class="form-label" for="form6Example1">DPI *</label>
-                </mdb-form-control>
-            </div>
+        <div class="col-md-4 mt-2 mb-3">
+            @if (isUpdate) {
+                <!-- DPI display (disabled) -->
+                <div class="form-outline">
+                    <mdb-form-control>
+                    <input mdbInput type="text" id="dpi" name="dpi" class="form-control" [(ngModel)]="dpiValue" [ngModelOptions]="{standalone: true}" disabled/>
+                    <label mdbLabel class="form-label" for="dpi">No. DPI *</label>
+                    </mdb-form-control>
+                </div>
+            } @else {
+                <div class="form-outline">
+                    <mdb-form-control>
+                        <input
+                            mdbValidate
+                            mdbInput
+                            class="form-control"
+                            id="dpi"
+                            name="dpi"
+                            type="text"
+                            inputmode="numeric"
+                            autocomplete="off"
+                            maxlength="15"
+                            [(ngModel)]="dpiValue"
+                            (input)="onInput($event)"
+                            pattern="^\d{4}\s\d{5}\s\d{4}$"
+                            required
+                            formControlName="dpi"
+                        />
+                        <label mdbLabel class="form-label" for="dpi">No. DPI *</label>
+                        <mdb-error *ngIf="dpi?.invalid && (dpi?.dirty || dpi?.touched)">
+                            DPI Inválido
+                        </mdb-error>
+                        <mdb-success *ngIf="dpi?.valid && (dpi?.dirty || dpi?.touched)">
+                            <!-- Looks good! -->
+                        </mdb-success>
+                    </mdb-form-control>
+                </div>
+            }
         </div>
-        <div class="col-md-4 my-2">
+        <div class="col-md-4 mt-2 mb-3">
             <div class="form-outline">
                 <mdb-form-control>
-                    <input mdbInput type="date" id="form6Example4" class="form-control" autocomplete="off" [(ngModel)]="registerData.birthdate" name="birthdate" />
+                    <input mdbInput type="date" id="form6Example4" class="form-control" autocomplete="off" [(ngModel)]="registerData.birthdate" name="birthdate" [ngModelOptions]="{standalone: true}"/>
                     <label mdbLabel class="form-label" for="form6Example4">Fecha de Nacimiento</label>
                 </mdb-form-control>
             </div>
         </div>
-        <div class="col-md-4 my-2">
+        <div class="col-md-4 mt-2 mb-3">
             <div class="form-outline">
                 <mdb-form-control>
-                    <input mdbInput type="email" id="form6Example5" class="form-control" autocomplete="off" [(ngModel)]="registerData.email" name="email" />
+                    <input mdbInput type="email" id="form6Example5" class="form-control" autocomplete="off" [(ngModel)]="registerData.email" name="email" [ngModelOptions]="{standalone: true}"/>
                     <label mdbLabel class="form-label" for="form6Example5">Correo Electrónico</label>
                 </mdb-form-control>
             </div>
         </div>
-        <div class="col-md-4 my-2">
+        <div class="col-md-4 mt-2 mb-3">
             <div class="form-outline">
                 <mdb-form-control>
                     <input
@@ -68,24 +84,27 @@
                         id="form6Example1"
                         class="form-control"
                         autocomplete="off"
-                        maxlength="8"
-                        pattern="[0-9]{8}"
-                        [(ngModel)]="registerData.phone"
+                        maxlength="9"
+                        inputmode="numeric"
+                        pattern="^\d{4}\s\d{4}$"
+                        [(ngModel)]="phoneValue"
+                        (input)="onPhoneInput($event)"
                         name="phone"
+                        [ngModelOptions]="{standalone: true}"
                     />
                     <label mdbLabel class="form-label" for="form6Example1">Teléfono</label>
                 </mdb-form-control>
             </div>
         </div>
-        <div class="col-md-4 my-2">
+        <div class="col-md-4 mt-2 mb-3">
             <div class="form-outline">
                 <mdb-form-control>
-                    <input mdbInput type="number" id="form6Example1" class="form-control" autocomplete="off" [(ngModel)]="registerData.height" name="height" required />
+                    <input mdbInput type="number" id="form6Example1" class="form-control" autocomplete="off" [(ngModel)]="registerData.height" name="height" required [ngModelOptions]="{standalone: true}"/>
                     <label mdbLabel class="form-label" for="form6Example1">Altura (mts.) *</label>
                 </mdb-form-control>
             </div>
         </div>
-        <div class="col-md-4 my-2">
+        <div class="col-md-4 mt-2 mb-3">
             <div class="form-check form-switch">
                 <input
                     mdbCheckbox
@@ -122,7 +141,8 @@
                                 autocomplete="off"
                                 [(ngModel)]="child.fullName"
                                 [name]="'fullName' + child.id"
-                                required 
+                                required
+                                [ngModelOptions]="{standalone: true}"
                             />
                             <label mdbLabel class="form-label" [for]="'fullName' + child.id">Nombre Completo</label>
                         </mdb-form-control>
@@ -139,6 +159,7 @@
                                 autocomplete="off"
                                 [(ngModel)]="child.birthdate"
                                 [name]="'birthdate' + child.id"
+                                [ngModelOptions]="{standalone: true}"
                             />
                             <label mdbLabel class="form-label" [for]="'birthdate' + child.id">Cumpleaños</label>
                         </mdb-form-control>
@@ -155,7 +176,8 @@
                                 autocomplete="off"
                                 [(ngModel)]="child.height"
                                 [name]="'height' + child.id"
-                                required 
+                                required
+                                [ngModelOptions]="{standalone: true}"
                             />
                             <label mdbLabel class="form-label" [for]="'height' + child.id">Altura (mts.)</label>
                         </mdb-form-control>
@@ -174,7 +196,8 @@
                                         autocomplete="off"
                                         [(ngModel)]="child.age"
                                         [name]="'age' + child.id"
-                                        required 
+                                        required
+                                        [ngModelOptions]="{standalone: true}"
                                     />
                                     <label mdbLabel class="form-label" [for]="'age' + child.id">Edad</label>
                                 </mdb-form-control>

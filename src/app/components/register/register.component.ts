@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { SpinnerService } from '../../services/spinner.service';
 import { UserAuthService } from '../../services/user-auth.service';
 import Swal from 'sweetalert2';
 import { DevoteesService } from '../../services/devotees.service';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
+import { dpiIsValid } from '../../utils/dpiIsValid';
 
 interface IChild {
   id?: number;
@@ -78,12 +79,31 @@ export class RegisterComponent implements OnInit {
     created_by: ''
   };
   dpiValue: string = '';
+  phoneValue: string = '';
+  isDPIValid: boolean = false;
+  validationForm: FormGroup;
 
   constructor(
     private spinnerService: SpinnerService,
     private devoteesService: DevoteesService,
     private authService: UserAuthService
-  ) {}
+  ) {
+    this.validationForm = new FormGroup({
+      dpi: new FormControl(null, { 
+        validators: [
+          Validators.required,
+          (control: AbstractControl) => {
+            const value = control.value?.toString().replaceAll(' ', '') || '';
+            return dpiIsValid(value) ? null : { invalidDpi: true };
+          }
+        ]
+      })
+    });
+  }
+
+  get dpi(): AbstractControl {
+    return this.validationForm.get('dpi')!;
+  }
 
   ngOnInit(): void {
     this.spinnerService.show();
@@ -95,6 +115,7 @@ export class RegisterComponent implements OnInit {
       this.registerData.birthdate = this.dataToUpdate.birthdate;
       this.registerData.email = this.dataToUpdate.email;
       this.registerData.phone = this.dataToUpdate.phone;
+      this.phoneValue = this.formatPhone(this.dataToUpdate.phone || '');
       this.registerData.height = this.dataToUpdate.height;
       this.registerData.isTutored = this.dataToUpdate.isTutored;
       if(this.registerData.isTutored && this.dataToUpdate.children && this.dataToUpdate.children.length > 0) {
@@ -263,6 +284,7 @@ export class RegisterComponent implements OnInit {
       newPos = Math.max(0, Math.min(newPos, masked.length));
       input.setSelectionRange(newPos, newPos);
     }, 0);
+    this.isDPIValid = dpiIsValid(this.dpiValue.replaceAll(' ', ''));
     this.registerData.dpi = this.dpiValue.replaceAll(' ', '');
   }
 
@@ -274,6 +296,34 @@ export class RegisterComponent implements OnInit {
     let formatted = part1;
     if (part2) formatted += ' ' + part2;
     if (part3) formatted += ' ' + part3;
+    return formatted;
+  }
+
+  onPhoneInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const cursorPos = input.selectionStart ?? input.value.length;
+    const prevVal = input.value;
+    const masked = this.formatPhone(prevVal);
+    this.phoneValue = masked;
+    setTimeout(() => {
+      const spacesBefore = (prevVal.slice(0, cursorPos).match(/ /g) || []).length;
+      const spacesAfter = (masked.slice(0, cursorPos).match(/ /g) || []).length;
+      let newPos = cursorPos + (spacesAfter - spacesBefore);
+      if (masked[newPos - 1] === ' ' && masked.replace(/ /g, '').length < 8) {
+        newPos = newPos + 1;
+      }
+      newPos = Math.max(0, Math.min(newPos, masked.length));
+      input.setSelectionRange(newPos, newPos);
+    }, 0);
+    this.registerData.phone = this.phoneValue.replaceAll(' ', '');
+  }
+
+  formatPhone(value: string): string {
+    const digits = value.replace(/\D/g, '').slice(0, 8);
+    const part1 = digits.slice(0, 4);
+    const part2 = digits.slice(4, 8);
+    let formatted = part1;
+    if (part2) formatted += ' ' + part2;
     return formatted;
   }
 }
