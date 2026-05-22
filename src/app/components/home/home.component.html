@@ -18,18 +18,16 @@
         </ng-template>
             <!-- <h4 class="py-2 text-center">Inscribir Devoto (a)</h4> -->
             <!-- SEARCH -->
-            <form (ngSubmit)="onSearch()">
+            <form (ngSubmit)="onSearch()" class="pb-4">
                 <div class="row py-2 d-flex align-items-center justify-content-center">
-                    <div class="col-lg-6">
-                        <div class="border border-1 pb-4">
-                            <div class="col-auto">
-                                <span id="textExample2" class="form-text"><small>&ensp;BUSCAR</small></span>
-                            </div>
+                    <div class="col-12 col-lg-6">
+                        <fieldset class="search-fieldset">
+                            <legend class="search-legend">Buscar</legend>
                             <div class="row d-flex align-items-center justify-content-center">
-                                <div class="col-6 col-md-7">
+                                <div class="col-8 col-md-7">
                                     <div class="form-outline">
                                         <mdb-form-control>
-                                            <input
+                                            <input 
                                                 mdbValidate
                                                 mdbInput
                                                 type="text"
@@ -47,16 +45,19 @@
                                         </mdb-form-control>
                                     </div>
                                 </div>
-                                <div class="col-2 col-md-1">
+                                <div class="col-2 col-md-2">
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fas fa-search"></i>
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </fieldset>
                     </div>
                 </div>
             </form>
+
+
+
         @if (isDataLoaded) {
             <!-- FORM -->
             <form (ngSubmit)="onSubmit()">

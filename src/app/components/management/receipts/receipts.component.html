@@ -11,46 +11,45 @@
       </ol>
   </nav>
 </div>
-<!-- SEARCH -->
-<form (ngSubmit)="onSearch()" class="pb-3">
-    <div class="row py-2 d-flex align-items-center justify-content-center">
-        <div class="col-lg-6">
-            <div class="border border-1 pb-4">
-                <div class="col-auto">
-                    <span id="textExample2" class="form-text"><small>&ensp;BUSCAR</small></span>
+
+<form (ngSubmit)="onSearch()" class="pb-4">
+  <div class="row py-2 d-flex align-items-center justify-content-center">
+      <div class="col-12 col-lg-6">
+          <fieldset class="search-fieldset">
+              <legend class="search-legend">Buscar</legend>
+              <div class="row d-flex align-items-center justify-content-center">
+                <div class="col-8 col-md-7">
+                      <div class="form-outline">
+                          <mdb-form-control>
+                              <input 
+                                mdbValidate
+                                mdbInput
+                                type="text"
+                                id="form6Example1"
+                                name="dpi"
+                                class="form-control"
+                                inputmode="numeric"
+                                [(ngModel)]="dpiValue"
+                                autocomplete="off"
+                                maxlength="15"
+                                (input)="onInput($event)"
+                                pattern="^\d{4}\s\d{5}\s\d{4}$"
+                                required />
+                              <label mdbLabel class="form-label" for="form6Example1">DPI *</label>
+                          </mdb-form-control>
+                      </div>
                 </div>
-                <div class="row d-flex align-items-center justify-content-center">
-                    <div class="col-6 col-md-7">
-                        <div class="form-outline">
-                            <mdb-form-control>
-                                <input 
-                                  mdbValidate
-                                  mdbInput
-                                  type="text"
-                                  id="form6Example1"
-                                  name="dpi"
-                                  class="form-control"
-                                  inputmode="numeric"
-                                  [(ngModel)]="dpiValue"
-                                  autocomplete="off"
-                                  maxlength="15"
-                                  (input)="onInput($event)"
-                                  pattern="^\d{4}\s\d{5}\s\d{4}$"
-                                  required />
-                                <label mdbLabel class="form-label" for="form6Example1">DPI *</label>
-                            </mdb-form-control>
-                        </div>
-                    </div>
-                    <div class="col-2 col-md-1">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+                <div class="col-2 col-md-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
-            </div>
+              </div>
+          </fieldset>
         </div>
     </div>
 </form>
+
 
 <table class="table">
   <thead class="table-dark">
@@ -121,3 +120,47 @@
     </li>
   </ul>
 </nav>
+
+
+<!-- SEARCH ORIGINAL NO BORRAR -->
+<!-- <form (ngSubmit)="onSearch()" class="pb-3">
+    <div class="row py-2 d-flex align-items-center justify-content-center">
+        <div class="col-lg-6">
+            <div class="border border-1 pb-4">
+                <div class="col-auto">
+                    <span id="textExample2" class="form-text"><small>&ensp;BUSCAR</small></span>
+                </div>
+                <div class="row d-flex align-items-center justify-content-center">
+                    <div class="col-6 col-md-7">
+                        <div class="form-outline">
+                            <mdb-form-control>
+                                <input 
+                                  mdbValidate
+                                  mdbInput
+                                  type="text"
+                                  id="form6Example1"
+                                  name="dpi"
+                                  class="form-control"
+                                  inputmode="numeric"
+                                  [(ngModel)]="dpiValue"
+                                  autocomplete="off"
+                                  maxlength="15"
+                                  (input)="onInput($event)"
+                                  pattern="^\d{4}\s\d{5}\s\d{4}$"
+                                  required />
+                                <label mdbLabel class="form-label" for="form6Example1">DPI *</label>
+                            </mdb-form-control>
+                        </div>
+                    </div>
+                    <div class="col-2 col-md-1">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="div">hola</div> -->
