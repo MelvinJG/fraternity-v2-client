@@ -86,6 +86,12 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden; // Prevenir scroll horizontal
+  -ms-overflow-style: none; // IE/Edge
+  scrollbar-width: none; // Firefox
+}
+
+body::-webkit-scrollbar {
+  display: none; // Chrome, Safari, Opera
 }
 
 // Mejorar touch targets en móvil
@@ -95,22 +101,14 @@ body {
   }
 }
 
-// Scrollbar personalizado
-::-webkit-scrollbar {
-  width: 8px;
+// Scrollbar oculto globalmente (mantiene funcionalidad de scroll)
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+*::-webkit-scrollbar {
+  display: none;
 }
 
 // Utilidades adicionales
