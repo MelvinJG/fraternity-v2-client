@@ -244,7 +244,7 @@
   left: -280px;
   width: 280px;
   height: 100vh;
-  background: var(--bg-surface);
+  background: linear-gradient(180deg, #faf9fc 0%, #eeebf7 100%);
   box-shadow: 2px 0 20px rgba(0, 0, 0, 0.08);
   transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1040;
