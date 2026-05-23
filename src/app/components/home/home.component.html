@@ -21,70 +21,56 @@
                 <!-- SEARCH -->
                 <form (ngSubmit)="onSearch()" class="pb-4">
                     <div class="row py-2 d-flex align-items-center justify-content-center">
-                        <div class="col-12 col-lg-6">
-                            <fieldset class="search-fieldset">
-                                <legend class="search-legend">Buscar</legend>
-                                <!-- Toggle de modo de búsqueda -->
-                                <div class="search-toggle d-flex justify-content-center mb-3">
+                        <div class="col-12 col-lg-7">
+                            <div class="search-card">
+                                <div class="search-card-header">
+                                    <i class="fas fa-user-circle"></i>
+                                    <span>Buscar persona</span>
+                                </div>
+                                <div class="search-card-tabs">
                                     <button type="button" 
-                                        class="btn btn-sm search-toggle-btn"
-                                        [class.active]="searchMode === 'dpi'"
-                                        (click)="toggleSearchMode('dpi')">
-                                        <i class="fas fa-id-card me-1"></i> DPI
-                                    </button>
-                                    <button type="button" 
-                                        class="btn btn-sm search-toggle-btn"
+                                        class="search-tab"
                                         [class.active]="searchMode === 'name'"
                                         (click)="toggleSearchMode('name')">
                                         <i class="fas fa-user me-1"></i> Nombre
                                     </button>
+                                    <button type="button" 
+                                        class="search-tab"
+                                        [class.active]="searchMode === 'dpi'"
+                                        (click)="toggleSearchMode('dpi')">
+                                        <i class="fas fa-id-card me-1"></i> DPI
+                                    </button>
                                 </div>
-                                <div class="row d-flex align-items-center justify-content-center">
-                                    <div class="col-8 col-md-7">
+                                <div class="search-card-body">
+                                    <div class="search-input-group">
                                         @if (searchMode === 'dpi') {
-                                            <div class="form-outline">
-                                                <mdb-form-control>
-                                                    <input 
-                                                        mdbValidate
-                                                        mdbInput
-                                                        type="text"
-                                                        id="form6Example1"
-                                                        name="dpi"
-                                                        class="form-control"
-                                                        inputmode="numeric"
-                                                        [(ngModel)]="dpiValue"
-                                                        autocomplete="off"
-                                                        maxlength="15"
-                                                        (input)="onInput($event)"
-                                                        pattern="^\d{4}\s\d{5}\s\d{4}$"
-                                                        required />
-                                                    <label mdbLabel class="form-label" for="form6Example1">DPI *</label>
-                                                </mdb-form-control>
-                                            </div>
+                                            <input 
+                                                type="text"
+                                                class="search-input"
+                                                inputmode="numeric"
+                                                [(ngModel)]="dpiValue"
+                                                name="dpi"
+                                                autocomplete="off"
+                                                maxlength="15"
+                                                placeholder="Ingrese número de DPI"
+                                                (input)="onInput($event)"
+                                                required />
                                         } @else {
-                                            <div class="form-outline">
-                                                <mdb-form-control>
-                                                    <input 
-                                                        mdbInput
-                                                        type="text"
-                                                        id="formSearchName"
-                                                        name="nameSearch"
-                                                        class="form-control"
-                                                        [(ngModel)]="nameSearch"
-                                                        autocomplete="off"
-                                                        required />
-                                                    <label mdbLabel class="form-label" for="formSearchName">Nombre *</label>
-                                                </mdb-form-control>
-                                            </div>
+                                            <input 
+                                                type="text"
+                                                class="search-input"
+                                                [(ngModel)]="nameSearch"
+                                                name="nameSearch"
+                                                autocomplete="off"
+                                                placeholder="Ingrese nombre completo"
+                                                required />
                                         }
-                                    </div>
-                                    <div class="col-2 col-md-2">
-                                        <button type="submit" class="btn btn-primary size-search">
+                                        <button type="submit" class="search-btn">
                                             <i class="fas fa-search"></i>
                                         </button>
                                     </div>
                                 </div>
-                            </fieldset>
+                            </div>
                         </div>
                     </div>
                 </form>
