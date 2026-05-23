@@ -22,6 +22,12 @@ export class DevoteesService {
     });
   }
 
+  getDevoteesByName(name: string) {
+    return this.http.get(`${this.API_URL}/name/${name}`, {
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
+    });
+  }
+
   updateDevotee(dpiDevote: string, devoteeData: object) {
     return this.http.put(`${this.API_URL}/${dpiDevote}`, devoteeData, {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
