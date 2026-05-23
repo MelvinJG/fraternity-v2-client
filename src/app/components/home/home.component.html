@@ -24,27 +24,59 @@
                         <div class="col-12 col-lg-6">
                             <fieldset class="search-fieldset">
                                 <legend class="search-legend">Buscar</legend>
+                                <!-- Toggle de modo de búsqueda -->
+                                <div class="search-toggle d-flex justify-content-center mb-3">
+                                    <button type="button" 
+                                        class="btn btn-sm search-toggle-btn"
+                                        [class.active]="searchMode === 'dpi'"
+                                        (click)="toggleSearchMode('dpi')">
+                                        <i class="fas fa-id-card me-1"></i> DPI
+                                    </button>
+                                    <button type="button" 
+                                        class="btn btn-sm search-toggle-btn"
+                                        [class.active]="searchMode === 'name'"
+                                        (click)="toggleSearchMode('name')">
+                                        <i class="fas fa-user me-1"></i> Nombre
+                                    </button>
+                                </div>
                                 <div class="row d-flex align-items-center justify-content-center">
                                     <div class="col-8 col-md-7">
-                                        <div class="form-outline">
-                                            <mdb-form-control>
-                                                <input 
-                                                    mdbValidate
-                                                    mdbInput
-                                                    type="text"
-                                                    id="form6Example1"
-                                                    name="dpi"
-                                                    class="form-control"
-                                                    inputmode="numeric"
-                                                    [(ngModel)]="dpiValue"
-                                                    autocomplete="off"
-                                                    maxlength="15"
-                                                    (input)="onInput($event)"
-                                                    pattern="^\d{4}\s\d{5}\s\d{4}$"
-                                                    required />
-                                                <label mdbLabel class="form-label" for="form6Example1">DPI *</label>
-                                            </mdb-form-control>
-                                        </div>
+                                        @if (searchMode === 'dpi') {
+                                            <div class="form-outline">
+                                                <mdb-form-control>
+                                                    <input 
+                                                        mdbValidate
+                                                        mdbInput
+                                                        type="text"
+                                                        id="form6Example1"
+                                                        name="dpi"
+                                                        class="form-control"
+                                                        inputmode="numeric"
+                                                        [(ngModel)]="dpiValue"
+                                                        autocomplete="off"
+                                                        maxlength="15"
+                                                        (input)="onInput($event)"
+                                                        pattern="^\d{4}\s\d{5}\s\d{4}$"
+                                                        required />
+                                                    <label mdbLabel class="form-label" for="form6Example1">DPI *</label>
+                                                </mdb-form-control>
+                                            </div>
+                                        } @else {
+                                            <div class="form-outline">
+                                                <mdb-form-control>
+                                                    <input 
+                                                        mdbInput
+                                                        type="text"
+                                                        id="formSearchName"
+                                                        name="nameSearch"
+                                                        class="form-control"
+                                                        [(ngModel)]="nameSearch"
+                                                        autocomplete="off"
+                                                        required />
+                                                    <label mdbLabel class="form-label" for="formSearchName">Nombre *</label>
+                                                </mdb-form-control>
+                                            </div>
+                                        }
                                     </div>
                                     <div class="col-2 col-md-2">
                                         <button type="submit" class="btn btn-primary size-search">
@@ -56,6 +88,50 @@
                         </div>
                     </div>
                 </form>
+
+            <!-- Tabla de resultados por nombre -->
+            @if (showResults && searchResults.length > 0) {
+                <div class="row d-flex justify-content-center pb-4">
+                    <div class="col-12 col-lg-8">
+                        <div class="results-card">
+                            <div class="results-header">
+                                <i class="fas fa-list me-2"></i>
+                                <span>Resultados ({{ searchResults.length }})</span>
+                            </div>
+                            <div class="results-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th class="d-none d-md-table-cell">DPI</th>
+                                                <th class="d-none d-sm-table-cell">Teléfono</th>
+                                                <th class="text-center">Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (person of searchResults; track person.dpi) {
+                                                <tr>
+                                                    <td class="fw-medium">{{ person.fullName }}</td>
+                                                    <td class="d-none d-md-table-cell text-muted">{{ person.dpi }}</td>
+                                                    <td class="d-none d-sm-table-cell text-muted">{{ person.phone || 'N/A' }}</td>
+                                                    <td class="text-center">
+                                                        <button type="button" 
+                                                            class="btn btn-sm btn-select-person"
+                                                            (click)="selectDevotee(person.dpi)">
+                                                            <i class="fas fa-check me-1"></i> Seleccionar
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
 
 
 

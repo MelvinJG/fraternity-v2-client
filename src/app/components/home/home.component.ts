@@ -47,6 +47,10 @@ export class HomeComponent implements OnInit {
   modalRef: MdbModalRef<ModalComponent> | null = null;
   modalRefReceipt: MdbModalRef<ModalSummaryComponent> | null = null;
   dpiSearch: string = '';
+  nameSearch: string = '';
+  searchMode: 'dpi' | 'name' = 'dpi';
+  searchResults: any[] = [];
+  showResults: boolean = false;
   devoteeInfo: any;
   isTutored: boolean = false;
   labelHeight: string = '... ';
@@ -103,6 +107,12 @@ export class HomeComponent implements OnInit {
   }
 
   onSearch() {
+    if (this.searchMode === 'name') {
+      this.onSearchByName();
+      return;
+    }
+    this.showResults = false;
+    this.searchResults = [];
     this.labelHeight = '... ';
     this.isTutored = false;
     this.devoteesNames = [];
@@ -177,6 +187,122 @@ export class HomeComponent implements OnInit {
         }, 100);
       }
     });
+  }
+
+  onSearchByName() {
+    this.isDataLoaded = false;
+    this.showResults = false;
+    this.searchResults = [];
+    if (this.nameSearch.trim() === '') {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'Ingrese un nombre para buscar.'
+      });
+      return;
+    }
+    this.spinnerService.show();
+    this.devoteesService.getDevoteesByName(this.nameSearch.trim()).subscribe({
+      next: (res: any) => {
+        console.log("💧 -> ",res);
+        this.searchResults = res.data.records;
+        this.showResults = true;
+        this.spinnerService.hide();
+        if (this.searchResults.length === 0) {
+          Swal.fire({
+            icon: 'info',
+            title: 'Sin resultados',
+            text: 'No se encontraron devotos con ese nombre.'
+          });
+        }
+      },
+      error: (err: any) => {
+        this.spinnerService.hide();
+        Swal.fire({
+          icon: err.status === 500 ? 'error' : 'info',
+          title: 'Oops...',
+          text: err.error.message
+        });
+      }
+    });
+  }
+
+  selectDevotee(dpi: string) {
+    this.showResults = false;
+    this.dpiSearch = dpi;
+    this.searchMode = 'dpi';
+    this.dpiValue = this.formatDPI(dpi);
+    // Reutilizar la lógica existente de búsqueda por DPI
+    this.labelHeight = '... ';
+    this.isTutored = false;
+    this.devoteesNames = [];
+    this.spinnerService.show();
+    this.devoteesService.getDevoteeByDPI(dpi).subscribe({
+      next: (res: any) => {
+        this.devoteeInfo = res.data;
+        this.registrationData.dpiDevotee = this.devoteeInfo.dpi;
+        if (this.devoteeInfo.isTutored) {
+          this.isTutored = true;
+          const father: IOption = {
+            value: this.devoteeInfo.dpi,
+            label: this.devoteeInfo.fullName,
+            height: this.devoteeInfo.height,
+            isFather: true
+          };
+          const children = this.devoteeInfo.children.map((child: any) => ({
+            value: String(child.id),
+            label: child.fullName,
+            height: child.height
+          }));
+          this.devoteesNames = [father, ...children];
+          this.selectedPerson = this.devoteesNames[0].value;
+          this.nameForReceipt = this.devoteesNames[0].label;
+          this.labelHeight = this.devoteesNames[0].height ? `${this.devoteesNames[0].height}` : 'N/A';
+        } else {
+          this.labelHeight = this.devoteeInfo.height ? `${this.devoteeInfo.height}` : 'N/A';
+          this.nameForReceipt = this.devoteeInfo.fullName;
+        }
+        this.turnsService.getTurns().subscribe({
+          next: (res: any) => {
+            this.turns = res.data.map((turn: any) => ({
+              value: String(turn.id),
+              label: turn.description,
+              price: turn.price,
+              available: turn.quantity === null ? null : turn.quantity - turn.sold
+            }));
+          },
+          error: (err: any) => {
+            Swal.fire({
+              position: "top-end",
+              icon: err.status === 500 ? 'error' : 'info',
+              title: err.error.message,
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }
+        });
+        this.spinnerService.hide();
+        setTimeout(() => {
+          this.isDataLoaded = true;
+        }, 100);
+      },
+      error: (err: any) => {
+        this.isDataLoaded = false;
+        this.spinnerService.hide();
+        Swal.fire({
+          icon: err.status === 500 ? 'error' : 'info',
+          title: 'Oops...',
+          text: err.error.message
+        });
+      }
+    });
+  }
+
+  toggleSearchMode(mode: 'dpi' | 'name') {
+    this.searchMode = mode;
+    this.showResults = false;
+    this.searchResults = [];
+    this.isDataLoaded = false;
   }
 
   onChangeSelect(event: any, nameSelect: string){
