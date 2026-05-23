@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
   modalRefReceipt: MdbModalRef<ModalSummaryComponent> | null = null;
   dpiSearch: string = '';
   nameSearch: string = '';
-  searchMode: 'dpi' | 'name' = 'dpi';
+  searchMode: 'dpi' | 'name' = 'name';
   searchResults: any[] = [];
   showResults: boolean = false;
   devoteeInfo: any;

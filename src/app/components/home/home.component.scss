@@ -1,3 +1,19 @@
+// Override MDB Tabs color
+::ng-deep .nav-tabs {
+  .nav-link {
+    color: #6b7280;
+
+    &.active {
+      color: #6B21A8 !important;
+      border-bottom-color: #6B21A8 !important;
+    }
+
+    &:hover:not(.active) {
+      color: #6B21A8;
+    }
+  }
+}
+
 // Select minimalista sin borde
 .select-minimal {
   border: none !important;
@@ -245,17 +261,17 @@
       font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: #6b7280;
       font-weight: 600;
       border-bottom: 1px solid #e5e7eb;
       padding: 0.75rem 1rem;
+      text-align: center;
     }
 
     tbody tr {
       transition: background-color 0.15s ease;
 
       &:hover {
-        background-color: #f9f5ff;
+        background-color: var(--gray-light-home);
       }
 
       td {
@@ -267,17 +283,20 @@
 }
 
 .btn-select-person {
-  background: linear-gradient(135deg, #6B21A8, #4C1D95);
+  background: linear-gradient(135deg, var(--success), #059669) !important;
   color: white;
   border: none;
   border-radius: 8px;
   font-size: 0.78rem;
   padding: 0.35rem 0.75rem;
   transition: all 0.2s ease;
+  text-transform: none;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
 
   &:hover {
     transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(107, 33, 168, 0.3);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
     color: white;
   }
 }
