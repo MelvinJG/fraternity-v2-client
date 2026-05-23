@@ -181,7 +181,7 @@ export class HomeComponent implements OnInit {
         setTimeout(() => {
           Swal.fire({
             icon: err.status === 500 ? 'error' : 'info',
-            title: 'Oops...',
+            title: 'Sin resultados',
             text: err.error.message
           });
         }, 100);

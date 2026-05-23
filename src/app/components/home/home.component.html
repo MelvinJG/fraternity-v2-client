@@ -44,26 +44,38 @@
                                 <div class="search-card-body">
                                     <div class="search-input-group">
                                         @if (searchMode === 'dpi') {
-                                            <input 
-                                                type="text"
-                                                class="search-input"
-                                                inputmode="numeric"
-                                                [(ngModel)]="dpiValue"
-                                                name="dpi"
-                                                autocomplete="off"
-                                                maxlength="15"
-                                                placeholder="Ingrese número de DPI"
-                                                (input)="onInput($event)"
-                                                required />
+                                            <mdb-form-control>
+                                                <input
+                                                    mdbValidate
+                                                    mdbInput
+                                                    type="text"
+                                                    id="form6Example1"
+                                                    name="dpi"
+                                                    class="form-control form-control-lg"
+                                                    inputmode="numeric"
+                                                    [(ngModel)]="dpiValue"
+                                                    autocomplete="off"
+                                                    maxlength="15"
+                                                    (input)="onInput($event)"
+                                                    pattern="^\d{4}\s\d{5}\s\d{4}$"
+                                                    placeholder="Ingrese número de DPI"
+                                                    required />
+                                                <!-- <label mdbLabel class="form-label" for="form6Example1">Ingrese número de DPI</label> -->
+                                            </mdb-form-control>
                                         } @else {
-                                            <input 
-                                                type="text"
-                                                class="search-input"
-                                                [(ngModel)]="nameSearch"
-                                                name="nameSearch"
-                                                autocomplete="off"
-                                                placeholder="Ingrese nombre completo"
-                                                required />
+                                            <mdb-form-control>
+                                                <input 
+                                                    mdbInput
+                                                    type="text"
+                                                    class="form-control form-control-lg"
+                                                    [(ngModel)]="nameSearch"
+                                                    id="nameSearch"
+                                                    name="nameSearch"
+                                                    autocomplete="off"
+                                                    placeholder="Ingrese nombre completo"
+                                                    required />
+                                                <!-- <label mdbLabel class="form-label" for="nameSearch">Ingrese nombre completo</label> -->
+                                            </mdb-form-control>
                                         }
                                         <button type="submit" class="search-btn">
                                             <i class="fas fa-search"></i>
