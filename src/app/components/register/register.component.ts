@@ -337,6 +337,9 @@ export class RegisterComponent implements OnInit {
 
   onlyNumbers(event: KeyboardEvent): boolean {
     const char = event.key;
+    if (char === 'Enter' || char === 'Backspace' || char === 'Tab') {
+      return true;
+    }
     if (!/^\d$/.test(char)) {
       event.preventDefault();
       return false;
