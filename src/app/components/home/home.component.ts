@@ -14,6 +14,7 @@ import { ReceiptsService } from '../../services/receipts.service';
 import { ModalSummaryComponent } from '../modals/modal-summary/modal-summary.component';
 import { ModalComponent } from '../modals/modal-update-devotees/modal.component';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
+import { dpiIsValid } from '../../utils/dpiIsValid';
 
 interface IOption {
   value: string;
@@ -116,7 +117,7 @@ export class HomeComponent implements OnInit {
     this.labelHeight = '... ';
     this.isTutored = false;
     this.devoteesNames = [];
-    if(this.dpiSearch === '') {
+    if(this.dpiSearch === '' || !dpiIsValid(this.dpiSearch)) {
       Swal.fire({
         icon: 'warning',
         title: 'Oops...',
@@ -388,6 +389,15 @@ export class HomeComponent implements OnInit {
     }, 0);
     //this.isDPIValid = dpiIsValid(this.dpiValue.replaceAll(' ', ''));
     this.dpiSearch = this.dpiValue.replaceAll(' ', '');
+  }
+
+  onlyNumbers(event: KeyboardEvent): boolean {
+    const char = event.key;
+    if (!/^\d$/.test(char)) {
+      event.preventDefault();
+      return false;
+    }
+    return true;
   }
 
   formatDPI(value: string): string {

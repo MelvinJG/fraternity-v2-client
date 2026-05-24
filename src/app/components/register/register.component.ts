@@ -177,6 +177,14 @@ export class RegisterComponent implements OnInit {
       });
       return;
     }
+    if(!dpiIsValid(this.registerData.dpi)) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'Ingrese un DPI válido.'
+      });
+      return;
+    }
     if(this.registerData.isTutored){
       if(this.children.length === 0) {
         this.spinnerService.hide();
@@ -325,6 +333,15 @@ export class RegisterComponent implements OnInit {
     let formatted = part1;
     if (part2) formatted += ' ' + part2;
     return formatted;
+  }
+
+  onlyNumbers(event: KeyboardEvent): boolean {
+    const char = event.key;
+    if (!/^\d$/.test(char)) {
+      event.preventDefault();
+      return false;
+    }
+    return true;
   }
 }
 

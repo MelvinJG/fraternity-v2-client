@@ -42,6 +42,7 @@
                             maxlength="15"
                             (input)="onInput($event)"
                             placeholder="Ingrese Número de DPI"
+                            (keypress)="onlyNumbers($event)"
                             required />
                         }
                         @if(searchType === 'nombre') {

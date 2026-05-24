@@ -44,6 +44,7 @@
                             [(ngModel)]="dpiValue"
                             (input)="onInput($event)"
                             pattern="^\d{4}\s\d{5}\s\d{4}$"
+                            (keypress)="onlyNumbers($event)"
                             required
                             formControlName="dpi"
                         />
@@ -78,7 +79,6 @@
             <div class="form-outline">
                 <mdb-form-control>
                     <input
-                        mdbValidate
                         mdbInput
                         type="tel"
                         id="form6Example1"
@@ -89,6 +89,7 @@
                         pattern="^\d{4}\s\d{4}$"
                         [(ngModel)]="phoneValue"
                         (input)="onPhoneInput($event)"
+                        (keypress)="onlyNumbers($event)"
                         name="phone"
                         [ngModelOptions]="{standalone: true}"
                     />

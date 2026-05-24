@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserAuthService } from '../../../services/user-auth.service';
 import { ModalSummaryComponent } from '../../modals/modal-summary/modal-summary.component';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
+import { dpiIsValid } from '../../../utils/dpiIsValid';
 
 @Component({
   selector: 'app-receipts',
@@ -158,7 +159,7 @@ export class ReceiptsComponent implements OnInit {
 
   onSearch() {
     if (this.searchType === 'dpi') {
-      if(!this.dpiSearch || this.dpiSearch === '') {
+      if(!this.dpiSearch || this.dpiSearch === '' || !dpiIsValid(this.dpiSearch)) {
         Swal.fire({
           icon: 'warning',
           title: 'Oops...',
@@ -335,5 +336,14 @@ export class ReceiptsComponent implements OnInit {
     }
 
     return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
+  }
+
+  onlyNumbers(event: KeyboardEvent): boolean {
+    const char = event.key;
+    if (!/^\d$/.test(char)) {
+      event.preventDefault();
+      return false;
+    }
+    return true;
   }
 }

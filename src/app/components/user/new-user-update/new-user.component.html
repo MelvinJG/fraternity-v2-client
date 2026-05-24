@@ -42,6 +42,7 @@
                     [(ngModel)]="dpiValue"
                     (input)="onInput($event)"
                     pattern="^\d{4}\s\d{5}\s\d{4}$"
+                    (keypress)="onlyNumbers($event)"
                     required
                     formControlName="dpi"
                 />

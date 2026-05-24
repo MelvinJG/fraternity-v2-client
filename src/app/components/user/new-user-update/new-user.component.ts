@@ -272,4 +272,13 @@ export class NewUserComponent implements OnInit {
     if (part3) formatted += ' ' + part3;
     return formatted;
   }
+
+  onlyNumbers(event: KeyboardEvent): boolean {
+    const char = event.key;
+    if (!/^\d$/.test(char)) {
+      event.preventDefault();
+      return false;
+    }
+    return true;
+  }
 }
