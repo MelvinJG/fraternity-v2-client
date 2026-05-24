@@ -28,6 +28,12 @@ export class ReceiptsService {
     });
   }
 
+  getInscriptionsByName(name: string, page: number = 1) {
+    return this.http.get(`${this.API_URL}/name/${name}?page=${page}&limit=30`,{
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
+    });
+  }
+
   deleteInscription(idInscription: number, turnData: object) {
     return this.http.delete(`${this.API_URL}/${idInscription}`, {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' },

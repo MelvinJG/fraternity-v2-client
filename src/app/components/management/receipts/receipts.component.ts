@@ -29,9 +29,12 @@ export class ReceiptsComponent implements OnInit {
     }
   };
   modalRefReceipt: MdbModalRef<ModalSummaryComponent> | null = null;
+  searchType: 'dpi' | 'nombre' = 'nombre';
   dpiSearch: string = '';
+  nameSearch: string = '';
   isSearching: boolean = false;
   dpiValue: string = '';
+  nameValue: string = '';
   currentPage: number = 1;
   visiblePages: (number | '...')[] = [];
 
@@ -112,7 +115,11 @@ export class ReceiptsComponent implements OnInit {
     this.spinnerService.show();
 
     if(this.isSearching) {
-      this.receiptsService.getInscriptionsByDPI(this.dpiSearch, page).subscribe({
+      const searchObservable = this.searchType === 'dpi'
+        ? this.receiptsService.getInscriptionsByDPI(this.dpiSearch, page)
+        : this.receiptsService.getInscriptionsByName(this.nameSearch, page);
+
+      searchObservable.subscribe({
         next: (res: any) => {
           this.loadData = res.data;
           this.isSearching = true;
@@ -150,33 +157,63 @@ export class ReceiptsComponent implements OnInit {
   }
 
   onSearch() {
-    if(!this.dpiSearch || this.dpiSearch === '') {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'Ingrese un DPI válido.'
-      });
-      this.isSearching = false;
-      return;
-    }
-    this.spinnerService.show();
-    this.receiptsService.getInscriptionsByDPI(this.dpiSearch).subscribe({
-      next: (res: any) => {
-        this.loadData = res.data;
-        this.isSearching = true;
-        this.refreshVisiblePages(1);
-        this.spinnerService.hide();
-      },
-      error: (err: any) => {
-        this.isSearching = false;
-        this.spinnerService.hide();
+    if (this.searchType === 'dpi') {
+      if(!this.dpiSearch || this.dpiSearch === '') {
         Swal.fire({
-          icon: err.status === 500 ? 'error' : 'info',
+          icon: 'warning',
           title: 'Oops...',
-          text: err.error.message
-        })
+          text: 'Ingrese un DPI válido.'
+        });
+        this.isSearching = false;
+        return;
       }
-    });
+      this.spinnerService.show();
+      this.receiptsService.getInscriptionsByDPI(this.dpiSearch).subscribe({
+        next: (res: any) => {
+          this.loadData = res.data;
+          this.isSearching = true;
+          this.refreshVisiblePages(1);
+          this.spinnerService.hide();
+        },
+        error: (err: any) => {
+          this.isSearching = false;
+          this.spinnerService.hide();
+          Swal.fire({
+            icon: err.status === 500 ? 'error' : 'info',
+            title: 'Sin resultados',
+            text: err.error.message
+          })
+        }
+      });
+    } else {
+      if(!this.nameSearch || this.nameSearch.trim() === '') {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Sin resultados',
+          text: 'Ingrese un nombre válido.'
+        });
+        this.isSearching = false;
+        return;
+      }
+      this.spinnerService.show();
+      this.receiptsService.getInscriptionsByName(this.nameSearch).subscribe({
+        next: (res: any) => {
+          this.loadData = res.data;
+          this.isSearching = true;
+          this.refreshVisiblePages(1);
+          this.spinnerService.hide();
+        },
+        error: (err: any) => {
+          this.isSearching = false;
+          this.spinnerService.hide();
+          Swal.fire({
+            icon: err.status === 500 ? 'error' : 'info',
+            title: 'Sin resultados',
+            text: err.error.message
+          })
+        }
+      });
+    }
   }
 
   loadAllReceipts() {
@@ -201,10 +238,37 @@ export class ReceiptsComponent implements OnInit {
   }
 
   onInputChange() {
-    if (!this.dpiSearch || this.dpiSearch.toString().trim() === '') {
-      this.loadAllReceipts();
+    if (this.searchType === 'dpi') {
+      if (!this.dpiSearch || this.dpiSearch.toString().trim() === '') {
+        this.loadAllReceipts();
+      }
+    } else {
+      if (!this.nameSearch || this.nameSearch.toString().trim() === '') {
+        this.loadAllReceipts();
+      }
     }
   }
+
+  onNameInput() {
+    this.nameSearch = this.nameValue.trim();
+    // comentado por mi
+    // if (!this.nameSearch) {
+    //   this.loadAllReceipts();
+    // }
+  }
+
+  setSearchType(type: 'dpi' | 'nombre') {
+    this.searchType = type;
+    this.dpiValue = '';
+    this.dpiSearch = '';
+    this.nameValue = '';
+    this.nameSearch = '';
+    this.isSearching = false;
+    // comentado por mi
+    // this.loadAllReceipts();
+  }
+
+
 
   onInput(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -224,9 +288,6 @@ export class ReceiptsComponent implements OnInit {
     }, 0);
     //this.isDPIValid = dpiIsValid(this.dpiValue.replaceAll(' ', ''));
     this.dpiSearch = this.dpiValue.replaceAll(' ', '');
-    if (!this.dpiSearch || this.dpiSearch.toString().trim() === '') {
-      this.loadAllReceipts();
-    }
   }
 
   formatDPI(value: string): string {

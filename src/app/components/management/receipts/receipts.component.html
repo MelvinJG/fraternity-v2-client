@@ -15,38 +15,54 @@
 
   <form (ngSubmit)="onSearch()" class="pb-4">
     <div class="row py-2 d-flex align-items-center justify-content-center">
-        <div class="col-12 col-lg-6">
-            <fieldset class="search-fieldset">
-                <legend class="search-legend">Buscar</legend>
+        <div class="col-12 col-lg-8">
+            <div class="search-card">
+                <div class="search-card-header">
+                  <i class="fas fa-user-circle"></i>
+                  <span>Buscar persona</span>
+                </div>
                 <div class="row d-flex align-items-center justify-content-center">
-                  <div class="col-8 col-md-7">
-                        <div class="form-outline">
-                            <mdb-form-control>
-                                <input 
-                                  mdbValidate
-                                  mdbInput
-                                  type="text"
-                                  id="form6Example1"
-                                  name="dpi"
-                                  class="form-control"
-                                  inputmode="numeric"
-                                  [(ngModel)]="dpiValue"
-                                  autocomplete="off"
-                                  maxlength="15"
-                                  (input)="onInput($event)"
-                                  pattern="^\d{4}\s\d{5}\s\d{4}$"
-                                  required />
-                                <label mdbLabel class="form-label" for="form6Example1">DPI *</label>
-                            </mdb-form-control>
-                        </div>
-                  </div>
-                  <div class="col-2 col-md-2">
-                      <button type="submit" class="btn btn-primary size-search">
-                          <i class="fas fa-search"></i>
+                  <div class="col-12 col-md-10">
+                    <div class="input-group-search">
+                      <div class="search-selector">
+                        <select [(ngModel)]="searchType" name="searchType" (change)="setSearchType(searchType)">
+                          <option value="nombre">Nombre</option>
+                          <option value="dpi">DPI</option>
+                        </select>
+                      </div>
+                      <div class="search-input-wrapper">
+                        @if(searchType === 'dpi') {
+                          <input 
+                            type="text"
+                            name="dpi"
+                            class="search-input"
+                            inputmode="numeric"
+                            [(ngModel)]="dpiValue"
+                            autocomplete="off"
+                            maxlength="15"
+                            (input)="onInput($event)"
+                            placeholder="Ingrese Número de DPI"
+                            required />
+                        }
+                        @if(searchType === 'nombre') {
+                          <input 
+                            type="text"
+                            name="nombre"
+                            class="search-input"
+                            [(ngModel)]="nameValue"
+                            autocomplete="off"
+                            (input)="onNameInput()"
+                            placeholder="Ingrese Nombre"
+                            required />
+                        }
+                      </div>
+                      <button type="submit" class="search-btn">
+                        <i class="fas fa-search"></i>
                       </button>
+                    </div>
                   </div>
                 </div>
-            </fieldset>
+            </div>
           </div>
       </div>
   </form>
