@@ -180,7 +180,7 @@ export class ReceiptsComponent implements OnInit {
           this.spinnerService.hide();
           Swal.fire({
             icon: err.status === 500 ? 'error' : 'info',
-            title: 'Sin resultados',
+            title: err.status === 404 ? 'Sin resultados' : 'Error',
             text: err.error.message
           })
         }
@@ -208,7 +208,7 @@ export class ReceiptsComponent implements OnInit {
           this.spinnerService.hide();
           Swal.fire({
             icon: err.status === 500 ? 'error' : 'info',
-            title: 'Sin resultados',
+            title: err.status === 404 ? 'Sin resultados' : 'Error',
             text: err.error.message
           })
         }

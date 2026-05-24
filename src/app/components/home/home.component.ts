@@ -181,7 +181,7 @@ export class HomeComponent implements OnInit {
         setTimeout(() => {
           Swal.fire({
             icon: err.status === 500 ? 'error' : 'info',
-            title: 'Sin resultados',
+            title: err.status === 404 ? 'Sin resultados' : 'Error',
             text: err.error.message
           });
         }, 100);
@@ -208,19 +208,12 @@ export class HomeComponent implements OnInit {
         this.searchResults = res.data.records;
         this.showResults = true;
         this.spinnerService.hide();
-        if (this.searchResults.length === 0) {
-          Swal.fire({
-            icon: 'info',
-            title: 'Sin resultados',
-            text: 'No se encontraron devotos con ese nombre.'
-          });
-        }
       },
       error: (err: any) => {
         this.spinnerService.hide();
         Swal.fire({
           icon: err.status === 500 ? 'error' : 'info',
-          title: 'Oops...',
+          title: err.status === 404 ? 'Sin resultados' : 'Error',
           text: err.error.message
         });
       }
