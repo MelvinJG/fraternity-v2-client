@@ -38,7 +38,7 @@
           }
         </td>
         <td>
-          @if(user.dpi !== '777' || user.dpi !== '888') {
+          @if(user.dpi !== '777' && user.dpi !== '888') {
             <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="editUser(user.dpi, user.idState)">
               @if(user.idState === 1) {
                 <i class="fa-solid fa-user-xmark" style="color: rgb(250, 35, 35);"></i>
