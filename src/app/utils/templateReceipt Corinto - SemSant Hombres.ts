@@ -1,4 +1,4 @@
-export const templateReceipt = (info: any) => {
+export const templateReceiptSemSantHom = (info: any) => {
     const htmlContent = `
         <!DOCTYPE html>
         <html>
@@ -329,14 +329,9 @@ export const templateReceipt = (info: any) => {
           •⁠ Viernes Santo, Santo Entierro: Túnica y turbante color blanco, tapasol y cinturón color negro, pantalón y zapatos de vestir color negro.<br>
           •⁠ Uniformidad Particular: Traje negro o color oscuro, camisa blanca y zapatos de vestir color negro.<br>
           •⁠ La uniformidad de turnos honores, será totalmente OBLIGATORIO la túnica.<br/>
-          <strong>Uniformidad Damas:</strong> traje color oscuro, perraje y sandalias con cincho.
+          <strong>Uniformidad Damas:</strong> Traje color oscuro, perraje y sandalias con cincho.
         </p>
       </div>
-      <!-- <div class="nota-seccion">
-        <p>
-          <strong>Uniformidad Damas:</strong> traje color oscuro, perraje y sandalias con cincho.
-        </p>
-      </div> -->
       <div class="nota-seccion">
         <p style="text-align: center;">
           <strong>RECOMENDACIÓN GENERAL</strong><br/>

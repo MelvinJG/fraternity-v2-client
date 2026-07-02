@@ -62,7 +62,9 @@ export class ReceiptsComponent implements OnInit {
         turn: data.turno_descripcion,
         amount: data.monto,
         date: new Date(data.fecha_inscripcion).toLocaleDateString("es-GT"),
-        hour: new Date(data.fecha_inscripcion).toLocaleTimeString("es-GT")
+        hour: new Date(data.fecha_inscripcion).toLocaleTimeString("es-GT"),
+        idFraternity: this.authService.getUserInfo()?.idFraternity,
+        fullDate: data.fecha_inscripcion
       }
     });
   }

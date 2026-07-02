@@ -205,7 +205,6 @@ export class HomeComponent implements OnInit {
     this.spinnerService.show();
     this.devoteesService.getDevoteesByName(this.nameSearch.trim()).subscribe({
       next: (res: any) => {
-        console.log("💧 -> ",res);
         this.searchResults = res.data.records;
         this.showResults = true;
         this.spinnerService.hide();
@@ -342,6 +341,9 @@ export class HomeComponent implements OnInit {
     this.spinnerService.show();
     this.receiptsService.registration(this.registrationData).subscribe({
       next: (res: any) => {
+        const date = new Date();
+        date.setHours(date.getHours() - 6);
+        const fullDateISOGT = date.toISOString();
         this.spinnerService.hide();
         this.modalRefReceipt = this.modalService.open(ModalSummaryComponent, {
           modalClass: 'modal-lg',
@@ -355,7 +357,9 @@ export class HomeComponent implements OnInit {
             turn: this.turnForReceipt,
             amount: this.registrationData.amount,
             date: new Date().toLocaleDateString('es-GT', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-            hour: new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', hour12: true })
+            hour: new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', hour12: true }),
+            idFraternity: this.authService.getUserInfo()?.idFraternity,
+            fullDate: fullDateISOGT
           }
         });
       },
