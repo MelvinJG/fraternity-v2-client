@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 
 @Injectable({
@@ -9,7 +8,13 @@ export class ExcelService {
 
   constructor() {}
 
-  generateExcel(data: any[], fileName: string): void {
+  private async getExcelJS() {
+    const ExcelJS = await import('exceljs');
+    return ExcelJS.default || ExcelJS;
+  }
+
+  async generateExcel(data: any[], fileName: string): Promise<void> {
+    const ExcelJS = await this.getExcelJS();
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sheet 1');
     // Add headers
@@ -36,7 +41,8 @@ export class ExcelService {
     });
   }
 
-  ExcelOfficial(data: any[], fileName: string): void {
+  async ExcelOfficial(data: any[], fileName: string): Promise<void> {
+    const ExcelJS = await this.getExcelJS();
     const workbook = new ExcelJS.Workbook();
     data.forEach((turnData, index) => {
         const nameSheet = `${turnData[0].idTurno}-${turnData[0].descripcion}`;

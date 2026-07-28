@@ -66,5 +66,5 @@ export const routes: Routes = [
         loadComponent: () => import('./components/pdf-viewer/pdf-viewer.component').then(m => m.PdfViewerComponent),
         canActivate: [authGuard]
     },
-    { path: '**', redirectTo: 'home' } // Wildcard SIEMPRE al final
+    { path: '**', redirectTo: 'home' }
 ];

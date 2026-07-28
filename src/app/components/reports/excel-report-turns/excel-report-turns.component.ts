@@ -57,12 +57,12 @@ export class ExcelReportTurnsComponent implements OnInit {
     });
   }
 
-  report() {
+  async report() {
     this.spinnerService.show();
     this.receiptsService.report().subscribe({
-      next: (res: any) => {
+      next: async (res: any) => {
         const DATA = orderReportInscription(res.data.turnos);
-        this.excelService.ExcelOfficial(DATA, 'reporte_inscripciones');
+        await this.excelService.ExcelOfficial(DATA, 'reporte_inscripciones');
         this.modalRefReport = this.modalService.open(ModalSummaryComponent, {
           modalClass: 'modal-lg',
           data: {
@@ -70,9 +70,10 @@ export class ExcelReportTurnsComponent implements OnInit {
             summaryData: res.data.resumen
           }
         });
-        //this.loadData = res.data;
+        this.spinnerService.hide();
       },
       error: (err: any) => {
+        this.spinnerService.hide();
         Swal.fire({
           icon: err.status === 500 ? 'error' : 'info',
           title: 'Oops...',
@@ -80,6 +81,5 @@ export class ExcelReportTurnsComponent implements OnInit {
         })
       }
     });
-    this.spinnerService.hide();
   }
 }
