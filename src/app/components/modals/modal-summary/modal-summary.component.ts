@@ -42,7 +42,8 @@ export class ModalSummaryComponent {
       turno: this.turn,
       monto: this.amount,
       fecha: this.date,
-      hora: this.hour
+      hora: this.hour,
+      codDevoto: 'D88888',
     };
     NewTemplateReceipt(info);
   }

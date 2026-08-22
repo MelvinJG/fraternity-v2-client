@@ -15,7 +15,7 @@ export const NewTemplateReceipt = (info: any) => {
         .logo { width: 25mm; height: 25mm; object-fit: contain; }
         .membrete { width: 100%; height: auto; display: block; }
         .codigo-devoto { align-self: start; text-align: center; font-size: 10pt; font-weight: bold;  margin-top: 6mm;}
-        .codigo-devoto .codigo-box { height: 15mm; margin-top: 2mm; border: 1.2px solid #333; border-radius: 4mm; background: white; }
+        .codigo-devoto .codigo-box { height: 17mm; margin-top: 2mm; padding: 1mm 2mm; border: 1.5px solid #333; border-radius: 4mm; background: white; display: flex; align-items: center; justify-content: center; color: #8b0000; font-family: 'Times New Roman', serif; font-size: 20pt; font-weight: bold; line-height: 1; text-align: center; }
         .marca-lateral { position: absolute; z-index: 0; top: 39mm; right: -3mm; width: 64mm; opacity: .2; z-index: 10; }
         .recomendacion { position: relative; z-index: 1; margin-top: 4mm; padding: 2.5mm 4mm 3mm; border: 1.2px solid #9f3d3d; border-radius: 3mm; background: #f8e1e5; color: #883737; text-align: center; }
         .recomendacion h2 { font-size: 13pt; margin-bottom: 1mm; }
@@ -25,7 +25,7 @@ export const NewTemplateReceipt = (info: any) => {
         .recomendacion-item img { display: block; width: 22mm; height: 24mm; object-fit: contain; margin: 0 auto 1mm; }
         .recomendacion-final { font-size: 10pt; font-weight: bold; line-height: 1.25; }
         @media print { @page { margin: 2mm; size: A4; } body { margin: 0; } .recibo-container { min-height: 0; height: auto; page-break-after: avoid; } * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; } .recomendacion { page-break-inside: avoid; } }
-        @media screen and (max-width: 700px) { .recibo-container { width: 100%; min-height: 0; padding: 4vw; } .header { grid-template-columns: 20mm 1fr 25mm; gap: 2mm; } .logo { width: 18mm; height: 18mm; } .codigo-devoto { font-size: 7pt; } .codigo-devoto .codigo-box { height: 11mm; } .fila-campos { gap: 2mm; } .campo-grupo label, .texto-variables { font-size: 8pt; } .recomendacion-items { gap: 1mm; } .recomendacion-item { font-size: 7pt; } .recomendacion-item img { width: 17mm; height: 19mm; } .recomendacion-final { font-size: 8pt; } }
+        @media screen and (max-width: 700px) { .recibo-container { width: 100%; min-height: 0; padding: 4vw; } .header { grid-template-columns: 20mm 1fr 25mm; gap: 2mm; } .logo { width: 18mm; height: 18mm; } .codigo-devoto { font-size: 7pt; } .codigo-devoto .codigo-box { height: 11mm; font-size: 16pt; } .fila-campos { gap: 2mm; } .campo-grupo label, .texto-variables { font-size: 8pt; } .recomendacion-items { gap: 1mm; } .recomendacion-item { font-size: 7pt; } .recomendacion-item img { width: 17mm; height: 19mm; } .recomendacion-final { font-size: 8pt; } }
 
         /* Número de serie en la esquina */
     .numero-serie {
@@ -136,7 +136,7 @@ export const NewTemplateReceipt = (info: any) => {
         <div class="header">
         <img class="logo" src="https://fraternity-images-birthday.s3.us-east-1.amazonaws.com/images-receipt/LOGO-03.png" alt="Escudo de la Hermandad">
         <img class="membrete" src="https://fraternity-images-birthday.s3.us-east-1.amazonaws.com/images-receipt/MEMBRETE+TEXTO-04.png" alt="Hermandad">
-        <div class="codigo-devoto">Código Devoto<div class="codigo-box"></div></div>
+        <div class="codigo-devoto">Código Devoto<div class="codigo-box">${info.codDevoto}</div></div>
         </div>
         <div class="campos-principales">
           <div class="fila-campos">
