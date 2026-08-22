@@ -16,15 +16,6 @@ export const NewTemplateReceipt = (info: any) => {
         .membrete { width: 100%; height: auto; display: block; }
         .codigo-devoto { align-self: start; text-align: center; font-size: 10pt; font-weight: bold;  margin-top: 6mm;}
         .codigo-devoto .codigo-box { height: 15mm; margin-top: 2mm; border: 1.2px solid #333; border-radius: 4mm; background: white; }
-        .campos-principales { margin-top: 2mm; position: relative; z-index: 1; }
-        .fila-campos { display: flex; gap: 6mm; margin-bottom: 1.7mm; }
-        .campo-grupo { flex: 1; min-width: 0; }
-        .campo-grupo.pequeno { flex: 1; }
-        .campo-grupo label { display: block; margin-bottom: 1mm; font-size: 10pt; font-weight: bold; }
-        .campo-grupo .input-box { min-height: 9mm; padding: 1.5mm 3mm; border: 1.2px solid #333; border-radius: 3mm; background: rgba(255, 255, 255, .95); position: relative; overflow: hidden; }
-        .texto-variables { color: #989494; font-size: 10pt; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .numero-serie-variables { color: #8b0000; font-size: 10pt; font-weight: bold; }
-        .fecha-hora-generacion { float: right; margin-top: 1mm; color: #666; font-size: 6.5pt; font-style: italic; }
         .marca-lateral { position: absolute; z-index: 0; top: 39mm; right: -3mm; width: 64mm; opacity: .2; z-index: 10; }
         .recomendacion { position: relative; z-index: 1; margin-top: 4mm; padding: 2.5mm 4mm 3mm; border: 1.2px solid #9f3d3d; border-radius: 3mm; background: #f8e1e5; color: #883737; text-align: center; }
         .recomendacion h2 { font-size: 13pt; margin-bottom: 1mm; }
@@ -33,8 +24,110 @@ export const NewTemplateReceipt = (info: any) => {
         .recomendacion-item { font-size: 9pt; font-weight: bold; line-height: 1.05; }
         .recomendacion-item img { display: block; width: 22mm; height: 24mm; object-fit: contain; margin: 0 auto 1mm; }
         .recomendacion-final { font-size: 10pt; font-weight: bold; line-height: 1.25; }
-        @media print { @page { margin: 8mm; size: A4; } body { margin: 0; } .recibo-container { min-height: 0; height: auto; page-break-after: avoid; } * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; } .recomendacion { page-break-inside: avoid; } }
+        @media print { @page { margin: 2mm; size: A4; } body { margin: 0; } .recibo-container { min-height: 0; height: auto; page-break-after: avoid; } * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; } .recomendacion { page-break-inside: avoid; } }
         @media screen and (max-width: 700px) { .recibo-container { width: 100%; min-height: 0; padding: 4vw; } .header { grid-template-columns: 20mm 1fr 25mm; gap: 2mm; } .logo { width: 18mm; height: 18mm; } .codigo-devoto { font-size: 7pt; } .codigo-devoto .codigo-box { height: 11mm; } .fila-campos { gap: 2mm; } .campo-grupo label, .texto-variables { font-size: 8pt; } .recomendacion-items { gap: 1mm; } .recomendacion-item { font-size: 7pt; } .recomendacion-item img { width: 17mm; height: 19mm; } .recomendacion-final { font-size: 8pt; } }
+
+        /* Número de serie en la esquina */
+    .numero-serie {
+      position: absolute;
+      top: 10mm;
+      left: 15mm;
+      color: #8b0000;
+      font-size: 14pt;
+      font-weight: bold;
+    }
+
+    .numero-serie-variables {
+      color: #8b0000;
+      font-size: 10pt;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    /* Número de mesa */
+    .numero-mesa {
+      position: absolute;
+      top: 15mm;
+      right: 20mm;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: black;
+    }
+    
+    .numero-mesa label {
+      font-size: 10pt;
+    }
+    
+    .numero-mesa .campo {
+      border: 1px solid #000;
+      padding: 5px 30px;
+      background-color: white;
+      min-width: 80px;
+      text-align: center;
+      border-radius: 8px;
+    }
+    
+    /* Campos principales */
+    .campos-principales {
+      margin-top: 1mm;
+    }
+    
+    .fila-campos {
+      display: flex;
+      gap: 25px;
+      margin-bottom: 1.8mm;
+    }
+    
+    .campo-grupo {
+      flex: 1;
+    }
+    
+    .campo-grupo.pequeno {
+      flex: 0.4;
+    }
+    
+    .campo-grupo label {
+      display: block;
+      font-size: 11pt;
+      margin-bottom: 3px;
+      color: black;
+    }
+    
+    .campo-grupo .input-box {
+      border: 1px solid #000;
+      padding: 6px 15px;
+      background-color: white;
+      min-height: 5px;
+      position: relative;
+      border-radius: 8px;
+    }
+    
+    .campo-grupo .input-box .texto-tachado {
+      text-decoration: line-through;
+      color: #666;
+      font-size: 15pt;
+    }
+    
+    .texto-variables {
+      color: #989494;
+      font-size: 10pt;
+      text-transform: uppercase;
+    }
+    
+    .fecha-hora-generacion {
+      font-size: 6.5pt;
+      color: #666;
+      float: right;
+      font-style: italic;
+      position: relative;
+      top: 10px;
+    }
+
+    .campo-grupo .input-box .texto-valor {
+      font-size: 11pt;
+    }
+
     </style>
     </head>
     <body>
@@ -46,18 +139,18 @@ export const NewTemplateReceipt = (info: any) => {
         <div class="codigo-devoto">Código Devoto<div class="codigo-box"></div></div>
         </div>
         <div class="campos-principales">
-        <div class="fila-campos">
-            <div class="campo-grupo pequeno"><label>No. de Mesa</label><div class="input-box" style="text-align: center;"><span class="texto-variables">${info.numeroMesa}</span></div></div>
-            <div class="campo-grupo pequeno"><label>Estatura</label><div class="input-box" style="text-align: center;"><span class="texto-variables">${info.estatura} M</span></div></div>
-            <div class="campo-grupo pequeno"><label>No. de Recibo</label><div class="input-box" style="text-align: center;"><span class="numero-serie-variables">${info.numeroRecibo}</span></div></div>
-        </div>
-        <div class="fila-campos">
-            <div class="campo-grupo"><label>Nombre</label><div class="input-box"><div class="texto-variables">${info.nombre}</div></div></div>
-            <div class="campo-grupo"><label>Dirección</label><div class="input-box"><div class="texto-variables">${info.direccion}</div></div></div>
-        </div>
-        <div class="fila-campos">
-            <div class="campo-grupo"><label>Turno</label><div class="input-box"><div class="texto-variables">${info.turno} || Q. ${info.monto}<span class="fecha-hora-generacion">${generatedAt}</span></div></div></div>
-        </div>
+          <div class="fila-campos">
+              <div class="campo-grupo pequeno"><label>No. de Mesa</label><div class="input-box" style="text-align: center;"><span class="texto-variables">${info.numeroMesa}</span></div></div>
+              <div class="campo-grupo pequeno"><label>Estatura</label><div class="input-box" style="text-align: center;"><span class="texto-variables">${info.estatura} M</span></div></div>
+              <div class="campo-grupo pequeno"><label>No. de Recibo</label><div class="input-box" style="text-align: center;"><span class="numero-serie-variables">${info.numeroRecibo}</span></div></div>
+          </div>
+          <div class="fila-campos">
+              <div class="campo-grupo"><label>Nombre</label><div class="input-box"><div class="texto-variables">${info.nombre}</div></div></div>
+              <div class="campo-grupo"><label>Dirección</label><div class="input-box"><div class="texto-variables">${info.direccion}</div></div></div>
+          </div>
+          <div class="fila-campos">
+              <div class="campo-grupo"><label>Turno</label><div class="input-box"><div class="texto-variables">${info.turno} || Q. ${info.monto}<span class="fecha-hora-generacion">${generatedAt}</span></div></div></div>
+          </div>
         </div>
         <section class="recomendacion">
         <h2>RECOMENDACIÓN GENERAL</h2>
