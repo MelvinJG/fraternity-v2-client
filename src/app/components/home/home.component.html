@@ -40,6 +40,12 @@
                                         (click)="toggleSearchMode('dpi')">
                                         <i class="fas fa-id-card me-1"></i> DPI
                                     </button>
+                                    <button type="button" 
+                                        class="search-tab"
+                                        [class.active]="searchMode === 'code'"
+                                        (click)="toggleSearchMode('code')">
+                                        <i class="fa fa-hashtag" aria-hidden="true"></i> Código
+                                    </button>
                                 </div>
                                 <div class="search-card-body">
                                     <div class="search-input-group">
@@ -60,7 +66,20 @@
                                                     pattern="^\d{4}\s\d{5}\s\d{4}$"
                                                     placeholder="Ingrese Número de DPI"
                                                     required />
-                                                <!-- <label mdbLabel class="form-label" for="form6Example1">Ingrese número de DPI</label> -->
+                                            </mdb-form-control>
+                                        } @else if (searchMode === 'code') {
+                                            <mdb-form-control>
+                                                <input
+                                                    mdbInput
+                                                    type="text"
+                                                    id="codeSearch"
+                                                    name="codeSearch"
+                                                    class="form-control form-control-lg"
+                                                    inputmode="numeric"
+                                                    [(ngModel)]="codeSearch"
+                                                    autocomplete="off"
+                                                    placeholder="Ingrese Código"
+                                                    required />
                                             </mdb-form-control>
                                         } @else {
                                             <mdb-form-control>
@@ -74,7 +93,6 @@
                                                     autocomplete="off"
                                                     placeholder="Ingrese Nombre"
                                                     required />
-                                                <!-- <label mdbLabel class="form-label" for="nameSearch">Ingrese nombre completo</label> -->
                                             </mdb-form-control>
                                         }
                                         <button type="submit" class="search-btn">
