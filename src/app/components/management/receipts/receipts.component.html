@@ -27,6 +27,7 @@
                       <div class="search-selector">
                         <select [(ngModel)]="searchType" name="searchType" (change)="setSearchType(searchType)">
                           <option value="nombre">Nombre</option>
+                          <option value="codigo">Código</option>
                           <option value="dpi">DPI</option>
                         </select>
                       </div>
@@ -42,6 +43,19 @@
                             maxlength="15"
                             (input)="onInput($event)"
                             placeholder="Ingrese Número de DPI"
+                            (keypress)="onlyNumbers($event)"
+                            required />
+                        }
+                        @if(searchType === 'codigo') {
+                          <input 
+                            type="text"
+                            name="codigo"
+                            class="search-input"
+                            inputmode="numeric"
+                            [(ngModel)]="codeValue"
+                            autocomplete="off"
+                            (input)="onCodeInput()"
+                            placeholder="Ingrese Código"
                             (keypress)="onlyNumbers($event)"
                             required />
                         }

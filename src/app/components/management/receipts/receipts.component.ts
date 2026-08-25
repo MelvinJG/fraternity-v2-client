@@ -30,12 +30,14 @@ export class ReceiptsComponent implements OnInit {
     }
   };
   modalRefReceipt: MdbModalRef<ModalSummaryComponent> | null = null;
-  searchType: 'dpi' | 'nombre' = 'nombre';
+  searchType: 'dpi' | 'nombre' | 'codigo' = 'nombre';
   dpiSearch: string = '';
   nameSearch: string = '';
+  codeSearch: string = '';
   isSearching: boolean = false;
   dpiValue: string = '';
   nameValue: string = '';
+  codeValue: string = '';
   currentPage: number = 1;
   visiblePages: (number | '...')[] = [];
 
@@ -164,7 +166,7 @@ export class ReceiptsComponent implements OnInit {
       if(!this.dpiSearch || this.dpiSearch === '' || !dpiIsValid(this.dpiSearch)) {
         Swal.fire({
           icon: 'warning',
-          title: 'Oops...',
+          title: 'Sin resultados',
           text: 'Ingrese un DPI válido.'
         });
         this.isSearching = false;
@@ -188,7 +190,36 @@ export class ReceiptsComponent implements OnInit {
           })
         }
       });
-    } else {
+    } else if (this.searchType === 'codigo') {
+      if(!this.codeSearch || this.codeSearch.trim() === '') {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Sin resultados',
+          text: 'Ingrese un código válido.'
+        });
+        this.isSearching = false;
+        return;
+      }
+      this.spinnerService.show();
+      this.receiptsService.getInscriptionsByCode(this.codeSearch).subscribe({
+        next: (res: any) => {
+          this.loadData = res.data;
+          this.isSearching = true;
+          this.refreshVisiblePages(1);
+          this.spinnerService.hide();
+        },
+        error: (err: any) => {
+          this.isSearching = false;
+          this.spinnerService.hide();
+          Swal.fire({
+            icon: err.status === 500 ? 'error' : 'info',
+            title: err.status === 404 ? 'Sin resultados' : 'Error',
+            text: err.error.message
+          })
+        }
+      });
+    }
+    else {
       if(!this.nameSearch || this.nameSearch.trim() === '') {
         Swal.fire({
           icon: 'warning',
@@ -260,12 +291,25 @@ export class ReceiptsComponent implements OnInit {
     // }
   }
 
-  setSearchType(type: 'dpi' | 'nombre') {
+  onCodeInput() {
+    console.log("❌ : ", this.codeValue);
+    this.codeSearch = this.codeValue.trim();
+    console.log("🚀 ~ receipts.component.ts ~ ReceiptsComponent ~ onCodeInput ~ codeSearch:", this.codeSearch)
+    
+    // comentado por mi
+    // if (!this.codeSearch) {
+    //   this.loadAllReceipts();
+    // }
+  }
+
+  setSearchType(type: 'dpi' | 'nombre' | 'codigo') {
     this.searchType = type;
     this.dpiValue = '';
     this.dpiSearch = '';
     this.nameValue = '';
     this.nameSearch = '';
+    this.codeValue = '';
+    this.codeSearch = '';
     this.isSearching = false;
     // comentado por mi
     // this.loadAllReceipts();
