@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
-import { NewTemplateReceipt } from '../../../utils/NewTemplateReceipt';
+import { NewTemplateReceiptMen } from '../../../utils/NewTemplateReceiptMen';
+import { NewTemplateReceiptWomen } from '../../../utils/NewTemplateReceiptWomen';
 
 @Component({
   selector: 'app-modal-summary',
@@ -46,7 +47,11 @@ export class ModalSummaryComponent {
       hora: this.hour,
       codDevoto: `D${this.codDevotee}`,
     };
-    NewTemplateReceipt(info);
+    if (this.idFraternity === 1) {
+      NewTemplateReceiptMen(info);
+    } else if (this.idFraternity === 2) {
+      NewTemplateReceiptWomen(info);
+    }
   }
 
   reload() {

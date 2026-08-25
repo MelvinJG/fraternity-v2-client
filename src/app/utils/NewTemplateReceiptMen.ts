@@ -1,0 +1,189 @@
+export const NewTemplateReceiptMen = (info: any) => {
+    const generatedAt = `${new Date().toLocaleDateString('es-GT', { day: '2-digit', month: '2-digit', year: 'numeric' })} ${new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', hour12: false })}`;
+
+    const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+    <head>
+    <meta charset="UTF-8">
+    <title>Recibo Hermandad</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Times New Roman', serif; background: white; color: #222; }
+        .recibo-container { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 8mm 8mm 10mm; position: relative; overflow: hidden; background: white; }
+        .header { display: grid; grid-template-columns: 29mm 1fr 32mm; align-items: center; gap: 4mm; min-height: 29mm; position: relative; z-index: 1; }
+        .logo { width: 25mm; height: 25mm; object-fit: contain; }
+        .membrete { width: 100%; height: auto; display: block; }
+        .codigo-devoto { align-self: start; text-align: center; font-size: 10pt; font-weight: bold;  margin-top: 6mm;}
+        .codigo-devoto .codigo-box { height: 17mm; margin-top: 2mm; padding: 1mm 2mm; border: 1.5px solid #333; border-radius: 4mm; background: white; display: flex; align-items: center; justify-content: center; color: #8b0000; font-family: 'Times New Roman', serif; font-size: 20pt; font-weight: bold; line-height: 1; text-align: center; }
+        .marca-lateral { position: absolute; z-index: 0; top: 39mm; right: -3mm; width: 64mm; opacity: .2; z-index: 10; }
+        .recomendacion { position: relative; z-index: 1; margin-top: 3mm; padding: 1.5mm 3mm 2mm; border: 1.2px solid #9f3d3d; border-radius: 3mm; background: #f8e1e5; color: #883737; text-align: center; }
+        .recomendacion h2 { font-size: 11pt; margin-bottom: .5mm; }
+        .recomendacion-subtitulo { font-size: 9pt; font-weight: bold; }
+        .recomendacion-items { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2mm; align-items: start; margin: 1mm 0 1.5mm; }
+        .recomendacion-item { font-size: 8pt; font-weight: bold; line-height: 1.05; }
+        .recomendacion-item img { display: block; width: 22mm; height: 24mm; object-fit: contain; margin: 0 auto .5mm; }
+        .recomendacion-final { font-size: 8.5pt; font-weight: bold; line-height: 1.15; }
+        @media print { @page { margin: 2mm; size: A4; } body { margin: 0; } .recibo-container { min-height: 0; height: auto; page-break-after: avoid; } * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; } .recomendacion { page-break-inside: avoid; } }
+        @media screen and (max-width: 700px) { .recibo-container { width: 100%; min-height: 0; padding: 4vw; } .header { grid-template-columns: 20mm 1fr 25mm; gap: 2mm; } .logo { width: 18mm; height: 18mm; } .codigo-devoto { font-size: 7pt; } .codigo-devoto .codigo-box { height: 11mm; font-size: 16pt; } .fila-campos { gap: 2mm; } .campo-grupo label, .texto-variables { font-size: 8pt; } .recomendacion-items { gap: 1mm; } .recomendacion-item { font-size: 7pt; } .recomendacion-item img { width: 19mm; height: 21mm; } .recomendacion-final { font-size: 7.5pt; } }
+
+        /* Número de serie en la esquina */
+    .numero-serie {
+      position: absolute;
+      top: 10mm;
+      left: 15mm;
+      color: #8b0000;
+      font-size: 14pt;
+      font-weight: bold;
+    }
+
+    .numero-serie-variables {
+      color: #8b0000;
+      font-size: 10pt;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    /* Número de mesa */
+    .numero-mesa {
+      position: absolute;
+      top: 15mm;
+      right: 20mm;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: black;
+    }
+    
+    .numero-mesa label {
+      font-size: 10pt;
+    }
+    
+    .numero-mesa .campo {
+      border: 1px solid #000;
+      padding: 5px 30px;
+      background-color: white;
+      min-width: 80px;
+      text-align: center;
+      border-radius: 8px;
+    }
+    
+    /* Campos principales */
+    .campos-principales {
+      margin-top: 1mm;
+    }
+    
+    .fila-campos {
+      display: flex;
+      gap: 25px;
+      margin-bottom: 1.8mm;
+    }
+    
+    .campo-grupo {
+      flex: 1;
+    }
+    
+    .campo-grupo.pequeno {
+      flex: 0.4;
+    }
+    
+    .campo-grupo label {
+      display: block;
+      font-size: 11pt;
+      margin-bottom: 3px;
+      color: black;
+    }
+    
+    .campo-grupo .input-box {
+      border: 1px solid #000;
+      padding: 6px 15px;
+      background-color: white;
+      min-height: 5px;
+      position: relative;
+      border-radius: 8px;
+    }
+    
+    .campo-grupo .input-box .texto-tachado {
+      text-decoration: line-through;
+      color: #666;
+      font-size: 15pt;
+    }
+    
+    .texto-variables {
+      color: #989494;
+      font-size: 10pt;
+      text-transform: uppercase;
+    }
+    
+    .fecha-hora-generacion {
+      font-size: 6.5pt;
+      color: #666;
+      float: right;
+      font-style: italic;
+      position: relative;
+      top: 10px;
+    }
+
+    .campo-grupo .input-box .texto-valor {
+      font-size: 11pt;
+    }
+
+    </style>
+    </head>
+    <body>
+    <div class="recibo-container">
+        <img class="marca-lateral" src="https://fraternity-images-birthday.s3.us-east-1.amazonaws.com/images-receipt/ICONO+LATERAL+MEDIO-04.png" alt="">
+        <div class="header">
+        <img class="logo" src="https://fraternity-images-birthday.s3.us-east-1.amazonaws.com/images-receipt/LOGO-03.png" alt="Escudo de la Hermandad">
+        <img class="membrete" src="https://fraternity-images-birthday.s3.us-east-1.amazonaws.com/images-receipt/MEMBRETE+TEXTO-04.png" alt="Hermandad">
+        <div class="codigo-devoto">Código Devoto<div class="codigo-box">${info.codDevoto}</div></div>
+        </div>
+        <div class="campos-principales">
+          <div class="fila-campos">
+              <div class="campo-grupo pequeno"><label>No. de Mesa</label><div class="input-box" style="text-align: center;"><span class="texto-variables">${info.numeroMesa}</span></div></div>
+              <div class="campo-grupo pequeno"><label>Estatura</label><div class="input-box" style="text-align: center;"><span class="texto-variables">${info.estatura} M</span></div></div>
+              <div class="campo-grupo pequeno"><label>No. de Recibo</label><div class="input-box" style="text-align: center;"><span class="numero-serie-variables">${info.numeroRecibo}</span></div></div>
+          </div>
+          <div class="fila-campos">
+              <div class="campo-grupo"><label>Nombre</label><div class="input-box"><div class="texto-variables">${info.nombre}</div></div></div>
+              <div class="campo-grupo"><label>Dirección</label><div class="input-box"><div class="texto-variables">${info.direccion}</div></div></div>
+          </div>
+          <div class="fila-campos">
+              <div class="campo-grupo"><label>Turno</label><div class="input-box"><div class="texto-variables">${info.turno} || Q. ${info.monto}<span class="fecha-hora-generacion">${generatedAt}</span></div></div></div>
+          </div>
+        </div>
+        <section class="recomendacion">
+        <h2>RECOMENDACIÓN GENERAL</h2>
+        <div class="recomendacion-subtitulo">Para el cortejo procesional</div>
+        <div class="recomendacion-items">
+            <div class="recomendacion-item"><img src="https://fraternity-images-birthday.s3.us-east-1.amazonaws.com/images-receipt/ICONO+ZAPATO-03.png" alt=""><span>NO TENIS</span></div>
+            <div class="recomendacion-item"><img src="https://fraternity-images-birthday.s3.us-east-1.amazonaws.com/images-receipt/ICONO+CELULAR-03.png" alt=""><span>NO CELULARES</span></div>
+            <div class="recomendacion-item"><img src="https://fraternity-images-birthday.s3.us-east-1.amazonaws.com/images-receipt/ICONO+LENTES-03.png" alt=""><span>NO LENTES OSCUROS</span></div>
+            <div class="recomendacion-item"><img src="https://fraternity-images-birthday.s3.us-east-1.amazonaws.com/images-receipt/ICONO+PAREJAS-03.png" alt=""><span>NO ANDAR EN PAREJAS<br> DENTRO DE FILAS</span></div>
+        </div>
+        <p class="recomendacion-final">Demostremos nuestra Fe, Devoción y Penitencia por lo que nuestro comportamiento y obediencia dependerá en gran medida la suntuosidad y mística de nuestros cortejos procesionales.</p>
+        </section>
+    </div>
+    </body>
+    </html>`;
+
+    const printFrame = document.createElement('iframe');
+    printFrame.style.position = 'absolute';
+    printFrame.style.width = '0';
+    printFrame.style.height = '0';
+    printFrame.style.border = 'none';
+    document.body.appendChild(printFrame);
+    const frameDoc = printFrame.contentWindow?.document;
+    if (frameDoc) {
+        frameDoc.open();
+        frameDoc.write(htmlContent);
+        frameDoc.close();
+        printFrame.onload = () => {
+            printFrame.contentWindow?.focus();
+            printFrame.contentWindow?.print();
+            printFrame.contentWindow!.onafterprint = () => {
+                if (printFrame.parentNode) printFrame.parentNode.removeChild(printFrame);
+            };
+        };
+    }
+};
