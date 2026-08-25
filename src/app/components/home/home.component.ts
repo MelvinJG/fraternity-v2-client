@@ -134,53 +134,7 @@ export class HomeComponent implements OnInit {
     this.spinnerService.show();
     this.devoteesService.getDevoteeByDPI(this.dpiSearch).subscribe({
       next: (res: any) => {
-        this.devoteeInfo = res.data;
-        this.registrationData.dpiDevotee = this.devoteeInfo.dpi;
-        if(this.devoteeInfo.isTutored) {
-          this.isTutored = true;
-          const father: IOption = {
-            value: this.devoteeInfo.dpi,
-            label: this.devoteeInfo.fullName,
-            height: this.devoteeInfo.height,
-            isFather: true
-          }
-          const children = this.devoteeInfo.children.map((child: any) => ({ 
-            value: String(child.id), 
-            label: child.fullName, 
-            height: child.height 
-          }));
-          this.devoteesNames = [father, ...children];
-          // Selecciona el primer elemento (padre) por defecto
-          this.selectedPerson = this.devoteesNames[0].value;
-          this.nameForReceipt = this.devoteesNames[0].label;
-          this.labelHeight = this.devoteesNames[0].height ? `${this.devoteesNames[0].height}` : 'N/A';
-        } else {
-          this.labelHeight = this.devoteeInfo.height ? `${this.devoteeInfo.height}` : 'N/A';
-          this.nameForReceipt = this.devoteeInfo.fullName;
-        }
-        this.turnsService.getTurns().subscribe({
-          next: (res: any) => {
-            this.turns = res.data.map((turn: any) => ({
-              value: String(turn.id),
-              label: turn.description,
-              price: turn.price,
-              available: turn.quantity === null ? null : turn.quantity - turn.sold
-            }));
-          },
-          error: (err: any) => {
-            Swal.fire({
-              position: "top-end",
-              icon: err.status === 500 ? 'error' : 'info',
-              title: err.error.message,
-              showConfirmButton: false,
-              timer: 1500
-            })
-          }
-        });
-        this.spinnerService.hide();
-        setTimeout(() => {
-          this.isDataLoaded = true;
-        }, 100);
+        this.factorizeResultByDPI(res);
       },
       error: (err: any) => {
         this.isDataLoaded = false;
@@ -241,55 +195,7 @@ export class HomeComponent implements OnInit {
     this.spinnerService.show();
     this.devoteesService.getDevoteesByCode(this.codeSearch.trim()).subscribe({
       next: (res: any) => {
-        console.log("🚀 ~ home.component.ts ~ HomeComponent ~ onSearchByCode ~ res:", res)
-        console.log("📦 : ",res.data.dpi);
-        this.devoteeInfo = res.data;
-        this.registrationData.dpiDevotee = this.devoteeInfo.dpi;
-        if(this.devoteeInfo.isTutored) {
-          this.isTutored = true;
-          const father: IOption = {
-            value: this.devoteeInfo.dpi,
-            label: this.devoteeInfo.fullName,
-            height: this.devoteeInfo.height,
-            isFather: true
-          }
-          const children = this.devoteeInfo.children.map((child: any) => ({ 
-            value: String(child.id), 
-            label: child.fullName, 
-            height: child.height 
-          }));
-          this.devoteesNames = [father, ...children];
-          // Selecciona el primer elemento (padre) por defecto
-          this.selectedPerson = this.devoteesNames[0].value;
-          this.nameForReceipt = this.devoteesNames[0].label;
-          this.labelHeight = this.devoteesNames[0].height ? `${this.devoteesNames[0].height}` : 'N/A';
-        } else {
-          this.labelHeight = this.devoteeInfo.height ? `${this.devoteeInfo.height}` : 'N/A';
-          this.nameForReceipt = this.devoteeInfo.fullName;
-        }
-        this.turnsService.getTurns().subscribe({
-          next: (res: any) => {
-            this.turns = res.data.map((turn: any) => ({
-              value: String(turn.id),
-              label: turn.description,
-              price: turn.price,
-              available: turn.quantity === null ? null : turn.quantity - turn.sold
-            }));
-          },
-          error: (err: any) => {
-            Swal.fire({
-              position: "top-end",
-              icon: err.status === 500 ? 'error' : 'info',
-              title: err.error.message,
-              showConfirmButton: false,
-              timer: 1500
-            })
-          }
-        });
-        this.spinnerService.hide();
-        setTimeout(() => {
-          this.isDataLoaded = true;
-        }, 100);
+        this.factorizeResultByDPI(res);
       },
       error: (err: any) => {
         this.spinnerService.hide();
@@ -314,52 +220,7 @@ export class HomeComponent implements OnInit {
     this.spinnerService.show();
     this.devoteesService.getDevoteeByDPI(dpi).subscribe({
       next: (res: any) => {
-        this.devoteeInfo = res.data;
-        this.registrationData.dpiDevotee = this.devoteeInfo.dpi;
-        if (this.devoteeInfo.isTutored) {
-          this.isTutored = true;
-          const father: IOption = {
-            value: this.devoteeInfo.dpi,
-            label: this.devoteeInfo.fullName,
-            height: this.devoteeInfo.height,
-            isFather: true
-          };
-          const children = this.devoteeInfo.children.map((child: any) => ({
-            value: String(child.id),
-            label: child.fullName,
-            height: child.height
-          }));
-          this.devoteesNames = [father, ...children];
-          this.selectedPerson = this.devoteesNames[0].value;
-          this.nameForReceipt = this.devoteesNames[0].label;
-          this.labelHeight = this.devoteesNames[0].height ? `${this.devoteesNames[0].height}` : 'N/A';
-        } else {
-          this.labelHeight = this.devoteeInfo.height ? `${this.devoteeInfo.height}` : 'N/A';
-          this.nameForReceipt = this.devoteeInfo.fullName;
-        }
-        this.turnsService.getTurns().subscribe({
-          next: (res: any) => {
-            this.turns = res.data.map((turn: any) => ({
-              value: String(turn.id),
-              label: turn.description,
-              price: turn.price,
-              available: turn.quantity === null ? null : turn.quantity - turn.sold
-            }));
-          },
-          error: (err: any) => {
-            Swal.fire({
-              position: "top-end",
-              icon: err.status === 500 ? 'error' : 'info',
-              title: err.error.message,
-              showConfirmButton: false,
-              timer: 1500
-            });
-          }
-        });
-        this.spinnerService.hide();
-        setTimeout(() => {
-          this.isDataLoaded = true;
-        }, 100);
+        this.factorizeResultByDPI(res);
       },
       error: (err: any) => {
         this.isDataLoaded = false;
@@ -371,6 +232,56 @@ export class HomeComponent implements OnInit {
         });
       }
     });
+  }
+
+  factorizeResultByDPI(res: any) {
+    this.devoteeInfo = res.data;
+    this.registrationData.dpiDevotee = this.devoteeInfo.dpi;
+    if(this.devoteeInfo.isTutored) {
+      this.isTutored = true;
+      const father: IOption = {
+        value: this.devoteeInfo.dpi,
+        label: this.devoteeInfo.fullName,
+        height: this.devoteeInfo.height,
+        isFather: true
+      }
+      const children = this.devoteeInfo.children.map((child: any) => ({ 
+        value: String(child.id), 
+        label: child.fullName, 
+        height: child.height 
+      }));
+      this.devoteesNames = [father, ...children];
+      // Selecciona el primer elemento (padre) por defecto
+      this.selectedPerson = this.devoteesNames[0].value;
+      this.nameForReceipt = this.devoteesNames[0].label;
+      this.labelHeight = this.devoteesNames[0].height ? `${this.devoteesNames[0].height}` : 'N/A';
+    } else {
+      this.labelHeight = this.devoteeInfo.height ? `${this.devoteeInfo.height}` : 'N/A';
+      this.nameForReceipt = this.devoteeInfo.fullName;
+    }
+    this.turnsService.getTurns().subscribe({
+      next: (res: any) => {
+        this.turns = res.data.map((turn: any) => ({
+          value: String(turn.id),
+          label: turn.description,
+          price: turn.price,
+          available: turn.quantity === null ? null : turn.quantity - turn.sold
+        }));
+      },
+      error: (err: any) => {
+        Swal.fire({
+          position: "top-end",
+          icon: err.status === 500 ? 'error' : 'info',
+          title: err.error.message,
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+    });
+    this.spinnerService.hide();
+    setTimeout(() => {
+      this.isDataLoaded = true;
+    }, 100);
   }
 
   toggleSearchMode(mode: 'dpi' | 'name' | 'code') {
