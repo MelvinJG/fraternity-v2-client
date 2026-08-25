@@ -121,7 +121,9 @@ export class ReceiptsComponent implements OnInit {
 
     if(this.isSearching) {
       const searchObservable = this.searchType === 'dpi'
-        ? this.receiptsService.getInscriptionsByDPI(this.dpiSearch, page)
+          ? this.receiptsService.getInscriptionsByDPI(this.dpiSearch, page)
+        : this.searchType === 'codigo'
+          ? this.receiptsService.getInscriptionsByCode(this.codeSearch, page)
         : this.receiptsService.getInscriptionsByName(this.nameSearch, page);
 
       searchObservable.subscribe({
@@ -274,6 +276,10 @@ export class ReceiptsComponent implements OnInit {
   onInputChange() {
     if (this.searchType === 'dpi') {
       if (!this.dpiSearch || this.dpiSearch.toString().trim() === '') {
+        this.loadAllReceipts();
+      }
+    } else if (this.searchType === 'codigo') {
+      if (!this.codeSearch || this.codeSearch.toString().trim() === '') {
         this.loadAllReceipts();
       }
     } else {
