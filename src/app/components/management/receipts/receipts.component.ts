@@ -66,7 +66,8 @@ export class ReceiptsComponent implements OnInit {
         date: new Date(data.fecha_inscripcion).toLocaleDateString("es-GT"),
         hour: new Date(data.fecha_inscripcion).toLocaleTimeString("es-GT"),
         idFraternity: this.authService.getUserInfo()?.idFraternity,
-        fullDate: data.fecha_inscripcion
+        fullDate: data.fecha_inscripcion,
+        codDevotee: data.padre_codigo
       }
     });
   }
@@ -298,10 +299,7 @@ export class ReceiptsComponent implements OnInit {
   }
 
   onCodeInput() {
-    console.log("❌ : ", this.codeValue);
     this.codeSearch = this.codeValue.trim();
-    console.log("🚀 ~ receipts.component.ts ~ ReceiptsComponent ~ onCodeInput ~ codeSearch:", this.codeSearch)
-    
     // comentado por mi
     // if (!this.codeSearch) {
     //   this.loadAllReceipts();
