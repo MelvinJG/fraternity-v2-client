@@ -77,6 +77,7 @@
                                                     class="form-control form-control-lg"
                                                     inputmode="numeric"
                                                     [(ngModel)]="codeSearch"
+                                                    (keypress)="onlyNumbers($event)"
                                                     autocomplete="off"
                                                     placeholder="Ingrese Código"
                                                     required />
