@@ -351,7 +351,8 @@ export class HomeComponent implements OnInit {
             date: new Date().toLocaleDateString('es-GT', { day: '2-digit', month: '2-digit', year: 'numeric' }),
             hour: new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', hour12: true }),
             idFraternity: this.authService.getUserInfo()?.idFraternity,
-            fullDate: fullDateISOGT
+            fullDate: fullDateISOGT,
+            codDevotee: this.devoteeInfo.codDevotee,
           }
         });
       },

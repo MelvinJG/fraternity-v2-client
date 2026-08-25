@@ -24,6 +24,7 @@ export class ModalSummaryComponent {
   hour: string = '';
   idFraternity: number = 0;
   fullDate: string = '';
+  codDevotee: string = '';
   isReport: boolean = false;
   summaryData: any = {};
 
@@ -43,7 +44,7 @@ export class ModalSummaryComponent {
       monto: this.amount,
       fecha: this.date,
       hora: this.hour,
-      codDevoto: 'D88888',
+      codDevoto: `D${this.codDevotee}`,
     };
     NewTemplateReceipt(info);
   }
