@@ -208,17 +208,16 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  selectDevotee(dpi: string) {
+  selectDevotee(code: string) {
     this.showResults = false;
-    this.dpiSearch = dpi;
-    this.searchMode = 'dpi';
-    this.dpiValue = this.formatDPI(dpi);
+    this.codeSearch = code;
+    this.searchMode = 'code';
     // Reutilizar la lógica existente de búsqueda por DPI
     this.labelHeight = '... ';
     this.isTutored = false;
     this.devoteesNames = [];
     this.spinnerService.show();
-    this.devoteesService.getDevoteeByDPI(dpi).subscribe({
+    this.devoteesService.getDevoteesByCode(code).subscribe({
       next: (res: any) => {
         this.factorizeResultByDPI(res);
       },

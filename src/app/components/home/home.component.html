@@ -36,15 +36,15 @@
                                     </button>
                                     <button type="button" 
                                         class="search-tab"
-                                        [class.active]="searchMode === 'dpi'"
-                                        (click)="toggleSearchMode('dpi')">
-                                        <i class="fas fa-id-card me-1"></i> DPI
-                                    </button>
-                                    <button type="button" 
-                                        class="search-tab"
                                         [class.active]="searchMode === 'code'"
                                         (click)="toggleSearchMode('code')">
                                         <i class="fa fa-hashtag" aria-hidden="true"></i> Código
+                                    </button>
+                                    <button type="button" 
+                                        class="search-tab"
+                                        [class.active]="searchMode === 'dpi'"
+                                        (click)="toggleSearchMode('dpi')">
+                                        <i class="fas fa-id-card me-1"></i> DPI
                                     </button>
                                 </div>
                                 <div class="search-card-body">
@@ -134,7 +134,7 @@
                                                     <td class="text-center">
                                                         <button type="button" 
                                                             class="btn btn-sm btn-select-person"
-                                                            (click)="selectDevotee(person.dpi)">
+                                                            (click)="selectDevotee(person.codDevotee)">
                                                             <!-- <i class="fas fa-check me-1"></i> -->
                                                             Seleccionar
                                                         </button>
