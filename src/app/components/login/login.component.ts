@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
           Swal.fire({
             icon: err.status === 500 ? 'error' : 'info',
             title: 'Oops...',
-            text: err.error.message
+            text: err.error.message || err.statusText
           })
         }
       });
