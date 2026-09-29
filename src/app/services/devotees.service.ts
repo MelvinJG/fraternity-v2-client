@@ -28,6 +28,12 @@ export class DevoteesService {
     });
   }
 
+  getDevoteesByCode(code: string) {
+    return this.http.get(`${this.API_URL}/code/${code}`, {
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
+    });
+  }
+
   updateDevotee(dpiDevote: string, devoteeData: object) {
     return this.http.put(`${this.API_URL}/${dpiDevote}`, devoteeData, {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }

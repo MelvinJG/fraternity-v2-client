@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
@@ -7,7 +8,7 @@ import { UserAuthService } from './services/user-auth.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavBarComponent, SpinnerComponent],
+  imports: [CommonModule, RouterOutlet, NavBarComponent, SpinnerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

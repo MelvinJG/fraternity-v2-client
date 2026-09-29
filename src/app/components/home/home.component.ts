@@ -49,7 +49,8 @@ export class HomeComponent implements OnInit {
   modalRefReceipt: MdbModalRef<ModalSummaryComponent> | null = null;
   dpiSearch: string = '';
   nameSearch: string = '';
-  searchMode: 'dpi' | 'name' = 'name';
+  codeSearch: string = '';
+  searchMode: 'dpi' | 'name' | 'code' = 'name';
   searchResults: any[] = [];
   showResults: boolean = false;
   devoteeInfo: any;
@@ -112,6 +113,11 @@ export class HomeComponent implements OnInit {
       this.onSearchByName();
       return;
     }
+    if (this.searchMode === 'code') {
+      this.onSearchByCode();
+      return;
+    }
+    // Default search by DPI
     this.showResults = false;
     this.searchResults = [];
     this.labelHeight = '... ';
@@ -128,53 +134,7 @@ export class HomeComponent implements OnInit {
     this.spinnerService.show();
     this.devoteesService.getDevoteeByDPI(this.dpiSearch).subscribe({
       next: (res: any) => {
-        this.devoteeInfo = res.data;
-        this.registrationData.dpiDevotee = this.devoteeInfo.dpi;
-        if(this.devoteeInfo.isTutored) {
-          this.isTutored = true;
-          const father: IOption = {
-            value: this.devoteeInfo.dpi,
-            label: this.devoteeInfo.fullName,
-            height: this.devoteeInfo.height,
-            isFather: true
-          }
-          const children = this.devoteeInfo.children.map((child: any) => ({ 
-            value: String(child.id), 
-            label: child.fullName, 
-            height: child.height 
-          }));
-          this.devoteesNames = [father, ...children];
-          // Selecciona el primer elemento (padre) por defecto
-          this.selectedPerson = this.devoteesNames[0].value;
-          this.nameForReceipt = this.devoteesNames[0].label;
-          this.labelHeight = this.devoteesNames[0].height ? `${this.devoteesNames[0].height}` : 'N/A';
-        } else {
-          this.labelHeight = this.devoteeInfo.height ? `${this.devoteeInfo.height}` : 'N/A';
-          this.nameForReceipt = this.devoteeInfo.fullName;
-        }
-        this.turnsService.getTurns().subscribe({
-          next: (res: any) => {
-            this.turns = res.data.map((turn: any) => ({
-              value: String(turn.id),
-              label: turn.description,
-              price: turn.price,
-              available: turn.quantity === null ? null : turn.quantity - turn.sold
-            }));
-          },
-          error: (err: any) => {
-            Swal.fire({
-              position: "top-end",
-              icon: err.status === 500 ? 'error' : 'info',
-              title: err.error.message,
-              showConfirmButton: false,
-              timer: 1500
-            })
-          }
-        });
-        this.spinnerService.hide();
-        setTimeout(() => {
-          this.isDataLoaded = true;
-        }, 100);
+        this.factorizeResultByDPI(res);
       },
       error: (err: any) => {
         this.isDataLoaded = false;
@@ -220,64 +180,46 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  selectDevotee(dpi: string) {
+  onSearchByCode() {
+    this.isDataLoaded = false;
     this.showResults = false;
-    this.dpiSearch = dpi;
-    this.searchMode = 'dpi';
-    this.dpiValue = this.formatDPI(dpi);
+    this.searchResults = [];
+    if (this.codeSearch.trim() === '') {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'Ingrese un código para buscar.'
+      });
+      return;
+    }
+    this.spinnerService.show();
+    this.devoteesService.getDevoteesByCode(this.codeSearch.trim()).subscribe({
+      next: (res: any) => {
+        this.factorizeResultByDPI(res);
+      },
+      error: (err: any) => {
+        this.spinnerService.hide();
+        Swal.fire({
+          icon: err.status === 500 ? 'error' : 'info',
+          title: err.status === 404 ? 'Sin resultados' : 'Error',
+          text: err.error.message
+        });
+      }
+    });
+  }
+
+  selectDevotee(code: string) {
+    this.showResults = false;
+    this.codeSearch = code;
+    this.searchMode = 'code';
     // Reutilizar la lógica existente de búsqueda por DPI
     this.labelHeight = '... ';
     this.isTutored = false;
     this.devoteesNames = [];
     this.spinnerService.show();
-    this.devoteesService.getDevoteeByDPI(dpi).subscribe({
+    this.devoteesService.getDevoteesByCode(code).subscribe({
       next: (res: any) => {
-        this.devoteeInfo = res.data;
-        this.registrationData.dpiDevotee = this.devoteeInfo.dpi;
-        if (this.devoteeInfo.isTutored) {
-          this.isTutored = true;
-          const father: IOption = {
-            value: this.devoteeInfo.dpi,
-            label: this.devoteeInfo.fullName,
-            height: this.devoteeInfo.height,
-            isFather: true
-          };
-          const children = this.devoteeInfo.children.map((child: any) => ({
-            value: String(child.id),
-            label: child.fullName,
-            height: child.height
-          }));
-          this.devoteesNames = [father, ...children];
-          this.selectedPerson = this.devoteesNames[0].value;
-          this.nameForReceipt = this.devoteesNames[0].label;
-          this.labelHeight = this.devoteesNames[0].height ? `${this.devoteesNames[0].height}` : 'N/A';
-        } else {
-          this.labelHeight = this.devoteeInfo.height ? `${this.devoteeInfo.height}` : 'N/A';
-          this.nameForReceipt = this.devoteeInfo.fullName;
-        }
-        this.turnsService.getTurns().subscribe({
-          next: (res: any) => {
-            this.turns = res.data.map((turn: any) => ({
-              value: String(turn.id),
-              label: turn.description,
-              price: turn.price,
-              available: turn.quantity === null ? null : turn.quantity - turn.sold
-            }));
-          },
-          error: (err: any) => {
-            Swal.fire({
-              position: "top-end",
-              icon: err.status === 500 ? 'error' : 'info',
-              title: err.error.message,
-              showConfirmButton: false,
-              timer: 1500
-            });
-          }
-        });
-        this.spinnerService.hide();
-        setTimeout(() => {
-          this.isDataLoaded = true;
-        }, 100);
+        this.factorizeResultByDPI(res);
       },
       error: (err: any) => {
         this.isDataLoaded = false;
@@ -291,7 +233,57 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  toggleSearchMode(mode: 'dpi' | 'name') {
+  factorizeResultByDPI(res: any) {
+    this.devoteeInfo = res.data;
+    this.registrationData.dpiDevotee = this.devoteeInfo.dpi;
+    if(this.devoteeInfo.isTutored) {
+      this.isTutored = true;
+      const father: IOption = {
+        value: this.devoteeInfo.dpi,
+        label: this.devoteeInfo.fullName,
+        height: this.devoteeInfo.height,
+        isFather: true
+      }
+      const children = this.devoteeInfo.children.map((child: any) => ({ 
+        value: String(child.id), 
+        label: child.fullName, 
+        height: child.height 
+      }));
+      this.devoteesNames = [father, ...children];
+      // Selecciona el primer elemento (padre) por defecto
+      this.selectedPerson = this.devoteesNames[0].value;
+      this.nameForReceipt = this.devoteesNames[0].label;
+      this.labelHeight = this.devoteesNames[0].height ? `${this.devoteesNames[0].height}` : 'N/A';
+    } else {
+      this.labelHeight = this.devoteeInfo.height ? `${this.devoteeInfo.height}` : 'N/A';
+      this.nameForReceipt = this.devoteeInfo.fullName;
+    }
+    this.turnsService.getTurns().subscribe({
+      next: (res: any) => {
+        this.turns = res.data.map((turn: any) => ({
+          value: String(turn.id),
+          label: turn.description,
+          price: turn.price,
+          available: turn.quantity === null ? null : turn.quantity - turn.sold
+        }));
+      },
+      error: (err: any) => {
+        Swal.fire({
+          position: "top-end",
+          icon: err.status === 500 ? 'error' : 'info',
+          title: err.error.message,
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+    });
+    this.spinnerService.hide();
+    setTimeout(() => {
+      this.isDataLoaded = true;
+    }, 100);
+  }
+
+  toggleSearchMode(mode: 'dpi' | 'name' | 'code') {
     this.searchMode = mode;
     this.showResults = false;
     this.searchResults = [];
@@ -359,7 +351,8 @@ export class HomeComponent implements OnInit {
             date: new Date().toLocaleDateString('es-GT', { day: '2-digit', month: '2-digit', year: 'numeric' }),
             hour: new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', hour12: true }),
             idFraternity: this.authService.getUserInfo()?.idFraternity,
-            fullDate: fullDateISOGT
+            fullDate: fullDateISOGT,
+            codDevotee: this.devoteeInfo.codDevotee,
           }
         });
       },
