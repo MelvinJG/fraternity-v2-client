@@ -104,4 +104,16 @@ export class LoginComponent implements OnInit {
     if (part3) formatted += ' ' + part3;
     return formatted;
   }
+
+  onlyNumbers(event: KeyboardEvent): boolean {
+    const char = event.key;
+    if (char === 'Enter' || char === 'Backspace' || char === 'Tab') {
+      return true;
+    }
+    if (!/^\d$/.test(char)) {
+      event.preventDefault();
+      return false;
+    }
+    return true;
+  }
 }
