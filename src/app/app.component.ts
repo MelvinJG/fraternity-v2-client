@@ -4,10 +4,11 @@ import { RouterOutlet } from '@angular/router';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { UserAuthService } from './services/user-auth.service';
+import { NgxSonnerToaster } from 'ngx-sonner';
 
 @Component({
     selector: 'app-root',
-    imports: [CommonModule, RouterOutlet, NavBarComponent, SpinnerComponent],
+    imports: [CommonModule, RouterOutlet, NavBarComponent, SpinnerComponent, NgxSonnerToaster],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })

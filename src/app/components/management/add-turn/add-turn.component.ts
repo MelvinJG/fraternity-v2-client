@@ -6,6 +6,7 @@ import { UserAuthService } from '../../../services/user-auth.service';
 import Swal from 'sweetalert2';
 import { TurnsService } from '../../../services/turns.service';
 import { FormsModule } from '@angular/forms';
+import { toast } from 'ngx-sonner';
 
 interface ITurns {
   id?: number;
@@ -40,6 +41,7 @@ export class AddTurnComponent implements OnInit {
   isEditing: boolean = false;
   editingId: number = 0;
   isAdminUser: boolean = false;
+  protected readonly toast = toast;
 
   constructor(
     private spinnerService: SpinnerService,
@@ -67,24 +69,20 @@ export class AddTurnComponent implements OnInit {
       },
       error: (err: any) => {
         this.spinnerService.hide();
-        Swal.fire({
-          position: "top-end",
-          icon: err.status === 500 ? 'error' : 'info',
-          title: err.error.message,
-          showConfirmButton: false,
-          timer: 1500
-        })
+        if (err.status === 0) {
+          toast.error(err.message || "Error interno del servidor");
+        } else if (err.status === 500) {
+          toast.error(err.error.message || "Error interno del servidor");
+        } else {
+          err.status === 404 ? null : toast.info(err.error.message);
+        }
       }
     });
   }
 
   onSubmit(){
     if(this.turnData.description === "") {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'Por favor complete todos los campos.'
-      });
+      toast.warning('Por favor complete todos los campos.');
     } else {
       this.spinnerService.show();
       if(!this.isEditing){ //CREAR
@@ -93,35 +91,16 @@ export class AddTurnComponent implements OnInit {
         this.turnsService.createTurn(this.turnData).subscribe({
           next: (res: any) => {
             this.spinnerService.hide();
-            Swal.fire({
-              icon: 'success',
-              title: 'Turno creado.',
-              showConfirmButton: false,
-              timer: 1200
-            });
-            setTimeout(() => {
-              window.location.reload();
-            }, 1200);
-            //this.router.navigate(['/user/list']);
+            toast.success('Turno creado exitosamente.');
+            this.resetForm();
+            this.ngOnInit();
           },
           error: (err: any) => {
             this.spinnerService.hide();
-            Swal.fire({
-              icon: err.status === 500 ? 'error' : 'info',
-              title: 'Oops...',
-              text: err.error.message
-            })
+            err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
           }
         });
-      } else { //ACTUALIZAR
-        // if ((this.turnData.sold ?? 0) > (this.turnData.quantity ?? 0)) {
-        //   this.spinnerService.hide();
-        //   Swal.fire({
-        //     icon: 'error',
-        //     title: 'Oops...',
-        //     text: 'No se puede actualizar porque la cantidad vendida es mayor a la cantidad disponible.'
-        //   })
-        // } else {
+      } else {
           delete this.turnData.idFraternity;
           delete this.turnData.created_by;
           delete this.turnData.sold;
@@ -130,24 +109,13 @@ export class AddTurnComponent implements OnInit {
           this.turnsService.editDeletTurn(this.editingId,this.turnData).subscribe({
             next: (res: any) => {
               this.spinnerService.hide();
-              Swal.fire({
-                icon: 'success',
-                title: 'Turno Actualizado.',
-                showConfirmButton: false,
-                timer: 1200
-              });
-              setTimeout(() => {
-                window.location.reload();
-              }, 1200);
-              //this.router.navigate(['/user/list']);
+              toast.success('Turno actualizado exitosamente.');
+              this.resetForm();
+              this.ngOnInit();
             },
             error: (err: any) => {
               this.spinnerService.hide();
-              Swal.fire({
-                icon: err.status === 500 ? 'error' : 'info',
-                title: 'Oops...',
-                text: err.error.message
-              })
+              err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
             }
           });
         // }
@@ -164,14 +132,24 @@ export class AddTurnComponent implements OnInit {
     }
   }
 
+  resetForm(){
+    this.isEditing = false;
+    this.editingId = 0;
+    this.turnData = {
+      description: '',
+      price: null,
+      quantity: null,
+      armNumber: null,
+      sold: 0,
+      idFraternity: 0,
+      created_by: ''
+    };
+  }
+
   onDeleteTurn(idTurn: number){
     const turnToEdit = this.loadData.find(turn => turn.id === idTurn);
     if ((turnToEdit?.sold ?? 0) >= 1) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'No se puede eliminar porque ya se vendio al menos un turno.'
-      })
+      toast.error("No se puede eliminar porque ya se vendio al menos un turno.");
     } else {
       Swal.fire({
         title: 'Eliminar Turno',
@@ -188,24 +166,12 @@ export class AddTurnComponent implements OnInit {
           this.turnsService.editDeletTurn(idTurn, deletedUser).subscribe({
             next: (res: any) => {
               this.spinnerService.hide();
-              Swal.fire({
-                icon: 'success',
-                title: 'Turno Eliminado.',
-                showConfirmButton: false,
-                timer: 1200
-              });
-              setTimeout(() => {
-                //window.location.reload();
-                this.ngOnInit();
-              }, 1200);
+              toast.success('Turno eliminado exitosamente.');
+              this.ngOnInit();
             },
             error: (err: any) => {
               this.spinnerService.hide();
-              Swal.fire({
-                icon: err.status === 500 ? 'error' : 'info',
-                title: 'Oops...',
-                text: err.error.message
-              })
+              err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
             }
           });
         }
