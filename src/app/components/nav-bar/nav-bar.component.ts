@@ -10,17 +10,16 @@ import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { HelpComponent } from '../modals/help/help.component';
 
 @Component({
-  selector: 'app-nav-bar',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    MdbCollapseModule,
-    MdbDropdownModule,
-    MdbRippleModule
-  ],
-  templateUrl: './nav-bar.component.html',
-  styleUrl: './nav-bar.component.scss'
+    selector: 'app-nav-bar',
+    imports: [
+        CommonModule,
+        RouterModule,
+        MdbCollapseModule,
+        MdbDropdownModule,
+        MdbRippleModule
+    ],
+    templateUrl: './nav-bar.component.html',
+    styleUrl: './nav-bar.component.scss'
 })
 export class NavBarComponent implements OnInit, OnDestroy {
   isSidenavOpen = false;

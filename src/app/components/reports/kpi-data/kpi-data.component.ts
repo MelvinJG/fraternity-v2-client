@@ -14,11 +14,10 @@ interface KpiData {
 }
 
 @Component({
-  selector: 'app-kpi-data',
-  standalone: true,
-  imports: [],
-  templateUrl: './kpi-data.component.html',
-  styleUrl: './kpi-data.component.scss'
+    selector: 'app-kpi-data',
+    imports: [],
+    templateUrl: './kpi-data.component.html',
+    styleUrl: './kpi-data.component.scss'
 })
 export class KpiDataComponent {
 

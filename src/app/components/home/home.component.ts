@@ -34,12 +34,11 @@ interface IRegistration {
   created_by: string;
 }
 
-@Component({ 
-  selector: 'app-home',
-  standalone: true,
-  imports: [MdbFormsModule, MdbTabsModule, RegisterComponent, CommonModule, FormsModule, MdbValidationModule, ReactiveFormsModule],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+@Component({
+    selector: 'app-home',
+    imports: [MdbFormsModule, MdbTabsModule, RegisterComponent, CommonModule, FormsModule, MdbValidationModule, ReactiveFormsModule],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss'
 })
 
 export class HomeComponent implements OnInit {

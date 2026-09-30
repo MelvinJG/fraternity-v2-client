@@ -29,11 +29,10 @@ interface IRegister {
 }
 
 @Component({
-  selector: 'app-new-user',
-  standalone: true,
-  imports: [MdbFormsModule, CommonModule, FormsModule, MdbValidationModule, ReactiveFormsModule],
-  templateUrl: './new-user.component.html',
-  styleUrl: './new-user.component.scss'
+    selector: 'app-new-user',
+    imports: [MdbFormsModule, CommonModule, FormsModule, MdbValidationModule, ReactiveFormsModule],
+    templateUrl: './new-user.component.html',
+    styleUrl: './new-user.component.scss'
 })
 
 export class NewUserComponent implements OnInit {

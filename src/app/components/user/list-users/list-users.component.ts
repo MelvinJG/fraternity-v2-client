@@ -15,11 +15,10 @@ interface IUsersList {
 }
 
 @Component({
-  selector: 'app-list-users',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './list-users.component.html',
-  styleUrl: './list-users.component.scss'
+    selector: 'app-list-users',
+    imports: [CommonModule],
+    templateUrl: './list-users.component.html',
+    styleUrl: './list-users.component.scss'
 })
 export class ListUsersComponent implements OnInit {
 

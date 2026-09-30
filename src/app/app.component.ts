@@ -6,11 +6,10 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { UserAuthService } from './services/user-auth.service';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet, NavBarComponent, SpinnerComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    imports: [CommonModule, RouterOutlet, NavBarComponent, SpinnerComponent],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   title = 'client';

@@ -13,11 +13,10 @@ interface IUser {
 }
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [MdbFormsModule, FormsModule, MdbValidationModule, ReactiveFormsModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+    selector: 'app-login',
+    imports: [MdbFormsModule, FormsModule, MdbValidationModule, ReactiveFormsModule],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
 

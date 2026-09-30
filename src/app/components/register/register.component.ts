@@ -33,11 +33,10 @@ interface IRegister {
 }
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [MdbFormsModule, CommonModule, FormsModule, MdbValidationModule, ReactiveFormsModule],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+    selector: 'app-register',
+    imports: [MdbFormsModule, CommonModule, FormsModule, MdbValidationModule, ReactiveFormsModule],
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.scss'
 })
 
 export class RegisterComponent implements OnInit {

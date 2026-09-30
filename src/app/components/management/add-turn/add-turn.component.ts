@@ -20,11 +20,10 @@ interface ITurns {
 }
 
 @Component({
-  selector: 'app-add-turn',
-  standalone: true,
-  imports: [MdbFormsModule, CommonModule, FormsModule],
-  templateUrl: './add-turn.component.html',
-  styleUrl: './add-turn.component.scss'
+    selector: 'app-add-turn',
+    imports: [MdbFormsModule, CommonModule, FormsModule],
+    templateUrl: './add-turn.component.html',
+    styleUrl: './add-turn.component.scss'
 })
 
 export class AddTurnComponent implements OnInit {

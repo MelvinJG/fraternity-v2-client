@@ -12,11 +12,10 @@ import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { dpiIsValid } from '../../../utils/dpiIsValid';
 
 @Component({
-  selector: 'app-receipts',
-  standalone: true,
-  imports: [MdbFormsModule, CommonModule, FormsModule, MdbValidationModule, ReactiveFormsModule],
-  templateUrl: './receipts.component.html',
-  styleUrl: './receipts.component.scss'
+    selector: 'app-receipts',
+    imports: [MdbFormsModule, CommonModule, FormsModule, MdbValidationModule, ReactiveFormsModule],
+    templateUrl: './receipts.component.html',
+    styleUrl: './receipts.component.scss'
 })
 export class ReceiptsComponent implements OnInit {
   loadData: any = {

@@ -1,3 +1,9 @@
+// Font Awesome
+@use '@fortawesome/fontawesome-free/css/all.css';
+
+// MDB SCSS
+@use "mdb-angular-ui-kit/assets/scss/mdb.scss";
+
 // Paleta de colores morados personalizados
 // :root {
 //   --purple-primary: #7b2cbf;
@@ -162,12 +168,6 @@ body::-webkit-scrollbar {
 .swal2-popup {
   z-index: 10001 !important;
 }
-
-// Font Awesome
-@import '@fortawesome/fontawesome-free/css/all.css';
-
-// MDB SCSS
-@import "mdb-angular-ui-kit/assets/scss/mdb.scss";
 
 .page-header {
   // margin-bottom: 1.5rem;

@@ -4,11 +4,10 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-pdf-viewer',
-  standalone: true,
-  imports: [CommonModule, RouterLink],
-  templateUrl: './pdf-viewer.component.html',
-  styleUrl: './pdf-viewer.component.scss'
+    selector: 'app-pdf-viewer',
+    imports: [CommonModule, RouterLink],
+    templateUrl: './pdf-viewer.component.html',
+    styleUrl: './pdf-viewer.component.scss'
 })
 export class PdfViewerComponent implements OnInit {
   pdfUrl: SafeResourceUrl | null = null;
