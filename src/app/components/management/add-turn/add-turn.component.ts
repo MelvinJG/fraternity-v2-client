@@ -3,7 +3,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { CommonModule } from '@angular/common';
 import { SpinnerService } from '../../../services/spinner.service';
 import { UserAuthService } from '../../../services/user-auth.service';
-import Swal from 'sweetalert2';
+import { AlertDialogService } from '../../../services/alert-dialog.service';
 import { TurnsService } from '../../../services/turns.service';
 import { FormsModule } from '@angular/forms';
 import { toast } from 'ngx-sonner';
@@ -46,7 +46,8 @@ export class AddTurnComponent implements OnInit {
   constructor(
     private spinnerService: SpinnerService,
     private turnsService: TurnsService,
-    private authService: UserAuthService
+    private authService: UserAuthService,
+    private alertDialogService: AlertDialogService
   ) { }
 
   ngOnInit(): void {
@@ -118,7 +119,6 @@ export class AddTurnComponent implements OnInit {
               err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
             }
           });
-        // }
       }
     }
   }
@@ -151,16 +151,14 @@ export class AddTurnComponent implements OnInit {
     if ((turnToEdit?.sold ?? 0) >= 1) {
       toast.error("No se puede eliminar porque ya se vendio al menos un turno.");
     } else {
-      Swal.fire({
-        title: 'Eliminar Turno',
-        text: "¿Quieres eliminar este turno?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: 'gray',
-        confirmButtonText: 'Si, Eliminar!'
-      }).then((result) => {
-        if (result.isConfirmed) {
+      this.alertDialogService.confirm({
+        title: '¿Eliminar Turno?',
+        description: 'Esta acción eliminará el turno de manera permanente.',
+        confirmLabel: 'Si, Eliminar!',
+        cancelLabel: 'Cancelar',
+        variant: 'danger'
+      }).then((confirmed) => {
+        if (confirmed) {
           this.spinnerService.show();
           const deletedUser = { idState: 2, deleted_by: this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP' };
           this.turnsService.editDeletTurn(idTurn, deletedUser).subscribe({

@@ -1,0 +1,110 @@
+.alert-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1060;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alert-dialog-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.alert-dialog-content {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 1rem;
+  border-radius: 0.75rem;
+  background: #fff;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.alert-dialog-header {
+  padding: 1.25rem 1.25rem 1rem;
+  text-align: center;
+}
+
+.alert-dialog-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+  line-height: 1.375;
+}
+
+.alert-dialog-description {
+  margin: 0.25rem 0 0;
+  font-size: 0.8125rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.alert-dialog-footer {
+  display: flex;
+  gap: 0.5rem;
+  border-top: 1px solid #e5e7eb;
+  background: rgba(249, 250, 251, 0.5);
+  border-radius: 0 0 0.75rem 0.75rem;
+  padding: 0.75rem 1.25rem;
+}
+
+.alert-dialog-btn {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.alert-dialog-btn-cancel {
+  color: #111827;
+  background: #fff;
+  border-color: #d1d5db;
+
+  &:hover {
+    background: #f9fafb;
+  }
+}
+
+.alert-dialog-btn-confirm {
+  color: #fff;
+  background: #111827;
+
+  &:hover {
+    background: #1f2937;
+  }
+
+  &.variant-danger {
+    background: var(--danger, #dc2626);
+
+    &:hover {
+      background: #b91c1c;
+    }
+  }
+
+  &.variant-primary {
+    background: var(--purple-primary, #2563eb);
+
+    &:hover {
+      background: var(--purple-dark, #1d4ed8);
+    }
+  }
+
+  &.variant-success {
+    background: var(--success, #16a34a);
+
+    &:hover {
+      background: #15803d;
+    }
+  }
+}
