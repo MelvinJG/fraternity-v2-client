@@ -74,8 +74,10 @@ export class AddTurnComponent implements OnInit {
           toast.error(err.message || "Error interno del servidor");
         } else if (err.status === 500) {
           toast.error(err.error.message || "Error interno del servidor");
+        } else if (err.status === 404) {
+          this.loadData = [];
         } else {
-          err.status === 404 ? null : toast.info(err.error.message);
+          toast.info(err.error.message);
         }
       }
     });
