@@ -64,8 +64,8 @@
     <div class="row pt-4">
         @if(loadData.length === 0) {
             <div class="empty-state">
-                <i class="fa-regular fa-note-sticky"></i>
-                <p class="text-muted mb-1">No hay turnos disponibles.</p>
+                <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                <p class="text-muted mb-0">No hay turnos disponibles.</p>
             </div>
         }
         <div class="col-xl-4 col-lg-6 mb-4" *ngFor="let turn of loadData">

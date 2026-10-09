@@ -10,6 +10,7 @@ import { UserAuthService } from '../../../services/user-auth.service';
 import { ModalSummaryComponent } from '../../modals/modal-summary/modal-summary.component';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { dpiIsValid } from '../../../utils/dpiIsValid';
+import { toast } from 'ngx-sonner';
 
 @Component({
     selector: 'app-receipts',
@@ -262,13 +263,15 @@ export class ReceiptsComponent implements OnInit {
       },
       error: (err: any) => {
         this.spinnerService.hide();
-        Swal.fire({
-          position: "top-end",
-          icon: err.status === 500 ? 'error' : 'info',
-          title: err.error.message,
-          showConfirmButton: false,
-          timer: 1500
-        })
+        if (err.status === 0) {
+          toast.error(err.message || "Error interno del servidor");
+        } else if (err.status === 500) {
+          toast.error(err.error.message || "Error interno del servidor");
+        } else if (err.status === 404) {
+          this.loadData = [];
+        } else {
+          toast.info(err.error.message);
+        }
       }
     });
   }
