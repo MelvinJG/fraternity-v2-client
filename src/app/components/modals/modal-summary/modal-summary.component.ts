@@ -5,6 +5,7 @@ import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
 import { NewTemplateReceiptMen } from '../../../utils/NewTemplateReceiptMen';
 import { NewTemplateReceiptWomen } from '../../../utils/NewTemplateReceiptWomen';
+import { Constants } from '../../../utils/Constants';
 
 @Component({
   selector: 'app-modal-summary',
@@ -45,7 +46,7 @@ export class ModalSummaryComponent {
       monto: this.amount,
       fecha: this.date,
       hora: this.hour,
-      codDevoto: `D${this.codDevotee}`,
+      codDevoto: `${Constants.PREFIX_CODE_DEVOTEE}${this.codDevotee}`,
     };
     if (this.idFraternity === 1) {
       NewTemplateReceiptMen(info);
