@@ -3,12 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { SpinnerService } from '../../../services/spinner.service';
 import { TurnsService } from '../../../services/turns.service';
-import Swal from 'sweetalert2';
 import { ReceiptsService } from '../../../services/receipts.service';
 import { ExcelService } from '../../../services/excel.service';
 import { orderReportInscription } from '../../../utils/orderReportInscription';
 import { ModalSummaryComponent } from '../../modals/modal-summary/modal-summary.component';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { toast } from 'ngx-sonner';
 
 @Component({
     selector: 'app-excel-report-turns',
@@ -45,13 +45,15 @@ export class ExcelReportTurnsComponent implements OnInit {
       },
       error: (err: any) => {
         this.spinnerService.hide();
-        Swal.fire({
-          position: "top-end",
-          icon: err.status === 500 ? 'error' : 'info',
-          title: err.error.message,
-          showConfirmButton: false,
-          timer: 1500
-        })
+        if (err.status === 0) {
+          toast.error(err.message || "Error interno del servidor");
+        } else if (err.status === 500) {
+          toast.error(err.error.message || "Error interno del servidor");
+        } else if (err.status === 404) {
+          this.loadData = [];
+        } else {
+          toast.info(err.error.message);
+        }
       }
     });
   }
@@ -73,11 +75,7 @@ export class ExcelReportTurnsComponent implements OnInit {
       },
       error: (err: any) => {
         this.spinnerService.hide();
-        Swal.fire({
-          icon: err.status === 500 ? 'error' : 'info',
-          title: 'Oops...',
-          text: err.error.message
-        })
+        err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
       }
     });
   }
