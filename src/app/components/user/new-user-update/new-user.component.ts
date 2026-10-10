@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ManagementService } from '../../../services/management.service';
-import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { UserAuthService } from '../../../services/user-auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,6 +10,7 @@ import { dpiIsValid } from '../../../utils/dpiIsValid';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { toast } from 'ngx-sonner';
 
 interface IOption {
   value: number;
@@ -95,13 +95,8 @@ export class NewUserComponent implements OnInit {
 
     if (this.createMode && USER_DATA?.idPermission !== 1) { // Solo el admin puede crear usuarios
       this.spinnerService.hide();
-      Swal.fire({
-        icon: 'warning',
-        title: 'Acceso denegado',
-        text: 'No tienes permisos para crear usuarios.'
-      }).then(() => {
-        this.router.navigate(['/home']);
-      });
+      toast.warning('No tienes permisos para crear usuarios.');
+      void this.router.navigate(['/home']);
       return;
     }
 
@@ -119,21 +114,13 @@ export class NewUserComponent implements OnInit {
           },
           error: (err: any) => {
             this.spinnerService.hide();
-            Swal.fire({
-              icon: err.status === 500 ? 'error' : 'info',
-              title: 'Oops...',
-              text: err.error.message
-            })
+            err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
           }
         });
       },
       error: (err: any) => {
         this.spinnerService.hide();
-        Swal.fire({
-          icon: err.status === 500 ? 'error' : 'info',
-          title: 'Oops...',
-          text: err.error.message
-        })
+        err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
       }
     });
     if (this.updateMode) {
@@ -152,24 +139,21 @@ export class NewUserComponent implements OnInit {
   onSubmit(){
     if(this.registerData.dpi === "" || this.registerData.fullName === "" || this.registerData.email === "" ||
       this.registerData.idFraternity === 0 || this.registerData.idPermissions === 0) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'Por favor complete todos los campos.'
-      });
+      toast.warning('Por favor complete todos los campos.');
     } else {
       this.spinnerService.show();
       this.registerData.dpi = this.registerData.dpi.toString();
       
       if (this.updateMode) {
         // ACTUALIZAR USUARIO
+        if(this.password === "" || this.passwordRepeat === "") {
+          this.spinnerService.hide();
+          toast.warning('Las contraseñas no pueden estar vacías.');
+          return;
+        }
         if(this.password !== this.passwordRepeat) {
           this.spinnerService.hide();
-          Swal.fire({
-            icon: 'warning',
-            title: 'Oops...',
-            text: 'Las contraseñas no coinciden.'
-          });
+          toast.warning('Las contraseñas no coinciden.');
           return;
         }
         this.registerData.pass = this.password.toString();
@@ -185,33 +169,20 @@ export class NewUserComponent implements OnInit {
         this.authService.editDeleteUser(dpiToUpdate, this.registerData).subscribe({
           next: (res: any) => {
             this.spinnerService.hide();
-            Swal.fire({
-              icon: 'success',
-              title: 'Usuario actualizado.',
-              showConfirmButton: false,
-              timer: 1200
-            });
+            toast.success('Usuario actualizado exitosamente.');
             this.authService.logout();
             this.router.navigate(['/login']);
           },
           error: (err: any) => {
             this.spinnerService.hide();
-            Swal.fire({
-              icon: err.status === 500 ? 'error' : 'info',
-              title: 'Oops...',
-              text: err.error.message
-            })
+            err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
           }
         });
         return;
       }
       // CREAR USUARIO
       if(!this.isDPIValid) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Oops...',
-          text: 'El DPI ingresado no es válido.'
-        });
+        toast.warning('El DPI ingresado no es válido.');
         this.spinnerService.hide();
         return;
       }
@@ -221,21 +192,12 @@ export class NewUserComponent implements OnInit {
       this.authService.createUser(this.registerData).subscribe({
         next: (res: any) => {
           this.spinnerService.hide();
-          Swal.fire({
-            icon: 'success',
-            title: 'Usuario creado.',
-            showConfirmButton: false,
-            timer: 1200
-          });
+          toast.success('Usuario creado exitosamente.');
           this.router.navigate(['/user/list']);
         },
         error: (err: any) => {
           this.spinnerService.hide();
-          Swal.fire({
-            icon: err.status === 500 ? 'error' : 'info',
-            title: 'Oops...',
-            text: err.error.message
-          })
+          err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
         }
       });
     }
