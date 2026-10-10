@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ReceiptsService } from '../../../services/receipts.service';
-import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,6 +10,7 @@ import { ModalSummaryComponent } from '../../modals/modal-summary/modal-summary.
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { dpiIsValid } from '../../../utils/dpiIsValid';
 import { toast } from 'ngx-sonner';
+import { AlertDialogService } from '../../../services/alert-dialog.service';
 
 @Component({
     selector: 'app-receipts',
@@ -45,7 +45,8 @@ export class ReceiptsComponent implements OnInit {
       private spinnerService: SpinnerService,
       private receiptsService: ReceiptsService,
       private modalService: MdbModalService,
-      private authService: UserAuthService
+      private authService: UserAuthService,
+      private alertDialogService: AlertDialogService
     ) { }
 
   ngOnInit(): void {
@@ -73,40 +74,25 @@ export class ReceiptsComponent implements OnInit {
   }
 
   delete(id: number){
-    Swal.fire({
-      title: 'Eliminar Inscripción',
-      text: "¿Quieres eliminar esta inscripción?",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: 'gray',
-      confirmButtonText: 'Si, Eliminar!',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
+    this.alertDialogService.confirm({
+      title: '¿Eliminar Inscripción?',
+      description: 'Esta acción eliminará la inscripción de manera permanente.',
+      confirmLabel: 'Si, Eliminar!',
+      cancelLabel: 'Cancelar',
+      variant: 'danger'
+    }).then((confirmed) => {
+      if (confirmed) {
         this.spinnerService.show();
         const deletedUser = { deleted_by: this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP' };
         this.receiptsService.deleteInscription(id, deletedUser).subscribe({
           next: (res: any) => {
             this.spinnerService.hide();
-            Swal.fire({
-              icon: 'success',
-              title: 'Inscripción Eliminada.',
-              showConfirmButton: false,
-              timer: 1200
-            });
-            setTimeout(() => {
-              //window.location.reload();
-              this.ngOnInit();
-            }, 1200);
+            toast.success('Inscripción eliminada exitosamente.');
+            this.ngOnInit();
           },
           error: (err: any) => {
             this.spinnerService.hide();
-            Swal.fire({
-              icon: err.status === 500 ? 'error' : 'info',
-              title: 'Oops...',
-              text: err.error.message
-            })
+            err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
           }
         });
       }
@@ -137,11 +123,7 @@ export class ReceiptsComponent implements OnInit {
         error: (err: any) => {
           this.isSearching = false;
           this.spinnerService.hide();
-          Swal.fire({
-            icon: err.status === 500 ? 'error' : 'info',
-            title: 'Oops...',
-            text: err.error.message
-          })
+          err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
         }
       });
     } else {
@@ -154,11 +136,7 @@ export class ReceiptsComponent implements OnInit {
         },
         error: (err: any) => {
           this.spinnerService.hide();
-          Swal.fire({
-            icon: err.status === 500 ? 'error' : 'info',
-            title: 'Oops...',
-            text: err.error.message
-          })
+          err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
         }
       });
     }
@@ -167,11 +145,7 @@ export class ReceiptsComponent implements OnInit {
   onSearch() {
     if (this.searchType === 'dpi') {
       if(!this.dpiSearch || this.dpiSearch === '' || !dpiIsValid(this.dpiSearch)) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Sin resultados',
-          text: 'Ingrese un DPI válido.'
-        });
+        toast.warning("Ingrese un DPI válido.");
         this.isSearching = false;
         return;
       }
@@ -186,20 +160,12 @@ export class ReceiptsComponent implements OnInit {
         error: (err: any) => {
           this.isSearching = false;
           this.spinnerService.hide();
-          Swal.fire({
-            icon: err.status === 500 ? 'error' : 'info',
-            title: err.status === 404 ? 'Sin resultados' : 'Error',
-            text: err.error.message
-          })
+          err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
         }
       });
     } else if (this.searchType === 'codigo') {
       if(!this.codeSearch || this.codeSearch.trim() === '') {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Sin resultados',
-          text: 'Ingrese un código válido.'
-        });
+        toast.warning("Ingrese un código válido.");
         this.isSearching = false;
         return;
       }
@@ -214,21 +180,13 @@ export class ReceiptsComponent implements OnInit {
         error: (err: any) => {
           this.isSearching = false;
           this.spinnerService.hide();
-          Swal.fire({
-            icon: err.status === 500 ? 'error' : 'info',
-            title: err.status === 404 ? 'Sin resultados' : 'Error',
-            text: err.error.message
-          })
+          err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
         }
       });
     }
     else {
       if(!this.nameSearch || this.nameSearch.trim() === '') {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Sin resultados',
-          text: 'Ingrese un nombre válido.'
-        });
+        toast.warning("Ingrese un nombre válido.");
         this.isSearching = false;
         return;
       }
@@ -243,11 +201,7 @@ export class ReceiptsComponent implements OnInit {
         error: (err: any) => {
           this.isSearching = false;
           this.spinnerService.hide();
-          Swal.fire({
-            icon: err.status === 500 ? 'error' : 'info',
-            title: err.status === 404 ? 'Sin resultados' : 'Error',
-            text: err.error.message
-          })
+          err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
         }
       });
     }
