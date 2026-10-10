@@ -18,7 +18,7 @@ import { toast } from 'ngx-sonner';
 })
 
 export class ExcelReportTurnsComponent implements OnInit {
-  loadData: any;
+  loadData: any[] = [];
   modalRefReport: MdbModalRef<ModalSummaryComponent> | null = null;
 
   constructor(
