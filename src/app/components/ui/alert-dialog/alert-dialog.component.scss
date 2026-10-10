@@ -107,4 +107,20 @@
       background: #15803d;
     }
   }
+
+  &.variant-secondary {
+    background: var(--secondary, #6b7280);
+
+    &:hover {
+      background: #4b5563;
+    }
+  }
+
+  &.variant-info {
+    background: var(--info, #3b82f6);
+
+    &:hover {
+      background: #2563eb;
+    }
+  }
 }

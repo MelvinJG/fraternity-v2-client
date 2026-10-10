@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { SpinnerService } from '../../../services/spinner.service';
 import { UserAuthService } from '../../../services/user-auth.service';
-import Swal from 'sweetalert2';
+import { toast } from 'ngx-sonner';
+import { AlertDialogService } from '../../../services/alert-dialog.service';
 
 interface IUsersList {
   dpi: string;
@@ -27,7 +28,8 @@ export class ListUsersComponent implements OnInit {
   constructor(
       private router: Router,
       private spinnerService: SpinnerService,
-      private authService: UserAuthService
+      private authService: UserAuthService,
+      private alertDialogService: AlertDialogService
     ) {}
 
   ngOnInit(): void {
@@ -35,13 +37,8 @@ export class ListUsersComponent implements OnInit {
     const USER_DATA = this.authService.getUserInfo();
     if (USER_DATA?.idPermission !== 1) { // Solo el admin pueden listar usuarios
       this.spinnerService.hide();
-      Swal.fire({
-        icon: 'warning',
-        title: 'Acceso denegado',
-        text: 'No tienes permisos para listar usuarios.'
-      }).then(() => {
-        this.router.navigate(['/home']);
-      });
+      toast.warning('No tienes permisos para listar usuarios.');
+      void this.router.navigate(['/home']);
       return;
     }
     this.authService.listUsers().subscribe({
@@ -58,82 +55,64 @@ export class ListUsersComponent implements OnInit {
       },
       error: (err: any) => {
         this.spinnerService.hide();
-        Swal.fire({
-          icon: err.status === 500 ? 'error' : 'info',
-          title: 'Oops...',
-          text: err.error.message
-        })
+        if (err.status === 0) {
+          toast.error(err.message || "Error interno del servidor");
+        } else if (err.status === 500) {
+          toast.error(err.error.message || "Error interno del servidor");
+        } else if (err.status === 404) {
+          this.usersList = [];
+        } else {
+          toast.info(err.error.message);
+        }
       }
     });
   }
 
   editUser(dpi: string, isState: number){
     if(isState === 1){
-      Swal.fire({
-        title: 'Inactivar Usuario',
-        text: "¿Quieres inactivar este usuario?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: 'gray',
-        confirmButtonText: 'Si, Inactivar!'
-      }).then((result) => {
-        if (result.isConfirmed) {
+      this.alertDialogService.confirm({
+        title: '¿Inactivar Usuario?',
+        description: 'Esta acción inactivará al usuario de manera temporal.',
+        confirmLabel: 'Inactivar',
+        cancelLabel: 'Cancelar',
+        variant: 'danger'
+      }).then((confirmed) => {
+        if (confirmed) {
           this.spinnerService.show();
           const deletedUser = { idState: 2, deleted_by: this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP' };
           this.authService.editDeleteUser(dpi, deletedUser).subscribe({
             next: (res: any) => {
               this.spinnerService.hide();
-              Swal.fire({
-                icon: 'success',
-                title: 'Usuario inactivo.',
-                showConfirmButton: false,
-                timer: 1200
-              });
+              toast.success('Usuario inactivado exitosamente.');
               this.ngOnInit();
             },
             error: (err: any) => {
               this.spinnerService.hide();
-              Swal.fire({
-                icon: err.status === 500 ? 'error' : 'info',
-                title: 'Oops...',
-                text: err.error.message
-              })
+              err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
             }
           });
         }
       });
     } else {
-      Swal.fire({
-        title: 'Reactivar Usuario',
-        text: "¿Quieres volver a activar este usuario?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: 'gray',
-        confirmButtonText: 'Si, activar!'
-      }).then((result) => {
-        if (result.isConfirmed) {
+      this.alertDialogService.confirm({
+        title: '¿Reactivar Usuario?',
+        description: 'Esta acción reactivará al usuario de manera permanente.',
+        confirmLabel: 'Reactivar',
+        cancelLabel: 'Cancelar',
+        variant: 'info'
+      }).then((confirmed) => {
+        if (confirmed) {
           this.spinnerService.show();
           const updatedUser = { idState: 1, updated_by: this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP' };
           this.authService.editDeleteUser(dpi, updatedUser).subscribe({
             next: (res: any) => {
               this.spinnerService.hide();
-              Swal.fire({
-                icon: 'success',
-                title: 'Usuario activado.',
-                showConfirmButton: false,
-                timer: 1200
-              });
+              toast.success('Usuario reactivado exitosamente.');
               this.ngOnInit();
             },
             error: (err: any) => {
               this.spinnerService.hide();
-              Swal.fire({
-                icon: err.status === 500 ? 'error' : 'info',
-                title: 'Oops...',
-                text: err.error.message
-              })
+              err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
             }
           });
         }

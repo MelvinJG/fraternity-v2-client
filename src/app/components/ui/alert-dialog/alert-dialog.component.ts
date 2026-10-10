@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, HostListener, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 
-export type AlertDialogVariant = 'danger' | 'default' | 'primary' | 'success';
+export type AlertDialogVariant = 'danger' | 'default' | 'primary' | 'success' | 'secondary' | 'info';
 
 @Component({
     selector: 'app-alert-dialog',
