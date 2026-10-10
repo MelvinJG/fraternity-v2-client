@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { DevoteesService } from '../../services/devotees.service';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { dpiIsValid } from '../../utils/dpiIsValid';
+import { Constants } from '../../utils/Constants';
 
 interface IChild {
   id?: number;
@@ -255,13 +256,16 @@ export class RegisterComponent implements OnInit {
           this.spinnerService.hide();
           Swal.fire({
             icon: 'success',
-            title: 'Devoto Creado.',
-            showConfirmButton: false,
-            timer: 1200
-          });
-          setTimeout(() => {
+            html: `<div style="text-align: center;">
+              <h2 style="margin: 0 0 8px; color: #1f6b50; font-size: 26px;">Devoto creado</h2>
+              <p style="margin: 0 0 16px; color: #647067; font-size: 15px;">El registro se completó correctamente.</p>
+              <span style="display: inline-block; padding: 8px 14px; border-radius: 6px; background: #eaf5ed; color: #285c43; font-size: 18px;">
+                Código: <strong>${Constants.PREFIX_CODE_DEVOTEE}${res.data.codDevotee}</strong>
+              </span>
+            </div>`,
+          }).then(() => {
             window.location.reload();
-          }, 1200);
+          });
         },
         error: (err: any) => {
           this.spinnerService.hide();
