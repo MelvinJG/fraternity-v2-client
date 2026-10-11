@@ -7,7 +7,6 @@ import { RegisterComponent } from '../register/register.component';
 import { SpinnerService } from '../../services/spinner.service';
 import { CommonModule } from '@angular/common';
 import { DevoteesService } from '../../services/devotees.service';
-import Swal from 'sweetalert2';
 import { TurnsService } from '../../services/turns.service';
 import { UserAuthService } from '../../services/user-auth.service';
 import { ReceiptsService } from '../../services/receipts.service';
@@ -15,6 +14,7 @@ import { ModalSummaryComponent } from '../modals/modal-summary/modal-summary.com
 import { ModalComponent } from '../modals/modal-update-devotees/modal.component';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { dpiIsValid } from '../../utils/dpiIsValid';
+import { toast } from 'ngx-sonner';
 
 interface IOption {
   value: string;
@@ -123,11 +123,7 @@ export class HomeComponent implements OnInit {
     this.isTutored = false;
     this.devoteesNames = [];
     if(this.dpiSearch === '' || !dpiIsValid(this.dpiSearch)) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'Ingrese un DPI válido.'
-      });
+      toast.warning("Ingrese un DPI válido.");
       return;
     }
     this.spinnerService.show();
@@ -138,13 +134,7 @@ export class HomeComponent implements OnInit {
       error: (err: any) => {
         this.isDataLoaded = false;
         this.spinnerService.hide();
-        setTimeout(() => {
-          Swal.fire({
-            icon: err.status === 500 ? 'error' : 'info',
-            title: err.status === 404 ? 'Sin resultados' : 'Error',
-            text: err.error.message
-          });
-        }, 100);
+        err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
       }
     });
   }
@@ -154,11 +144,7 @@ export class HomeComponent implements OnInit {
     this.showResults = false;
     this.searchResults = [];
     if (this.nameSearch.trim() === '') {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'Ingrese un nombre para buscar.'
-      });
+      toast.warning("Ingrese un nombre válido.");
       return;
     }
     this.spinnerService.show();
@@ -170,11 +156,7 @@ export class HomeComponent implements OnInit {
       },
       error: (err: any) => {
         this.spinnerService.hide();
-        Swal.fire({
-          icon: err.status === 500 ? 'error' : 'info',
-          title: err.status === 404 ? 'Sin resultados' : 'Error',
-          text: err.error.message
-        });
+        err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
       }
     });
   }
@@ -184,11 +166,7 @@ export class HomeComponent implements OnInit {
     this.showResults = false;
     this.searchResults = [];
     if (this.codeSearch.trim() === '') {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'Ingrese un código para buscar.'
-      });
+      toast.warning("Ingrese un código válido.");
       return;
     }
     this.spinnerService.show();
@@ -198,11 +176,7 @@ export class HomeComponent implements OnInit {
       },
       error: (err: any) => {
         this.spinnerService.hide();
-        Swal.fire({
-          icon: err.status === 500 ? 'error' : 'info',
-          title: err.status === 404 ? 'Sin resultados' : 'Error',
-          text: err.error.message
-        });
+        err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
       }
     });
   }
@@ -223,11 +197,7 @@ export class HomeComponent implements OnInit {
       error: (err: any) => {
         this.isDataLoaded = false;
         this.spinnerService.hide();
-        Swal.fire({
-          icon: err.status === 500 ? 'error' : 'info',
-          title: 'Oops...',
-          text: err.error.message
-        });
+        err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
       }
     });
   }
@@ -267,13 +237,7 @@ export class HomeComponent implements OnInit {
         }));
       },
       error: (err: any) => {
-        Swal.fire({
-          position: "top-end",
-          icon: err.status === 500 ? 'error' : 'info',
-          title: err.error.message,
-          showConfirmButton: false,
-          timer: 1500
-        })
+        err.status === 500 || err.status === 0 || err.status === 404 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
       }
     });
     this.spinnerService.hide();
@@ -321,11 +285,7 @@ export class HomeComponent implements OnInit {
     this.registrationData.created_by = this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP';
     if(this.registrationData.dpiDevotee === '' || this.registrationData.idTurn === 0 || 
       this.registrationData.amount === null) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'Por favor complete todos los campos.'
-      });
+      toast.warning("Por favor complete todos los campos.");
       return;
     }
     this.isSubmitting = true;
@@ -358,11 +318,7 @@ export class HomeComponent implements OnInit {
       error: (err: any) => {
         this.spinnerService.hide();
         this.isSubmitting = false;
-        Swal.fire({
-          icon: err.status === 500 ? 'error' : 'info',
-          title: 'Oops...',
-          text: err.error.message
-        })
+        err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
       }
     });
   }
