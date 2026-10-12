@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { SpinnerService } from '../../services/spinner.service';
 import { UserAuthService } from '../../services/user-auth.service';
-import Swal from 'sweetalert2'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
+import { toast } from 'ngx-sonner';
 
 interface IUser {
   dpi: string;
@@ -46,30 +46,17 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token',JSON.parse(JSON.stringify(res)).data.token);
           this.userAuthService.login();
           this.spinnerService.hide();
-          Swal.fire({
-            icon: 'success',
-            title: 'Bienvenido',
-            showConfirmButton: false,
-            timer: 1200
-          });
+          toast.success("Bienvenido.");
           this.router.navigate(['/home']);
         },
         error: (err: any) => {
           this.spinnerService.hide();
-          Swal.fire({
-            icon: err.status === 500 ? 'error' : 'info',
-            title: 'Oops...',
-            text: err.error.message || err.statusText
-          })
+          err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
         }
       });
     } else {
       this.spinnerService.hide();
-      Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'Ingrese usuario y contraseña.'
-      })
+      toast.warning("Ingrese usuario y contraseña.");
       
     }
   }
