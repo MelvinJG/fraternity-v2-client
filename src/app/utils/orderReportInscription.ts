@@ -33,11 +33,12 @@ export const orderReportInscription = (data: any) => {
                 }
                 inscriptionInfo.noTurno = noTurn;
                 inscriptionInfo.brazoAsignado = count;
-                
+                inscriptionInfo.ladoAsignado = count ? (count % 2 === 0 ? 'DERECHO' : 'IZQUIERDO') : SIN_INFORMACION;
             }
             else {
                 inscriptionInfo.noTurno = "NO APLICA";
                 inscriptionInfo.brazoAsignado = "NO APLICA";
+                inscriptionInfo.ladoAsignado = "NO APLICA";
             }
             onlyTurn.push(inscriptionInfo);
         });

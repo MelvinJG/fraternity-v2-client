@@ -58,7 +58,8 @@ export class ExcelService {
           { header: 'Turno Descripción', key: 'turno', width: 50 },
           { header: 'Monto', key: 'monto', width: 12 },
           { header: 'No. Turno', key: 'noTurno', width: 12 },
-          { header: 'Brazo Asignado', key: 'brazo', width: 15 }
+          { header: 'Brazo Asignado', key: 'brazo', width: 15 },
+          { header: 'Lado Asignado', key: 'lado', width: 15 }
         ];
         
         // Estilo del encabezado (primera fila)
@@ -119,8 +120,8 @@ export class ExcelService {
           
           // Aplicar estilos solo a las celdas con datos (primeras 9 columnas)
           row.eachCell({ includeEmpty: false }, (cell, colNumber) => {
-            // Solo aplicar a las primeras 9 columnas (A-I)
-            if (colNumber <= 9) {
+            // Solo aplicar a las primeras 10 columnas (A-J)
+            if (colNumber <= 10) {
               // Alternar colores de filas (efecto zebra)
               if (idx % 2 === 0) {
                 cell.fill = {
@@ -167,6 +168,9 @@ export class ExcelService {
                   cell.alignment = { vertical: 'middle', horizontal: 'right' };
                   cell.numFmt = '"Q. "#,##0.00'; // Formato de moneda
                   cell.font = { size: 11, name: 'Calibri', bold: true, color: { argb: 'FF27AE60' } };
+                  break;
+                case 10: // Lado Asignado
+                  cell.alignment = { vertical: 'middle', horizontal: 'center' };
                   break;
                 default:
                   cell.alignment = { vertical: 'middle', horizontal: 'left' };
