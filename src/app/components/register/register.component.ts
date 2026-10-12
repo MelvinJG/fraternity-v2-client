@@ -4,11 +4,11 @@ import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators, A
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { SpinnerService } from '../../services/spinner.service';
 import { UserAuthService } from '../../services/user-auth.service';
-import Swal from 'sweetalert2';
 import { DevoteesService } from '../../services/devotees.service';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { dpiIsValid } from '../../utils/dpiIsValid';
 import { Constants } from '../../utils/Constants';
+import { toast } from 'ngx-sonner';
 
 interface IChild {
   id?: number;
@@ -31,6 +31,86 @@ interface IRegister {
   created_by?: string;
   children?: IChild[];
   updated_by?: string;
+}
+
+@Component({
+  selector: 'app-devotee-created-toast',
+  standalone: true,
+  template: `
+    <div class="created-toast">
+      <div class="success-icon" aria-hidden="true">&#10003;</div>
+      <h2>Devoto creado</h2>
+      <p>El registro se completó correctamente.</p>
+      <div class="code-badge">Código: <strong>{{ code }}</strong></div>
+      <button type="button" (click)="onConfirm()">OK</button>
+    </div>
+  `,
+  styles: [`
+    :host { display: block; }
+    .created-toast {
+      box-sizing: border-box;
+      display: flex;
+      width: min(420px, calc(100vw - 32px));
+      min-height: 300px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 28px 24px;
+      border: 1px solid #e5ebe6;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(22, 46, 30, 0.16);
+      text-align: center;
+    }
+    .success-icon {
+      display: grid;
+      width: 68px;
+      height: 68px;
+      place-items: center;
+      border: 3px solid #e2f3e4;
+      border-radius: 50%;
+      color: #91ce98;
+      font-size: 44px;
+      line-height: 1;
+    }
+    h2 {
+      margin: 8px 0 0;
+      color: #1f6b50;
+      font-size: 25px;
+      font-weight: 700;
+    }
+    p {
+      margin: 0;
+      color: #647067;
+      font-size: 15px;
+    }
+    .code-badge {
+      margin-top: 2px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      background: #eaf5ed;
+      color: #285c43;
+      font-size: 18px;
+    }
+    button {
+      min-width: 56px;
+      margin-top: 12px;
+      padding: 11px 18px;
+      border: 0;
+      border-radius: 4px;
+      background: #6b5dde;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    button:hover { background: #594acb; }
+  `]
+})
+class DevoteeCreatedToastComponent {
+  @Input() code = '';
+  @Input() onConfirm: () => void = () => {};
 }
 
 @Component({
@@ -170,40 +250,24 @@ export class RegisterComponent implements OnInit {
     //this.spinnerService.show();
     if(this.registerData.dpi === "" || this.registerData.fullName === "" || this.registerData.height === null) {
       this.spinnerService.hide();
-      Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'El DPI, Nombre Completo y Altura son campos obligatorios.'
-      });
+      toast.warning("El DPI, Nombre Completo y Altura son campos obligatorios.");
       return;
     }
     if(!dpiIsValid(this.registerData.dpi)) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'Ingrese un DPI válido.'
-      });
+      toast.warning("Ingrese un DPI válido.");
       return;
     }
     if(this.registerData.isTutored){
       if(this.children.length === 0) {
         this.spinnerService.hide();
-        Swal.fire({
-          icon: 'warning',
-          title: 'Oops...',
-          text: 'Por favor, agregue al menos un hijo.'
-        });
+        toast.warning("Por favor, agregue al menos un hijo.");
         return;
       }
       // Validar que todos los campos de los hijos estén completos
       for (let child of this.children) {
         if (child.fullName === '' || child.birthdate === '' || child.height === null || child.age === null) {
           this.spinnerService.hide();
-          Swal.fire({
-            icon: 'warning',
-            title: 'Oops...',
-            text: 'Por favor, complete todos los campos de los hijos.'
-          });
+          toast.warning("Por favor, complete todos los campos de los hijos.");
           return;
         }
       }
@@ -223,23 +287,14 @@ export class RegisterComponent implements OnInit {
       this.devoteesService.updateDevotee(this.registerData.dpi, this.registerData).subscribe({
         next: (res: any) => {
           this.spinnerService.hide();
-          Swal.fire({
-            icon: 'success',
-            title: 'Devoto Actualizado.',
-            showConfirmButton: false,
-            timer: 1200
-          });
+          toast.success("Devoto Actualizado.");
           setTimeout(() => {
             window.location.reload();
           }, 1200);
         },
         error: (err: any) => {
           this.spinnerService.hide();
-          Swal.fire({
-            icon: err.status === 500 ? 'error' : 'info',
-            title: 'Oops...',
-            text: err.error.message
-          })
+          err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
         }
       });
     } else { // CREAR DEVOTO
@@ -254,26 +309,27 @@ export class RegisterComponent implements OnInit {
       this.devoteesService.createDevotee(this.registerData).subscribe({
         next: (res: any) => {
           this.spinnerService.hide();
-          Swal.fire({
-            icon: 'success',
-            html: `<div style="text-align: center;">
-              <h2 style="margin: 0 0 8px; color: #1f6b50; font-size: 26px;">Devoto creado</h2>
-              <p style="margin: 0 0 16px; color: #647067; font-size: 15px;">El registro se completó correctamente.</p>
-              <span style="display: inline-block; padding: 8px 14px; border-radius: 6px; background: #eaf5ed; color: #285c43; font-size: 18px;">
-                Código: <strong>${Constants.PREFIX_CODE_DEVOTEE}${res.data.codDevotee}</strong>
-              </span>
-            </div>`,
-          }).then(() => {
-            window.location.reload();
+          toast.custom(DevoteeCreatedToastComponent, {
+            componentProps: {
+              code: `${Constants.PREFIX_CODE_DEVOTEE}${res.data.codDevotee}`,
+              onConfirm: () => window.location.reload()
+            },
+            duration: 10000,
+            position: 'top-center',
+            style: {
+              width: 'min(420px, calc(100vw - 32px))',
+              padding: '0',
+              border: '0',
+              background: 'transparent',
+              boxShadow: 'none'
+            },
+            onAutoClose: () => window.location.reload(),
+            onDismiss: () => window.location.reload()
           });
         },
         error: (err: any) => {
           this.spinnerService.hide();
-          Swal.fire({
-            icon: err.status === 500 ? 'error' : 'info',
-            title: 'Oops...',
-            text: err.error.message
-          })
+          err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
         }
       });
     }
