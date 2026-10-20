@@ -4,10 +4,9 @@ import { Observable } from 'rxjs';
 import { SpinnerService } from '../../services/spinner.service';
 
 @Component({
-  selector: 'app-spinner',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-spinner',
+    imports: [CommonModule],
+    template: `
     <div class="spinner-overlay" *ngIf="isLoading$ | async">
       <div class="spinner-container">
         <div class="dots-spinner">
@@ -24,7 +23,7 @@ import { SpinnerService } from '../../services/spinner.service';
       </div>
     </div>
   `,
-  styles: [`
+    styles: [`
     .spinner-overlay {
       position: fixed;
       top: 0;

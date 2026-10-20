@@ -1,3 +1,9 @@
+// Font Awesome
+@use '@fortawesome/fontawesome-free/css/all.css';
+
+// MDB SCSS
+@use "mdb-angular-ui-kit/assets/scss/mdb.scss";
+
 // Paleta de colores morados personalizados
 // :root {
 //   --purple-primary: #7b2cbf;
@@ -154,21 +160,6 @@ body::-webkit-scrollbar {
   animation: fadeIn 0.3s ease-in-out;
 }
 
-// SweetAlert2 - Asegurar que aparezca sobre los modales
-.swal2-container {
-  z-index: 10000 !important;
-}
-
-.swal2-popup {
-  z-index: 10001 !important;
-}
-
-// Font Awesome
-@import '@fortawesome/fontawesome-free/css/all.css';
-
-// MDB SCSS
-@import "mdb-angular-ui-kit/assets/scss/mdb.scss";
-
 .page-header {
   // margin-bottom: 1.5rem;
   padding-bottom: 1rem;
@@ -301,4 +292,37 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
   }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  font-family: 'Poppins', sans-serif;
+  padding: 3rem 0;
+}
+
+.empty-state i {
+  color: #98a2b3;
+  font-size: 2.3rem;
+  line-height: 1;
+}
+
+.empty-state p {
+  margin: 0;
+  color: #98a2b3;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.empty-state-row:hover {
+  background: transparent;
+}
+
+.empty-state-cell {
+  padding: 2.5rem 1rem;
+  text-align: center;
 }

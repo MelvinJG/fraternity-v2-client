@@ -8,11 +8,10 @@ import { NewTemplateReceiptWomen } from '../../../utils/NewTemplateReceiptWomen'
 import { Constants } from '../../../utils/Constants';
 
 @Component({
-  selector: 'app-modal-summary',
-  standalone: true,
-  imports: [CommonModule, MdbRippleModule],
-  templateUrl: './modal-summary.component.html',
-  styleUrl: './modal-summary.component.scss'
+    selector: 'app-modal-summary',
+    imports: [CommonModule, MdbRippleModule],
+    templateUrl: './modal-summary.component.html',
+    styleUrl: './modal-summary.component.scss'
 })
 export class ModalSummaryComponent {
   noTable: string = '';
