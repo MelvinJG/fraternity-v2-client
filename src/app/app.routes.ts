@@ -53,6 +53,11 @@ export const routes: Routes = [
                 path: 'receipts',
                 loadComponent: () => import('./components/management/receipts/receipts.component').then(m => m.ReceiptsComponent),
                 canActivate: [authGuard]
+            },
+            {
+                path: 'offerings',
+                loadComponent: () => import('./components/management/offerings/offerings.component').then(m => m.OfferingsComponent),
+                canActivate: [authGuard]
             }
         ]
     },

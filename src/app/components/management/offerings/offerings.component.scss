@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.offering-form {
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-light);
+
+  .form-label {
+    color: var(--text-secondary);
+  }
+
+  .form-control {
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .offering-form {
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+}
