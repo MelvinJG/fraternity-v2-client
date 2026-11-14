@@ -12,16 +12,18 @@
             </ol>
         </nav>
     </div>
-    <div class="offering-form">
+    <div class="offering-form mb-4">
         <!-- Name input -->
         <mdb-form-control class="mb-4">
-            <input mdbInput type="text" id="offeringName" name="name" class="form-control" autocomplete="off" required />
+            <input mdbInput type="text" id="offeringName" name="name" class="form-control" autocomplete="off"
+                required />
             <label mdbLabel class="form-label" for="offeringName">Nombre *</label>
         </mdb-form-control>
 
         <!-- Amount input -->
         <mdb-form-control class="mb-4">
-            <input mdbInput type="number" id="offeringAmount" name="amount" class="form-control" autocomplete="off" required />
+            <input mdbInput type="number" id="offeringAmount" name="amount" class="form-control" autocomplete="off"
+                required />
             <label mdbLabel class="form-label" for="offeringAmount">Cantidad (Q) *</label>
         </mdb-form-control>
 
@@ -29,6 +31,118 @@
             <button class="btn btn-success btn-lg size-btn-primary" mdbRipple type="button">
                 Guardar
             </button>
+        </div>
+    </div>
+    <table class="table">
+        <thead class="table-dark">
+            <tr class="text-center">
+                <th scope="col">#</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Monto</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="text-center">
+            <!-- @if (loadData.length === 0) { -->
+            <tr class="empty-state-row">
+                <td colspan="5" class="empty-state-cell">
+                    <div class="empty-state">
+                        <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                        <p class="text-muted mb-0">
+                            'No hay registros disponibles.'
+                        </p>
+                    </div>
+                </td>
+            </tr>
+            <!-- } -->
+            <!-- <tr *ngFor="let data of loadData.records">
+                <th scope="row"> M-{{ data.inscripcion_id.toString().padStart(4, '0') }}</th>
+                <td>
+                    @if(data.hijo_nombre === null) {
+                    <p class="fw-bold mb-1">{{ data.padre_nombre }}</p>
+                    }
+                    @else {
+                    <p class="fw-bold mb-1">{{ data.hijo_nombre }}</p>
+                    }
+                    <p class="text-muted mb-0">{{ data.turno_descripcion }}</p>
+                </td>
+                <td>{{ data.fecha_inscripcion | date:'dd/MM/yyyy HH:mm:ss':'GMT-6' }}</td>
+                <td>
+                    Q. {{ data.monto }}
+                </td>
+                <td>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-link btn-sm btn-rounded"
+                            (click)="delete(data.inscripcion_id)" style="color: rgb(250, 35, 35);">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                        <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="print(data)">
+                            <i class="fa-solid fa-print"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr> -->
+        </tbody>
+    </table>
+    <div class="container-fluid py-4">
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe);">
+                        <i class="fas fa-ticket-alt" style="color: #3B82F6;"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">Cantidad de Ofrendas</span>
+                        <!-- @if(loading){
+                        <div class="kpi-value">{{ formatNumber(kpiData.total_inscripciones) }}</div>
+                        @if(kpiData.inscripciones_esta_semana > 0){
+                        <div class="kpi-trend up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+{{ kpiData.inscripciones_esta_semana }} esta semana</span>
+                        </div>
+                        }@else{
+                        <div class="kpi-trend" style="color: var(--text-muted);">
+                            <i class="fas fa-minus"></i>
+                            <span>{{ kpiData.inscripciones_esta_semana }} esta semana</span>
+                        </div>
+                        }
+                        }@else{ -->
+                        <div class="spinner-border text-info" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <!-- } -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0);">
+                        <i class="fas fa-dollar-sign" style="color: #10B981;"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">Total Recaudado</span>
+                        <!-- @if(loading){
+                        <div class="kpi-value">{{ formatCurrency(kpiData.ingresos_totales) }}</div>
+                        @if(kpiData.ingresos_esta_semana > 0){
+                        <div class="kpi-trend up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+{{ formatCurrency(kpiData.ingresos_esta_semana) }} esta semana</span>
+                        </div>
+                        }@else{
+                        <div class="kpi-trend down">
+                            <i class="fas fa-arrow-down"></i>
+                            <span>{{ formatCurrency(kpiData.ingresos_esta_semana) }} esta semana</span>
+                        </div>
+                        }
+                        }@else{ -->
+                        <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <!-- } -->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
