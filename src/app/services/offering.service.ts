@@ -2,6 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Constants } from '../utils/Constants';
 
+export interface CreateOfferingRequest {
+  receiptSeries: 'OFR';
+  idempotencyKey: string;
+  name: string;
+  amount: number;
+  createdBy: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,7 +18,7 @@ export class OfferingService {
 
   constructor(private http: HttpClient) { }
 
-  create(offeringData: object) {
+  create(offeringData: CreateOfferingRequest) {
     return this.http.post(`${this.API_URL}`, offeringData, {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
     });

@@ -18,6 +18,18 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
+## Creacion de ofrendas
+
+El formulario envia `receiptSeries: "OFR"`, nombre, cantidad, `createdBy` (DPI del
+usuario autenticado o `ERR_DPI_APP`) y una llave UUID v4 generada con
+`crypto.randomUUID()`. Requiere HTTPS o localhost.
+
+La llave se conserva en el componente cuando falla la solicitud: un reintento
+con el mismo nombre, cantidad y usuario utiliza la misma llave. Cambiar esos datos
+o completar la creacion inicia una nueva operacion con una llave diferente.
+No se conserva al recargar la pagina o salir del componente. El backend debe
+garantizar la idempotencia; deshabilitar Guardar durante el envio no la sustituye.
+
 ## Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.

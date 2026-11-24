@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { finalize } from 'rxjs';
 import { AlertDialogService } from '../../../services/alert-dialog.service';
 import { UserAuthService } from '../../../services/user-auth.service';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { SpinnerService } from '../../../services/spinner.service';
-import { OfferingService } from '../../../services/offering.service';
+import { CreateOfferingRequest, OfferingService } from '../../../services/offering.service';
 import { toast } from 'ngx-sonner';
 import { Constants } from '../../../utils/Constants';
 
@@ -50,6 +50,10 @@ export class OfferingsComponent {
         recaudado_esta_semana: 0
     };
     loadingKPIs: boolean = false;
+    offeringName: string = '';
+    offeringAmount: number | null = null;
+    savingOffering: boolean = false;
+    private pendingOffering: CreateOfferingRequest | null = null;
 
     constructor(
         private spinnerService: SpinnerService,
@@ -68,8 +72,63 @@ export class OfferingsComponent {
         this.loadOfferingsPage(1, '');
     }
 
+    onCreate(form: NgForm): void {
+        if (this.savingOffering || this.loadingOfferings) {
+            return;
+        }
+
+        const name = this.offeringName.trim();
+        const amount = this.offeringAmount;
+        if (form.invalid || !name || amount === null || !Number.isFinite(amount) || amount <= 0) {
+            form.control.markAllAsTouched();
+            toast.warning('Ingrese un nombre y una cantidad mayor que cero.');
+            return;
+        }
+        this.spinnerService.show();
+        const createdBy = this.authService.getUserInfo()?.dpi || 'ERR_DPI_APP';
+        if (!this.pendingOffering || this.pendingOffering.name !== name ||
+            this.pendingOffering.amount !== amount || this.pendingOffering.createdBy !== createdBy) {
+            if (typeof globalThis.crypto?.randomUUID !== 'function') {
+                toast.error('No se puede generar la llave de idempotencia. Use una conexión HTTPS.');
+                return;
+            }
+
+            this.pendingOffering = {
+                receiptSeries: 'OFR',
+                idempotencyKey: globalThis.crypto.randomUUID(),
+                name,
+                amount,
+                createdBy
+            };
+        }
+
+        this.savingOffering = true;
+        this.offeringService.create(this.pendingOffering).pipe(finalize(() => {
+            this.savingOffering = false;
+        })).subscribe({
+            next: () => {
+                this.pendingOffering = null;
+                form.resetForm({ name: '', amount: null });
+                this.spinnerService.hide();
+                toast.success('Ofrenda creada exitosamente.');
+                this.nameValue = '';
+                this.loadAllOfferings();
+                this.loadKpiData();
+            },
+            error: (err: HttpErrorResponse) => {
+                const message = err.error?.message || err.message || 'Error interno del servidor';
+                this.spinnerService.hide();
+                if (err.status === 0 || err.status >= 500) {
+                    toast.error(message);
+                } else {
+                    toast.info(message);
+                }
+            }
+        });
+    }
+
     onSearch(): void {
-        if (this.loadingOfferings) {
+        if (this.loadingOfferings || this.savingOffering) {
             return;
         }
 
@@ -195,7 +254,7 @@ export class OfferingsComponent {
     }
 
     changePage(page: number) {
-        if (!page || page === this.currentPage || this.loadingOfferings) {
+        if (!page || page === this.currentPage || this.loadingOfferings || this.savingOffering) {
             return;
         }
 
