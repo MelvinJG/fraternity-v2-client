@@ -23,7 +23,7 @@ export class OfferingService {
   }
 
   getOfferingByName(name: string, page: number = 1) {
-    return this.http.get(`${this.API_URL}/name/${name}?page=${page}&limit=30`,{
+    return this.http.get(`${this.API_URL}/name/${encodeURIComponent(name)}?page=${page}&limit=30`,{
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
     });
   }

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { finalize } from 'rxjs';
 import { AlertDialogService } from '../../../services/alert-dialog.service';
 import { UserAuthService } from '../../../services/user-auth.service';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
@@ -18,7 +21,7 @@ interface KpiData {
 
 @Component({
     selector: 'app-offerings',
-    imports: [MdbFormsModule, CommonModule],
+    imports: [MdbFormsModule, CommonModule, FormsModule],
     templateUrl: './offerings.component.html',
     styleUrl: './offerings.component.scss'
 })
@@ -33,10 +36,10 @@ export class OfferingsComponent {
             pages: []
         }
     };
-    searchType: string = 'nombre';
     nameSearch: string = '';
     nameValue: string = '';
     isSearching: boolean = false;
+    loadingOfferings: boolean = false;
     currentPage: number = 1;
     visiblePages: (number | '...')[] = [];
     concept_offering: string = Constants.CONCEPT_OFFERING;
@@ -62,21 +65,40 @@ export class OfferingsComponent {
     }
 
     loadAllOfferings() {
+        this.loadOfferingsPage(1, '');
+    }
+
+    onSearch(): void {
+        if (this.loadingOfferings) {
+            return;
+        }
+
+        this.loadOfferingsPage(1, this.nameValue.trim());
+    }
+
+    private loadOfferingsPage(page: number, name: string): void {
+        this.loadingOfferings = true;
         this.spinnerService.show();
-        this.offeringService.getOfferings(1).subscribe({
+        const request = name
+            ? this.offeringService.getOfferingByName(name, page)
+            : this.offeringService.getOfferings(page);
+
+        request.pipe(finalize(() => {
+            this.loadingOfferings = false;
+            this.spinnerService.hide();
+        })).subscribe({
             next: (res: any) => {
                 this.loadData = res.data;
-                this.refreshVisiblePages(1);
-                this.spinnerService.hide();
+                this.nameSearch = name;
+                this.isSearching = name.length > 0;
+                this.refreshVisiblePages(page);
             },
-            error: (err: any) => {
-                this.spinnerService.hide();
-                if (err.status === 0) {
-                    toast.error(err.message || "Error interno del servidor");
-                } else if (err.status === 500) {
-                    toast.error(err.error.message || "Error interno del servidor");
+            error: (err: HttpErrorResponse) => {
+                const message = err.error?.message || err.message || "Error interno del servidor";
+                if (err.status === 0 || err.status >= 500) {
+                    toast.error(message);
                 } else {
-                    toast.info(err.error.message);
+                    toast.info(message);
                 }
             }
         });
@@ -173,45 +195,10 @@ export class OfferingsComponent {
     }
 
     changePage(page: number) {
-        if (!page || page === this.currentPage) {
+        if (!page || page === this.currentPage || this.loadingOfferings) {
             return;
         }
 
-        this.spinnerService.show();
-
-        if(this.isSearching) {
-            // const searchObservable = this.searchType === 'dpi'
-            //     ? this.receiptsService.getInscriptionsByDPI(this.dpiSearch, page)
-            //     : this.searchType === 'codigo'
-            //     ? this.receiptsService.getInscriptionsByCode(this.codeSearch, page)
-            //     : this.receiptsService.getInscriptionsByName(this.nameSearch, page);
-
-            // searchObservable.subscribe({
-            //     next: (res: any) => {
-            //     this.loadData = res.data;
-            //     this.isSearching = true;
-            //     this.refreshVisiblePages(page);
-            //     this.spinnerService.hide();
-            //     },
-            //     error: (err: any) => {
-            //     this.isSearching = false;
-            //     this.spinnerService.hide();
-            //     err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
-            //     }
-            // });
-        } else {
-            this.isSearching = false;
-            this.offeringService.getOfferings(page).subscribe({
-                next: (res: any) => {
-                this.loadData = res.data;
-                this.refreshVisiblePages(page);
-                this.spinnerService.hide();
-                },
-                error: (err: any) => {
-                this.spinnerService.hide();
-                err.status === 500 || err.status === 0 ? toast.error(err.error.message || err.message || "Error interno del servidor") : toast.info(err.error.message);
-                }
-            });
-        }
+        this.loadOfferingsPage(page, this.isSearching ? this.nameSearch : '');
     }
 }

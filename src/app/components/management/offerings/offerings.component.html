@@ -35,6 +35,18 @@
             </button>
         </div>
     </div>
+    <form class="offering-search mb-4" (ngSubmit)="onSearch()" role="search" aria-label="Buscar ofrendas">
+        <div class="offering-search-input">
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <label class="visually-hidden" for="offeringSearchName">Buscar por nombre</label>
+            <input type="search" id="offeringSearchName" name="searchName" [(ngModel)]="nameValue"
+                placeholder="Buscar por nombre..." autocomplete="off" />
+        </div>
+        <button type="submit" class="offering-search-button" aria-label="Buscar por nombre"
+            [disabled]="loadingOfferings">
+            <i class="fas fa-search" aria-hidden="true"></i>
+        </button>
+    </form>
     <!-- TABLE -->
     <table class="table">
         <thead class="table-dark">
@@ -53,7 +65,7 @@
                         <div class="empty-state">
                             <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
                             <p class="text-muted mb-0">
-                                No hay registros disponibles.
+                                {{ isSearching ? 'No se encontraron ofrendas para esta búsqueda.' : 'No hay registros disponibles.' }}
                             </p>
                         </div>
                     </td>
