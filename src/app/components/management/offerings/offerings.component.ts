@@ -115,7 +115,7 @@ export class OfferingsComponent {
     loadKpiData(): void {
         this.offeringService.getKpis().subscribe({
             next: (data: any) => {
-                this.kpiData = data.data[0];
+                this.kpiData = data.data;
                 this.kpiData.cantidad_ofrendas = Number(this.kpiData.cantidad_ofrendas);
                 this.kpiData.total_recaudado = Number(this.kpiData.total_recaudado);
                 this.kpiData.ofrendas_esta_semana = Number(this.kpiData.ofrendas_esta_semana);

@@ -35,7 +35,7 @@ export class OfferingService {
   }
 
   getKpis() {
-    return this.http.get(`${this.API_URL}/reports`,{
+    return this.http.get(`${this.API_URL}/kpis`,{
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') || '' }
     });
   }
